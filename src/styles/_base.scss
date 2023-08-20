@@ -1,0 +1,64 @@
+// goole font
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+
+:root {
+  // font-family
+  --main-font-family: "Noto Sans TC", sans-serif;
+  --number-font-family: "Montserrat", sans-serif;
+
+  //   colors
+  --brand: #ff6600;
+  --primary: #0062ff;
+  --secondary: #6c757d;
+  --success: #3dd598;
+  --warning: #ffc542;
+  --error: #fc5a5a;
+  --secondary-orange: #ff974a;
+  --secondary-blue: #50b5ff;
+  --secondary-green: #82c43c;
+  --secondary-purple: #a461d8;
+  --secondary-pink: #ff9ad5;
+  //   灰階色
+  --grayscale-dark-0: #ffffff;
+  --grayscale-dark-20: #fafafb;
+  --grayscale-dark-30: #f1f1f5;
+  --grayscale-dark-40: #e2e2ea;
+  --grayscale-dark-50: #d5d5dc;
+  --grayscale-dark-60: #b5b5be;
+  --grayscale-dark-70: #92929d;
+  --grayscale-dark-80: #696974;
+  --grayscale-dark-90: #44444f;
+  --grayscale-dark-100: #171725;
+  --border: #e6ecf0;
+}
+
+body {
+  background-color: var(--grayscale-dark-0);
+  font-family: var(--main-font-family);
+
+  h1 {
+    font-size: 68px;
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: 42px;
+    font-weight: 700;
+  }
+
+  h3 {
+    font-size: 28px;
+    font-weight: 700;
+  }
+
+  h4 {
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  h5 {
+    font-size: 18px;
+    font-weight: 700;
+  }
+}
