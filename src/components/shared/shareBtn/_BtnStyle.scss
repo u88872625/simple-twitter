@@ -1,0 +1,56 @@
+.AuthBtn {
+  width: 356px;
+  height: 46px;
+  background-color: var(--brand);
+  border-radius: 50px;
+  color: white;
+  font-size: 20px;
+}
+
+.ReplyBtn {
+  width: 66px;
+  height: 38px;
+  background-color: var(--brand);
+  border-radius: 50px;
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.FollowBtn {
+  width: 64px;
+  height: 40px;
+  background-color: #fff;
+  border-radius: 50px;
+  border: 1px solid var(--brand);
+  color: var(--brand);
+  font-size: 16px;
+}
+
+.FollowingBtn {
+  width: 96px;
+  height: 40px;
+  background-color: var(--brand);
+  border-radius: 50px;
+  color: #fff;
+  font-size: 16px;
+}
+
+.TweetBtn {
+  width: 178px;
+  height: 46px;
+  background-color: var(--brand);
+  border-radius: 50px;
+  color: #fff;
+  font-size: 20px;
+}
+
+.SettingBtn {
+  width: 128px;
+  height: 40px;
+  background-color: #fff;
+  border: 1px solid var(--brand);
+  border-radius: 50px;
+  color: var(--brand);
+  font-size: 16px;
+}
