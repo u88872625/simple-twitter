@@ -45,13 +45,13 @@ ctrl + c
 
 ## 開發工具
 
--Node.js
--react: v18.2.0
--clsx: v1.2.1
--react-bootstrap: v2.8.0
--react-router-dom: v6.4.1
--sass: v1.66.1
--styled-components: v6.0.7
+- Node.js
+- react: v18.2.0
+- clsx: v1.2.1
+- react-bootstrap: v2.8.0
+- react-router-dom: v6.4.1
+- sass: v1.66.1
+- styled-components: v6.0.7
 
 ## 專案開發人員
 
