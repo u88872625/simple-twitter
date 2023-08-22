@@ -1,0 +1,52 @@
+.container {
+  width: 639px;
+  height: 133px;
+  display: flex;
+  padding: 0 20px;
+  border-bottom: 1px solid #e6ecf0;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+}
+
+.replyInfo {
+  margin-left: 10px;
+  padding-top: 3px;
+
+  .userInfo {
+    margin-bottom: 15px;
+    .userName {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--grayscale-dark-100);
+    }
+
+    .userAcount {
+      font-size: 14px;
+      color: var(--secondary);
+      padding-left: 5px;
+    }
+  }
+
+  .replyNameWrapper {
+    margin-bottom: 15px;
+
+    .replyTitle {
+      font-size: 14px;
+      color: var(--secondary);
+    }
+
+    .replyName {
+      font-size: 14px;
+      color: var(--brand);
+      padding-left: 3px;
+    }
+  }
+
+  .replyMessageText {
+    font-size: 16px;
+    color: var(--grayscale-dark-100);
+  }
+}
