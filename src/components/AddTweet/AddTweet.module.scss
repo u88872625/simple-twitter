@@ -1,0 +1,38 @@
+.title {
+  width: 639px;
+  height: 51px;
+  padding-left: 24px;
+  margin-top: 24px;
+  border-bottom: 1px solid #e6ecf0;
+  color: var(--grayscale-dark-100);
+}
+
+.AddTweet {
+  position: relative;
+  width: 639px;
+  height: 130px;
+  margin-top: 16px;
+  border-bottom: 10px solid #e6ecf0;
+
+  .content {
+    display: flex;
+    align-items: center;
+    padding-left: 26px;
+
+    .avatar {
+      width: 50px;
+      height: 50px;
+    }
+
+    .placeholder {
+      color: var(--secondary);
+      margin-left: 10px;
+    }
+  }
+
+  .button {
+    position: absolute;
+    bottom: 20px;
+    right: 24px;
+  }
+}
