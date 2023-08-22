@@ -1,0 +1,28 @@
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .logo {
+    width: 50px;
+    height: 50px;
+    margin: 8px 0 12px 8px;
+
+    .acLogo {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  .navItem {
+    position: relative;
+    flex: 1;
+    
+
+		.bottomItem ul li{
+			position: absolute;
+      bottom: 0;
+      margin-bottom: 0;
+		}
+  }
+}

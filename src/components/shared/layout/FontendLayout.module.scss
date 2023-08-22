@@ -1,0 +1,34 @@
+.container {
+	max-width: 1140px;
+	height: 1200px;
+	margin: 0 auto;
+	display:flex;
+
+	.leftContainer {
+		width: 178px;
+		height: 100%;
+	}
+
+	.mainContainer {
+		width: 641px;
+		height: 100%;
+		margin: 0 24px;
+		border: 1px solid var(--border);
+		overflow-y: auto;
+	}
+
+	.rightContainer {
+		width: 273px;
+		height: 100%;
+	}
+
+}
+
+
+
+
+@media (min-width: 992px) and (max-width: 1199px) {
+	.container {
+		max-width: 960px;
+	}
+}

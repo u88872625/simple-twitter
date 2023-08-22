@@ -1,0 +1,31 @@
+.navItem {
+	width: 178px;
+	height: 58px;
+	padding: 16px 0 16px 16px;
+	margin-bottom: 12px;
+
+	&:hover {
+		background-color: var(--grayscale-dark-40);
+	}
+	
+	.a {
+		height: 26px;
+		display: flex;
+	  align-items: center;
+		font-size: 18px;
+		font-weight: 700;
+		color: var(--grayscale-dark-90)
+	}
+  
+	.icon {
+		width: 24px;
+		height: 24px;
+		margin-right: 16px;
+	}
+}
+
+.active {
+		& .a {
+			color: var(--brand)
+		}
+	}
