@@ -1,3 +1,4 @@
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
   SignUpPage,
@@ -14,6 +15,7 @@ import TweetTabs from "./components/TweetTabs";
 import FollowTabs from "./components/FollowTabs";
 import AddTweet from "./components/AddTweet";
 import "./styles/App.scss";
+
 
 function App() {
   return (
