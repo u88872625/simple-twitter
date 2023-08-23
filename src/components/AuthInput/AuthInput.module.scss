@@ -34,9 +34,9 @@
   &:hover ~ .inputButtomBorder {
     background-color: var(--secondary-blue);
   }
-   
+
   &.err ~ .inputButtomBorder {
-    background-color: var(--error)
+    background-color: var(--error);
   }
 }
 
@@ -56,19 +56,5 @@
   right: 0;
   font-size: 12px;
   font-weight: 500;
-  color:var(--grayscale-dark-80);
+  color: var(--grayscale-dark-80);
 }
-
-.errorMsg {
-  position: absolute;
-  bottom: -15px;
-  left:0;
-  font-size: 12px;
-  font-weight: 500;
-  
- p {
-  color: var(--error);
-  }
-  
-}
-

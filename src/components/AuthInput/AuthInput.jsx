@@ -1,11 +1,32 @@
 import React from "react";
 import styles from "./AuthInput.module.scss";
 import { useState } from "react";
+import clsx from "clsx";
 
-const AuthInput = ({ label, type, placeholder, value, onChange, dataPage }) => {
+const AuthInput = ({
+  label,
+  type,
+  placeholder,
+  value,
+  onChange,
+  dataPage,
+  borderMode,
+}) => {
   const [charCount, setCharCount] = useState(value.length);
-  const maxChar = 50;
-  const isCharCountExceeded = charCount > maxChar;
+  let maxChar = 0;
+
+  if (
+    dataPage &&
+    (dataPage === "signUpPage" || dataPage === "profileEditModal")
+  ) {
+    if (label === "名稱") {
+      maxChar = 50;
+    } else if (label === "自我介紹") {
+      maxChar = 160;
+    }
+  } else {
+    maxChar = null;
+  }
 
   const handleInputChange = (inputValue) => {
     onChange?.(inputValue);
@@ -16,21 +37,16 @@ const AuthInput = ({ label, type, placeholder, value, onChange, dataPage }) => {
     <div className={styles.inputContainer}>
       <label className={styles.label}>{label}</label>
       <input
-        className={`${styles.input} ${isCharCountExceeded ? styles.err : ""}`}
+        className={styles.input}
         type={type || "text"}
         value={value}
         placeholder={placeholder}
         onChange={(e) => handleInputChange(e.target.value)}
       ></input>
-      <div
-        className={styles.inputButtomBorder}
-      ></div>
-      <div className={styles.charCount}>
-        {charCount}/{maxChar}
-      </div>
-      {isCharCountExceeded && (
-        <div className={styles.errorMsg}>
-          <p>字數超出上限！</p>
+      <div className={clsx(styles.inputButtomBorder, borderMode)}></div>
+      {maxChar && (
+        <div className={styles.charCount}>
+          {charCount}/{maxChar}
         </div>
       )}
     </div>
