@@ -14,7 +14,6 @@ const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleClick = async () => {
-    // 若帳號或密碼為空，則返回
     if (account.trim().length === 0) {
       return;
     }
@@ -22,31 +21,23 @@ const LoginPage = () => {
       return;
     }
 
-    const data = await login({
+    const { success, authToken } = await login({
       account,
       password,
     });
-    const token = data.data.token;
+    if (success) {
+      localStorage.setItem("authToken", authToken);
 
-    if (data.status === "success") {
-      localStorage.setItem("token", token);
-
-      // 登入成功訊息
       Swal.fire({
-        position: "top",
-        title: "登入成功！",
-        timer: 1000,
-        icon: "success",
+        title: "登入失敗",
+        icon: "error",
         showConfirmButton: false,
+        timer: 1000,
+        position: "top",
       });
-      return;
-    }
-
-    // 登入失敗
-    if (data.status === "error") {
-      setErrorMessage(data.message);
     }
   };
+
   return (
     <div className={styles.container}>
       <img className={styles.logo} src={IconLogo} alt="logo.svg" />
