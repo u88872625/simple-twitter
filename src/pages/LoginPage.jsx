@@ -58,7 +58,7 @@ const LoginPage = () => {
           placeholder={"請輸入帳號"}
           value={account}
           borderMode={clsx(
-            { [styles.borderLine]: !errorMessage },
+            { [styles.inputButtomBorder]: !errorMessage },
             {
               [styles.accountInfoError]:
                 errorMessage === "[Your fail messages]",
@@ -75,7 +75,7 @@ const LoginPage = () => {
           type={"password"}
           value={password}
           borderMode={clsx(
-            { [styles.borderLine]: !errorMessage },
+            { [styles.inputButtomBorder]: !errorMessage },
             {
               [styles.passwordInfoError]:
                 errorMessage === "Error: Incorrect password!",
@@ -91,9 +91,13 @@ const LoginPage = () => {
         <AuthBtn text={"登入"} />
       </div>
       <div className={styles.otherLink}>
-        <div className={styles.register}>註冊</div>
+        <Link to="/signup">
+          <div className={styles.register}>註冊</div>
+        </Link>
         <span className={styles.dot}>．</span>
-        <div className={styles.admin}>後台登入</div>
+        <Link to="/admin">
+          <div className={styles.admin}>後台登入</div>
+        </Link>
       </div>
     </div>
   );
