@@ -1,9 +1,10 @@
 import React from "react";
+import styles from './_BtnStyle.module.scss'
 
 const AuthBtn = ({ text, onClick }) => {
   return (
     <div>
-      <button className="AuthBtn" onClick={onClick}>
+      <button className={styles.authBtn} onClick={onClick}>
         {text}
       </button>
     </div>

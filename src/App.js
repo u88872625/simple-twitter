@@ -1,11 +1,11 @@
-import "./styles/App.scss";
-
-import TweetTabs from './components/TweetTabs/TweetTabs.jsx'
+import "./styles/App.module.scss";
+import SignupPage from "./pages/SignUpPage";
 
 function App() {
   return (
     <div className="App">
-     <TweetTabs/>
+
+     <SignupPage/>
     </div>
   );
 }
