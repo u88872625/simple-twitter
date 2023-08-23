@@ -21,21 +21,20 @@ const LoginPage = () => {
       return;
     }
 
-    const { success, authToken } = await login({
+    const { success, token } = await login({
       account,
       password,
     });
     if (success) {
-      localStorage.setItem("authToken", authToken);
-
-      Swal.fire({
-        title: "登入失敗",
-        icon: "error",
-        showConfirmButton: false,
-        timer: 1000,
-        position: "top",
-      });
+      localStorage.setItem("token", token);
     }
+    Swal.fire({
+      title: "登入失敗",
+      icon: "error",
+      showConfirmButton: false,
+      timer: 1000,
+      position: "top",
+    });
   };
 
   return (
