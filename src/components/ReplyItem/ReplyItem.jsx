@@ -1,30 +1,29 @@
 import React from "react";
 import styles from "./ReplyItem.module.scss";
-import { ReactComponent as IconDefaultAvatar } from "../../assets/icons/default-img.svg";
+// import { ReactComponent as IconDefaultAvatar } from "../../assets/icons/default-img.svg";
 
-const ReplyItem = ({ name, account, time, replyName, message, avatar }) => {
+const ReplyItem = ({ tweet }) => {
   return (
     <div className={styles.container}>
       {/* 暫時使用預設頭像 */}
-      <div className={styles.avatar}>
-        <IconDefaultAvatar />
-      </div>
+      <img className={styles.avatar} src={tweet.avatar} alt="avatar" />
       <div className={styles.replyInfo}>
         <div className={styles.userInfo}>
-          <span className={styles.userName}>{name}</span>
+          <span className={styles.userName}>{tweet.userName}</span>
           <span className={styles.userAcount}>
-            @{account}．{time}
+            @{tweet.accountName}．{tweet.reply.createdAt}
           </span>
         </div>
 
         {/* 回覆對象 */}
         <div className={styles.replyNameWrapper}>
           <div className={styles.replyTitle}>
-            回覆<span className={styles.replyName}>@{replyName}</span>
+            回覆
+            <span className={styles.replyName}>@{tweet.reply.whoTweet}</span>
           </div>
         </div>
         <div className={styles.replyMessage}>
-          <p className={styles.replyMessageText}>{"message"}</p>
+          <p className={styles.replyMessageText}>{tweet.reply.replyContent}</p>
         </div>
       </div>
     </div>
