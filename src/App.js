@@ -11,10 +11,9 @@ import {
   AdminMainPage,
   AdminUsersPage,
 } from "./pages/index";
-import TweetTabs from "./components/TweetTabs";
-import FollowTabs from "./components/FollowTabs";
-import AddTweet from "./components/AddTweet";
-import "./styles/App.scss";
+import TweetTabs from "./components/TweetTabs/TweetTabs.jsx";
+import AddTweet from "./components/AddTweet/AddTweet";
+import "./styles/App.module.scss";
 
 
 function App() {
@@ -30,8 +29,8 @@ function App() {
           {/* <Route path="/settings/profile" element={<Modal />} />  */}
           <Route path="/:username/replies" element={<TweetTabs />} />
           <Route path="/:username/likes" element={<TweetTabs />} />
-          <Route path="/:username/followers" element={<FollowTabs />} />
-          <Route path="/:username/followering" element={<FollowTabs />} />
+          {/* <Route path="/:username/followers" element={<FollowTabs />} />
+          <Route path="/:username/followering" element={<FollowTabs />} /> */}
           <Route path="/compose" element={<AddTweet />} />
           <Route path="/:username/status/:id" element={<StatusPage />} />
           <Route path="/admin" element={<AdminLoginPage />} />
