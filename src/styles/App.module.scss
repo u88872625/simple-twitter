@@ -3,20 +3,34 @@
 @import "../components/shared/shareBtn/BtnStyle.module.scss";
 
 .container {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	margin-top: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 64px;
 
-	.title {
-		color: var(--signuppage-title);
-		margin: 24px 0 30px 0;
-	}
+  .title {
+    color: var(--signuppage-title);
+    margin: 24px 0 30px 0;
+  }
 
-	.cancelBtn {
-		width: 32px;
-		height: 24px;
-		margin-top: 28px;
-	}
+  .cancelBtn {
+    width: 32px;
+    height: 24px;
+    margin-top: 28px;
+  }
+}
+
+.nameError {
+  background-color: var(--error);
+
+  &::after {
+    content: "字數超出上限!";
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+    color: var(--error);
+    font-size: 12px;
+    font-weight: 500;
+  }
 }

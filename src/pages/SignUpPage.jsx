@@ -1,17 +1,18 @@
 import React from "react";
-import styles from '../styles/App.module.scss'
-import {useState} from 'react'
-import {Link} from 'react-router-dom'
-import AuthInput from '../components/AuthInput/AuthInput'
-import AuthBtn from '../components/shared/shareBtn/AuthBtn'
-import logo from '../assets/icons/logo.svg' 
+import styles from "../styles/App.module.scss";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import AuthInput from "../components/AuthInput/AuthInput";
+import AuthBtn from "../components/shared/shareBtn/AuthBtn";
+import logo from "../assets/icons/logo.svg";
+import clsx from "clsx";
 
 const SignupPage = () => {
-  const [account, setAccount] = useState('')
-  const [username, setUsername] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [passwordConfirm, setPasswordConfirm] = useState('')
+  const [account, setAccount] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
   return (
     <div className={styles.container}>
       <img className={styles.logo} src={logo} alt="logo" />
@@ -26,6 +27,10 @@ const SignupPage = () => {
         label="名稱"
         placeholder="請輸入使用者名稱"
         value={username}
+        dataPage={"signUpPage"}
+        borderMode={clsx("", {
+          [styles.nameError]: username.length > 50,
+        })}
         onChange={(nameInputValue) => setUsername(nameInputValue)}
       />
       <AuthInput
@@ -50,7 +55,7 @@ const SignupPage = () => {
       />
       <AuthBtn text="註冊" />
       {/* <Link to="/"> */}
-        <div className={styles.cancelBtn}>取消</div>
+      <div className={styles.cancelBtn}>取消</div>
       {/* </Link> */}
     </div>
   );
