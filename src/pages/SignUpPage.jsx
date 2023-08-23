@@ -6,13 +6,57 @@ import AuthInput from "../components/AuthInput/AuthInput";
 import AuthBtn from "../components/shared/shareBtn/AuthBtn";
 import logo from "../assets/icons/logo.svg";
 import clsx from "clsx";
+import {register} from '../api/auth.js'
+import Swal from 'sweetalert2'
 
 const SignupPage = () => {
   const [account, setAccount] = useState("");
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const passwordMatch = password === passwordConfirm
+
+  const handleClick = async () =>{
+    if(account.length===0){
+      return
+    }
+    if(name.length===0){
+      return
+    }
+    if (email.length === 0) {
+      return;
+    }
+    if (password.length === 0) {
+      return;
+    }
+    if (passwordConfirm.length === 0) {
+      return;
+    }
+    if(!passwordMatch) {
+      return
+    }
+    const {success, token} = await register({ account, name, email, password });
+
+    if(success){
+      localStorage.setItem('token',token)
+      Swal.fire({
+        title: '註冊成功',
+        icon: "success",
+        showConfirmButton:false,
+        timer: 1000,
+        position: 'top'
+      })
+      return
+    }
+    Swal.fire({
+      title: "註冊失敗",
+      icon: "error",
+      showConfirmButton: false,
+      timer: 1000,
+      position: "top",
+    });
+  }
   return (
     <div className={styles.container}>
       <img className={styles.logo} src={logo} alt="logo" />
@@ -26,12 +70,12 @@ const SignupPage = () => {
       <AuthInput
         label="名稱"
         placeholder="請輸入使用者名稱"
-        value={username}
+        value={name}
         dataPage={"signUpPage"}
         borderMode={clsx("", {
-          [styles.nameError]: username.length > 50,
+          [styles.nameError]: name.length > 50,
         })}
-        onChange={(nameInputValue) => setUsername(nameInputValue)}
+        onChange={(nameInputValue) => setName(nameInputValue)}
       />
       <AuthInput
         label="Email"
@@ -49,14 +93,17 @@ const SignupPage = () => {
         label="密碼確認"
         placeholder="請再次輸入密碼"
         value={passwordConfirm}
+        borderMode={clsx("", {
+          [styles.passwordError]: !passwordMatch,
+        })}
         onChange={(passwordConfirmInputValue) =>
           setPasswordConfirm(passwordConfirmInputValue)
         }
       />
-      <AuthBtn text="註冊" />
-      {/* <Link to="/"> */}
-      <div className={styles.cancelBtn}>取消</div>
-      {/* </Link> */}
+      <AuthBtn text="註冊" onClick={handleClick} />
+      <Link to="/login">
+        <div className={styles.cancelBtn}>取消</div>
+      </Link>
     </div>
   );
 };
