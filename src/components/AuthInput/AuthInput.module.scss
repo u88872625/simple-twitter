@@ -30,10 +30,13 @@
   &:focus {
     outline: none;
   }
-
   &:focus ~ .inputButtomBorder,
   &:hover ~ .inputButtomBorder {
     background-color: var(--secondary-blue);
+  }
+   
+  &.err ~ .inputButtomBorder {
+    background-color: var(--error)
   }
 }
 
@@ -46,3 +49,26 @@
   background-color: #657786;
   border-radius: 0px 0px 4px 4px;
 }
+
+.charCount {
+  position: absolute;
+  bottom: -15px;
+  right: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color:var(--grayscale-dark-80);
+}
+
+.errorMsg {
+  position: absolute;
+  bottom: -15px;
+  left:0;
+  font-size: 12px;
+  font-weight: 500;
+  
+ p {
+  color: var(--error);
+  }
+  
+}
+

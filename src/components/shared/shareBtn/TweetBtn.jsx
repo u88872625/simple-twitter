@@ -1,10 +1,10 @@
 import React from "react";
-import styled from "styled-components";
+import styles from "./_BtnStyle.module.scss";
 
 const TweetBtn = ({ text, onClick }) => {
   return (
     <div>
-      <button className="TweetBtn" onClick={onClick}>
+      <button className={styles.tweetBtn} onClick={onClick}>
         {text}
       </button>
     </div>
