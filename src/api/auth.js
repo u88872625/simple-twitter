@@ -4,13 +4,13 @@ const authURL = "https://peaceful-chamber-54211-1de4233804fe.herokuapp.com/api";
 
 export const login = async ({ account, password }) => {
   try {
-    const { data } = await axios.post(`${authURL}/users`, {
+    const { data } = await axios.post(`${authURL}/users/signin`, {
       account,
       password,
     });
 
     const { token } = data;
-
+		
     if (token) {
       return { success: true, ...data };
     }
@@ -24,12 +24,13 @@ export const login = async ({ account, password }) => {
 
 export const register = async ({ account, name, email, password }) => {
   try {
-    const { data } = await axios.post(`${authURL}/users/signin`, {
+    const { data } = await axios.post(`${authURL}/users`, {
       account,
       name,
       email,
       password,
     });
+	
     const { token } = data;
 
     if (token) {
