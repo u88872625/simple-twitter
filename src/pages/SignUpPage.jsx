@@ -7,6 +7,7 @@ import AuthBtn from "../components/shared/shareBtn/AuthBtn";
 import logo from "../assets/icons/logo.svg";
 import clsx from "clsx";
 import {register} from '../api/auth.js'
+import Alert from '../components/shared/Alert/Alert'
 import Swal from 'sweetalert2'
 
 const SignupPage = () => {
@@ -16,6 +17,7 @@ const SignupPage = () => {
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
   const passwordMatch = password === checkPassword;
+  const [error, setError] = useState(null)
 
   const handleClick = async () =>{
     if(account.length===0){
@@ -33,9 +35,7 @@ const SignupPage = () => {
     if (checkPassword.length === 0) {
       return;
     }
-    if(!passwordMatch) {
-      return
-    }
+    
     const { success, token } = await register({
       account,
       name,
@@ -55,13 +55,20 @@ const SignupPage = () => {
       });
       return;
     }
-    Swal.fire({
-      title: "註冊失敗",
-      icon: "error",
-      showConfirmButton: false,
-      timer: 1000,
-      position: "top",
-    });
+    if(!success) {
+      const {cause} = error.response;
+      const errMsg=[]
+
+      // 取得cause物件返回的屬性名及其值
+      for (const key in cause) {
+        if(cause[key]) {
+          errMsg.push(cause[key])
+        }
+      }
+
+      setError(errMsg.join('\n'))
+    
+    }
   }
   return (
     <div className={styles.container}>
@@ -110,6 +117,7 @@ const SignupPage = () => {
       <Link to="/login">
         <div className={styles.cancelBtn}>取消</div>
       </Link>
+      {error && <Alert msg={error} icon='danger'/>}
     </div>
   );
 };
