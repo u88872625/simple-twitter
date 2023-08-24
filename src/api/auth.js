@@ -57,8 +57,9 @@ export const register = async ({ account, name, email, password, checkPassword }
 		}
     return data
 
-  } catch (err) {
-    console.error("[Register Failed]:", err);
-    return { success: false };
+  } catch (error) {
+    console.error("[Register Failed]:", error);
+    return { success: false, error };
+
   }
 };

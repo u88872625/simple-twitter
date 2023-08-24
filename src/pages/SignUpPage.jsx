@@ -5,9 +5,13 @@ import { Link } from "react-router-dom";
 import AuthInput from "../components/AuthInput/AuthInput";
 import AuthBtn from "../components/shared/shareBtn/AuthBtn";
 import logo from "../assets/icons/logo.svg";
+import error from "../assets/icons/error.png"
 import clsx from "clsx";
-import { register } from "../api/auth.js";
-import Swal from "sweetalert2";
+
+import {register} from '../api/auth.js'
+import Alert from '../components/shared/Alert/Alert'
+import Swal from 'sweetalert2'
+
 
 const SignupPage = () => {
   const [account, setAccount] = useState("");
@@ -16,27 +20,31 @@ const SignupPage = () => {
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
   const passwordMatch = password === checkPassword;
+  const [showErrMsg, setShowErrMsg] = useState(null)
+  // const [showEmptyErr, setShowEmptyErr] = useState(false)
 
-  const handleClick = async () => {
-    if (account.length === 0) {
-      return;
-    }
-    if (name.length === 0) {
-      return;
-    }
-    if (email.length === 0) {
-      return;
-    }
-    if (password.length === 0) {
-      return;
-    }
-    if (checkPassword.length === 0) {
-      return;
-    }
-    if (!passwordMatch) {
-      return;
-    }
-    const { success, token } = await register({
+
+  const handleClick = async () =>{
+    // 清除先前的錯誤狀態
+    setShowErrMsg(null);
+
+    // // 檢查空格
+    // if (
+    //   account.length === 0 ||
+    //   name.length === 0 ||
+    //   email.length === 0 ||
+    //   password.length === 0 ||
+    //   checkPassword.length === 0
+    // ) {
+    //   setShowEmptyErr(true)
+    //   // return;
+    // }
+    
+    // // 清除先前錯誤狀態
+    // setShowEmptyErr(false)
+
+    const { success, token, error } = await register({
+
       account,
       name,
       email,
@@ -55,14 +63,24 @@ const SignupPage = () => {
       });
       return;
     }
-    Swal.fire({
-      title: "註冊失敗",
-      icon: "error",
-      showConfirmButton: false,
-      timer: 1000,
-      position: "top",
-    });
-  };
+
+
+    if (!success) {
+      const { cause } = error.response.data;
+      const errMsg = [];
+
+      // 取得cause物件返回的屬性名及其值
+      for (const key in cause) {
+        if (cause[key]) {
+          errMsg.push(cause[key]);
+        }
+      }
+
+      setShowErrMsg(errMsg.join(" "));
+    }
+  }
+    
+    
   return (
     <div className={styles.container}>
       <img className={styles.logo} src={logo} alt="logo" />
@@ -110,6 +128,8 @@ const SignupPage = () => {
       <Link to="/login">
         <div className={styles.cancelBtn}>取消</div>
       </Link>
+      {/* {showEmptyErr ? <Alert msg={showEmptyErr} icon="error" /> : ""} */}
+      {showErrMsg ? <Alert msg={showErrMsg} icon={error} /> : ""}
     </div>
   );
 };
