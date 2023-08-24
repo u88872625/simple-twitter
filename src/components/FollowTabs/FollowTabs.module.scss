@@ -1,0 +1,21 @@
+.buttonWrapper {
+  width: 639px;
+  height: 53px;
+  border: 1px solid #e6ecf0;
+
+  .button {
+    width: 130px;
+    height: 52px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #657786;
+    background-color: #fff;
+    border-bottom: 1px solid #e6ecf0;
+
+    &Active {
+      @extend .button;
+      color: #ff6600;
+      border-bottom: 2px solid #ff6600;
+    }
+  }
+}
