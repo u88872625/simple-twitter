@@ -6,8 +6,8 @@ import AuthInput from "../components/AuthInput/AuthInput";
 import AuthBtn from "../components/shared/shareBtn/AuthBtn";
 import logo from "../assets/icons/logo.svg";
 import clsx from "clsx";
-import {register} from '../api/auth.js'
-import Swal from 'sweetalert2'
+import { register } from "../api/auth.js";
+import Swal from "sweetalert2";
 
 const SignupPage = () => {
   const [account, setAccount] = useState("");
@@ -17,12 +17,12 @@ const SignupPage = () => {
   const [checkPassword, setCheckPassword] = useState("");
   const passwordMatch = password === checkPassword;
 
-  const handleClick = async () =>{
-    if(account.length===0){
-      return
+  const handleClick = async () => {
+    if (account.length === 0) {
+      return;
     }
-    if(name.length===0){
-      return
+    if (name.length === 0) {
+      return;
     }
     if (email.length === 0) {
       return;
@@ -33,8 +33,8 @@ const SignupPage = () => {
     if (checkPassword.length === 0) {
       return;
     }
-    if(!passwordMatch) {
-      return
+    if (!passwordMatch) {
+      return;
     }
     const { success, token } = await register({
       account,
@@ -62,7 +62,7 @@ const SignupPage = () => {
       timer: 1000,
       position: "top",
     });
-  }
+  };
   return (
     <div className={styles.container}>
       <img className={styles.logo} src={logo} alt="logo" />

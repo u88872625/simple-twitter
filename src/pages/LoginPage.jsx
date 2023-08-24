@@ -14,7 +14,6 @@ const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleClick = async () => {
-    // 若帳號或密碼為空，則返回
     if (account.trim().length === 0) {
       return;
     }
@@ -22,14 +21,15 @@ const LoginPage = () => {
       return;
     }
 
-    const data = await login({
+    const response = await login({
       account,
       password,
     });
-    const token = data.data.token;
 
-    if (data.status === "success") {
-      localStorage.setItem("token", token);
+    const { token, success, cause } = response;
+
+    if (success) {
+      localStorage.setItem("authToken", token);
 
       // 登入成功訊息
       Swal.fire({
@@ -42,11 +42,12 @@ const LoginPage = () => {
       return;
     }
 
-    // 登入失敗
-    if (data.status === "error") {
-      setErrorMessage(data.message);
-    }
+    // 登入失敗時，辨別後端的錯誤訊息
+    const accountErrMsg = cause?.accountErrMsg || "";
+    const passwordErrMsg = cause?.passwordErrMsg || "";
+    setErrorMessage(accountErrMsg + " " + passwordErrMsg);
   };
+
   return (
     <div className={styles.container}>
       <img className={styles.logo} src={IconLogo} alt="logo.svg" />
@@ -57,8 +58,7 @@ const LoginPage = () => {
           placeholder={"請輸入帳號"}
           value={account}
           borderMode={clsx("", {
-            [styles.accountInfoError]:
-              errorMessage === "Error: Incorrect password!",
+            [styles.accountInfoError]: errorMessage.includes("帳號不存在！"),
           })}
           onChange={(accountInput) => {
             setErrorMessage("");
@@ -71,8 +71,7 @@ const LoginPage = () => {
           type={"password"}
           value={password}
           borderMode={clsx("", {
-            [styles.passwordInfoError]:
-              errorMessage === "Error: Incorrect password!",
+            [styles.passwordInfoError]: errorMessage.includes("不正確的密碼！"),
           })}
           onChange={(passwordInput) => {
             setErrorMessage("");
