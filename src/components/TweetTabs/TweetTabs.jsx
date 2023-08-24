@@ -17,6 +17,7 @@ const dummyUserTweets = [
       textContent: "Having a great day at the beach! 🏖️ #SummerVibes",
       numOfReply: 12,
       numOfLike: 45,
+      isLike: false,
     },
   },
   {
@@ -32,6 +33,7 @@ const dummyUserTweets = [
         "Just finished reading an amazing book. Highly recommended! 📚 #BookLover",
       numOfReply: 5,
       numOfLike: 32,
+      isLike: false,
     },
   },
   {
@@ -62,6 +64,7 @@ const dummyUserTweets = [
         "Just adopted a cute kitten! Meet my new furry friend. 🐱 #PetLove",
       numOfReply: 20,
       numOfLike: 67,
+      isLike: true,
     },
   },
   {
@@ -77,6 +80,7 @@ const dummyUserTweets = [
         "Attended a fascinating tech conference today. So many innovative ideas! 💡 #TechEnthusiast",
       numOfReply: 15,
       numOfLike: 50,
+      isLike: true,
     },
   },
   {
@@ -92,6 +96,7 @@ const dummyUserTweets = [
         "Enjoying a relaxing evening with a cup of tea and my favorite TV show. 🍵📺 #ChillTime",
       numOfReply: 10,
       numOfLike: 38,
+      isLike: true,
     },
   },
 ];
@@ -262,10 +267,24 @@ const dummyUserLikes = [
 
 export default function TweetTabs() {
   const [activeTab, setActiveTab] = useState("tweets");
-
+  const [isLike, setIsLike] = useState(dummyUserTweets.isLike);
+  const [numOfLikes, setNumOfLikes] = useState(dummyUserTweets.numOfLike);
+  
+// 監聽點擊哪個Tab
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
+
+  // 更新like數 後續需要把變動傳回後端
+  const handleLikeClick = () => {
+    setIsLike(!isLike);
+    if(isLike) {
+      setNumOfLikes(numOfLikes - 1)
+    } else {
+      setNumOfLikes(numOfLikes + 1)
+    }
+  };
+
   return (
     <>
       <div className={styles.tabBtns}>
@@ -307,7 +326,7 @@ export default function TweetTabs() {
         </button>
       </div>
       <div className={styles.tabContent}>
-        {activeTab === "tweets" && <TweetContent tweets={dummyUserTweets} />}
+        {activeTab === "tweets" && <TweetContent tweets={dummyUserTweets} onClick={handleLikeClick}/>}
         {activeTab === "replies" && <ReplyContent replies={dummyUserReplies} />}
         {activeTab === "likes" && <LikeContent likes={dummyUserLikes} />}
       </div>
