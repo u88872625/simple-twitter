@@ -21,20 +21,29 @@ const LoginPage = () => {
       return;
     }
 
-    const { success, token } = await login({
+    const response = await login({
       account,
       password,
     });
+
+    const { token, success, cause } = response;
+
     if (success) {
-      localStorage.setItem("token", token);
+      localStorage.setItem("authToken", token);
+
+      // 登入成功訊息
+      Swal.fire({
+        position: "top",
+        title: "登入成功！",
+        timer: 1000,
+        icon: "success",
+        showConfirmButton: false,
+      });
+      return;
     }
-    Swal.fire({
-      title: "登入失敗",
-      icon: "error",
-      showConfirmButton: false,
-      timer: 1000,
-      position: "top",
-    });
+    const accountErrMsg = cause?.accountErrMsg || "";
+    const passwordErrMsg = cause?.passwordErrMsg || "";
+    setErrorMessage(accountErrMsg + " " + passwordErrMsg);
   };
 
   return (
@@ -47,8 +56,7 @@ const LoginPage = () => {
           placeholder={"請輸入帳號"}
           value={account}
           borderMode={clsx("", {
-            [styles.accountInfoError]:
-              errorMessage === "Error: Incorrect password!",
+            [styles.accountInfoError]: errorMessage.includes("帳號不存在！"),
           })}
           onChange={(accountInput) => {
             setErrorMessage("");
@@ -61,8 +69,7 @@ const LoginPage = () => {
           type={"password"}
           value={password}
           borderMode={clsx("", {
-            [styles.passwordInfoError]:
-              errorMessage === "Error: Incorrect password!",
+            [styles.passwordInfoError]: errorMessage.includes("不正確的密碼！"),
           })}
           onChange={(passwordInput) => {
             setErrorMessage("");

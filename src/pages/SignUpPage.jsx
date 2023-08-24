@@ -6,23 +6,23 @@ import AuthInput from "../components/AuthInput/AuthInput";
 import AuthBtn from "../components/shared/shareBtn/AuthBtn";
 import logo from "../assets/icons/logo.svg";
 import clsx from "clsx";
-import {register} from '../api/auth.js'
-import Swal from 'sweetalert2'
+import { register } from "../api/auth.js";
+import Swal from "sweetalert2";
 
 const SignupPage = () => {
   const [account, setAccount] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
-  const passwordMatch = password === passwordConfirm
+  const [checkPassword, setCheckPassword] = useState("");
+  const passwordMatch = password === checkPassword;
 
-  const handleClick = async () =>{
-    if(account.length===0){
-      return
+  const handleClick = async () => {
+    if (account.length === 0) {
+      return;
     }
-    if(name.length===0){
-      return
+    if (name.length === 0) {
+      return;
     }
     if (email.length === 0) {
       return;
@@ -30,24 +30,30 @@ const SignupPage = () => {
     if (password.length === 0) {
       return;
     }
-    if (passwordConfirm.length === 0) {
+    if (checkPassword.length === 0) {
       return;
     }
-    if(!passwordMatch) {
-      return
+    if (!passwordMatch) {
+      return;
     }
-    const {success, token} = await register({ account, name, email, password });
+    const { success, token } = await register({
+      account,
+      name,
+      email,
+      password,
+      checkPassword,
+    });
 
-    if(success){
-      localStorage.setItem('token',token)
+    if (success) {
+      localStorage.setItem("token", token);
       Swal.fire({
-        title: '註冊成功',
+        title: "註冊成功",
         icon: "success",
-        showConfirmButton:false,
+        showConfirmButton: false,
         timer: 1000,
-        position: 'top'
-      })
-      return
+        position: "top",
+      });
+      return;
     }
     Swal.fire({
       title: "註冊失敗",
@@ -56,7 +62,7 @@ const SignupPage = () => {
       timer: 1000,
       position: "top",
     });
-  }
+  };
   return (
     <div className={styles.container}>
       <img className={styles.logo} src={logo} alt="logo" />
@@ -92,12 +98,12 @@ const SignupPage = () => {
       <AuthInput
         label="密碼確認"
         placeholder="請再次輸入密碼"
-        value={passwordConfirm}
+        value={checkPassword}
         borderMode={clsx("", {
           [styles.passwordError]: !passwordMatch,
         })}
-        onChange={(passwordConfirmInputValue) =>
-          setPasswordConfirm(passwordConfirmInputValue)
+        onChange={(checkPasswordInputValue) =>
+          setCheckPassword(checkPasswordInputValue)
         }
       />
       <AuthBtn text="註冊" onClick={handleClick} />
