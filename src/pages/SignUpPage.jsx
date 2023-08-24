@@ -7,9 +7,11 @@ import AuthBtn from "../components/shared/shareBtn/AuthBtn";
 import logo from "../assets/icons/logo.svg";
 import error from "../assets/icons/error.png"
 import clsx from "clsx";
+
 import {register} from '../api/auth.js'
 import Alert from '../components/shared/Alert/Alert'
 import Swal from 'sweetalert2'
+
 
 const SignupPage = () => {
   const [account, setAccount] = useState("");
@@ -20,6 +22,7 @@ const SignupPage = () => {
   const passwordMatch = password === checkPassword;
   const [showErrMsg, setShowErrMsg] = useState(null)
   // const [showEmptyErr, setShowEmptyErr] = useState(false)
+
 
   const handleClick = async () =>{
     // 清除先前的錯誤狀態
@@ -41,6 +44,7 @@ const SignupPage = () => {
     // setShowEmptyErr(false)
 
     const { success, token, error } = await register({
+
       account,
       name,
       email,
@@ -59,6 +63,7 @@ const SignupPage = () => {
       });
       return;
     }
+
 
     if (!success) {
       const { cause } = error.response.data;
