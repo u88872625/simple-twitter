@@ -1,6 +1,23 @@
 import styles from './UserInfoCard.module.scss'
+// import { useEffect, useState } from 'react';
+// import { useNavigate} from 'react-router-dom';
 import SettingBtn from '../shared/shareBtn/SettingBtn'
+
+
 export default function UserInfoCard({name, account,introduction,avatar,banner,follower, following}) {
+	// const [isEdit, setIsEdit] = useState(false)
+	// const navigate = useNavigate()
+
+	const handleEditModalOpen = ()=>{
+		// setIsEdit(true)
+	}
+
+	// useEffect(() => {
+  //   if (isEdit) {
+  //     navigate("/signup");
+  //   } 
+  // }, [navigate, isEdit]);
+
 	return (
     <div className={styles.container}>
       <div className={styles.img}>
@@ -15,7 +32,7 @@ export default function UserInfoCard({name, account,introduction,avatar,banner,f
           alt="avatar"
         />
         <div className={styles.editBtn}>
-          <SettingBtn text="編輯個人資料" />
+            <SettingBtn text="編輯個人資料" onClick={handleEditModalOpen} />
         </div>
       </div>
       <div className={styles.userInfo}>
