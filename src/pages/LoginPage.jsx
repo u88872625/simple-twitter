@@ -41,6 +41,8 @@ const LoginPage = () => {
       });
       return;
     }
+
+    // 登入失敗時，辨別後端的錯誤訊息
     const accountErrMsg = cause?.accountErrMsg || "";
     const passwordErrMsg = cause?.passwordErrMsg || "";
     setErrorMessage(accountErrMsg + " " + passwordErrMsg);
