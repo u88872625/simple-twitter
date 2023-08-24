@@ -15,13 +15,10 @@ import TweetTabs from "./components/TweetTabs/TweetTabs.jsx";
 import AddTweet from "./components/AddTweet/AddTweet";
 import "./styles/App.module.scss";
 
-import Alert from './components/shared/Alert/Alert'
-
 
 function App() {
   return (
     <div className="App">
-      <Alert/>
       <BrowserRouter>
         <Routes>
           <Route path="/signup" element={<SignUpPage />} />

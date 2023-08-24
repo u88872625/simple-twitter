@@ -1,6 +1,7 @@
 import styles from './Alert.module.scss'
 import { useEffect, useState } from 'react';
 
+
 export default function Alert({msg, icon}) {
 	const [visable, setVisible] = useState(true)
 
@@ -8,14 +9,12 @@ export default function Alert({msg, icon}) {
 	useEffect(()=> {
 		const timer = setTimeout(()=>{
 			setVisible(false)
-		}, 1000)
-
+		}, 1500)
 		// alert消失後,取消timer
 		return ()=>{
 			clearTimeout(timer)
 		}
-	},[])
-
+	},[visable])
 	// 一般狀況下 隱藏alert
 	if(!visable){
 		return null

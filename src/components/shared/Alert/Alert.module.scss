@@ -3,8 +3,6 @@
 	top: 20%;
 	left:50%;
 	transform: translate(-50%, -50%);
-	display: flex;
-	justify-content: space-between;
 	width: 394px;
 	height: 96px;
 	padding: 34px 24px;
@@ -17,10 +15,16 @@
 		font-family: var(--alert-font-family);
 		font-size: 20px;
 		font-weight: 700;
+		max-width: 282px;
 	}
 
 	.icon {
+		position: absolute;
+		top: 50%;
+		right: 24px;
+		transform: translateY(-50%);
 		width: 56px;
 		height: 56px;
+		object-fit: fill;
 	}
 }

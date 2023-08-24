@@ -28,7 +28,7 @@
   background-color: var(--error);
 
   &::after {
-    content: "字數超出上限!";
+    content: "必填欄位!";
     position: absolute;
     bottom: -15px;
     left: 0;
