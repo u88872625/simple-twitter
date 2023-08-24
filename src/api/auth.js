@@ -10,7 +10,7 @@ export const login = async ({ account, password }) => {
     });
 
     const { token } = data;
-
+		
     if (token) {
       return { success: true, ...data };
     }
@@ -38,13 +38,9 @@ export const login = async ({ account, password }) => {
   }
 };
 
-export const register = async ({
-  account,
-  name,
-  email,
-  password,
-  checkPassword,
-}) => {
+
+export const register = async ({ account, name, email, password, checkPassword }) => {
+
   try {
     const { data } = await axios.post(`${authURL}/users`, {
       account,
@@ -58,8 +54,9 @@ export const register = async ({
 
     if (token) {
       return { success: true, ...data };
-    }
-    return data;
+		}
+    return data
+
   } catch (err) {
     console.error("[Register Failed]:", err);
     return { success: false };
