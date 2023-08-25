@@ -15,7 +15,6 @@ import AddTweet from "./components/AddTweet/AddTweet";
 import FollowTabs from "./components/FollowTabs/FollowTabs";
 import "./styles/App.module.scss";
 
-import OtherUserInfoCard from "./components/InfoCard/OtherUserInfoCard";
 
 function App() {
   return (
@@ -33,6 +32,7 @@ function App() {
           <Route path="/:username/followers" element={<FollowTabs />} />
           <Route path="/:username/followering" element={<FollowTabs />} />
           <Route path="/compose" element={<AddTweet />} />
+          {/* <Route path="/compose" element={<Modal />} /> */}
           <Route path="/:username/status/:id" element={<StatusPage />} />
           <Route path="/admin" element={<AdminLoginPage />} />
           <Route path="/admin/main" element={<AdminMainPage />} />
