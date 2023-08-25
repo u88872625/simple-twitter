@@ -15,8 +15,6 @@ import AddTweet from "./components/AddTweet/AddTweet";
 import FollowTabs from "./components/FollowTabs/FollowTabs";
 import "./styles/App.module.scss";
 
-
-
 function App() {
   return (
     <div className="App">
