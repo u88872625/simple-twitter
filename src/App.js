@@ -15,12 +15,11 @@ import AddTweet from "./components/AddTweet/AddTweet";
 import FollowTabs from "./components/FollowTabs/FollowTabs";
 import "./styles/App.module.scss";
 
-import OtherUserInfoCard from './components/InfoCard/OtherUserInfoCard'
+import OtherUserInfoCard from "./components/InfoCard/OtherUserInfoCard";
 
 function App() {
   return (
     <div className="App">
-      <OtherUserInfoCard/>
       <BrowserRouter>
         <Routes>
           <Route path="/signup" element={<SignUpPage />} />

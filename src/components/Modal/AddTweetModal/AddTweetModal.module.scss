@@ -1,0 +1,83 @@
+.test {
+  margin-left: 500px;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  max-width: 634px !important;
+  border-radius: 14px;
+  margin-left: 30%;
+
+  .header {
+    height: 56px;
+    border-bottom: 1px solid #e6ecf0;
+
+    .close {
+      width: 15px;
+      height: 15px;
+      margin-left: 4.5px;
+      cursor: pointer;
+    }
+  }
+}
+
+.modalBody {
+  position: relative;
+  height: 243px;
+}
+
+.inputWrapper {
+  .input {
+    position: absolute;
+    top: 25px;
+    left: 70px;
+    width: 70%;
+    height: 80%;
+    font-size: 16px;
+    padding-left: 10px;
+    border: none;
+    resize: none;
+
+    &:focus {
+      outline: none;
+    }
+    &::placeholder {
+      position: absolute;
+      top: 0;
+      color: var(--secondary);
+      font-size: 16px;
+    }
+  }
+
+  .avatar {
+    width: 50px;
+    height: 50px;
+  }
+
+  .button {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    width: 64px;
+    height: 40px;
+    background-color: var(--brand);
+    border-radius: 50px;
+    color: white;
+    font-size: 16px;
+  }
+}
+
+.noLengthError {
+  position: absolute;
+  font-size: 15px;
+  color: #fc5a5a;
+  font-weight: 500;
+  letter-spacing: 1px;
+  right: 98px;
+  bottom: 8px;
+  // display: none;
+}
