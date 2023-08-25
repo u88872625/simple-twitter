@@ -7,6 +7,7 @@
 	.leftContainer {
 		width: 178px;
 		height: 100%;
+		overflow-y: hidden;
 	}
 
 	.mainContainer {
@@ -15,11 +16,24 @@
 		margin: 0 24px;
 		border: 1px solid var(--border);
 		overflow-y: auto;
+
+		&::-webkit-scrollbar {
+  width: 1px;
+}
+&::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+&::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 0.25em;
+}
 	}
 
 	.rightContainer {
 		width: 273px;
 		height: 100%;
+		overflow-y: hidden;
+		margin-top:8px;
 	}
 
 }
