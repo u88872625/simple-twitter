@@ -17,6 +17,10 @@
   .navItem {
     position: relative;
     flex: 1;
+
+    ul {
+      padding: 0;
+    }
     
 
 		.bottomItem ul li{
