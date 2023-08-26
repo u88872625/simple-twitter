@@ -13,26 +13,25 @@ const AddTweetModal = ({
   inputStyle,
   avatar,
   lengthError,
-  // handleClose,
-  // show,
+  handleClose,
+  show,
   onSubmit,
 }) => {
-  const [show, setShow] = useState(false);
+  // const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  // const handleClose = () => setShow(false);
+  // const handleShow = () => setShow(true);
 
   return (
     <div>
-      <Button className={styles.test} variant="primary" onClick={handleShow}>
+      {/* <Button className={styles.test} variant="primary" onClick={handleShow}>
         Launch demo modal
-      </Button>
+      </Button> */}
       <div className={styles.container}>
         <Modal
           className={styles.modal}
           show={show}
           onHide={handleClose}
-          size="lg"
           centered
         >
           <Modal.Header className={styles.header}>

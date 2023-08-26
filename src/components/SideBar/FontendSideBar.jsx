@@ -10,15 +10,21 @@ import setting from "../../assets/icons/setting.svg";
 import settingActive from "../../assets/icons/setting-active.svg";
 import logo from "../../assets/icons/logo.svg";
 import logout from "../../assets/icons/logout.svg";
+import AddTweetModal from "../Modal/AddTweetModal/AddTweetModal";
 
 export default function FontendSideBar() {
   const [activeItem, setActiveItem] = useState("首頁");
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleAddTweet = () => {
+    setShow(true);
+  };
 
   const handleItemClick = (itemName) => {
     setActiveItem(itemName);
   };
 
-  const handleAddTweet = () => {};
   return (
     <div className={styles.container}>
       <div className={styles.logo}>
@@ -67,6 +73,7 @@ export default function FontendSideBar() {
           </ul>
         </div>
       </div>
+      <AddTweetModal handleClose={handleClose} show={show} />
     </div>
   );
 }
