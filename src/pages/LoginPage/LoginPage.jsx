@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import styles from "./LoginPage.module.scss";
-import IconLogo from "../assets/icons/logo.svg";
-import AuthInput from "../components/AuthInput/AuthInput";
-import AuthBtn from "../components/shared/shareBtn/AuthBtn";
+import IconLogo from "../../assets/icons/logo.svg";
+import AuthInput from "../../components/AuthInput/AuthInput";
+import AuthBtn from "../../components/shared/shareBtn/AuthBtn";
 import clsx from "clsx";
 import Swal from "sweetalert2";
-import { login } from "../api/auth";
+import { login } from "../../api/auth";
+import { useNavigate, Link } from "react-router-dom/dist";
 
 const LoginPage = () => {
   const [account, setAccount] = useState("");
   const [password, setPassword] = useState("");
   // 後端錯誤訊息判定
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleClick = async () => {
     if (account.trim().length === 0) {
@@ -30,7 +32,7 @@ const LoginPage = () => {
 
     if (success) {
       localStorage.setItem("authToken", token);
-
+      navigate("/Home");
       // 登入成功訊息
       Swal.fire({
         position: "top",
@@ -83,9 +85,13 @@ const LoginPage = () => {
         <AuthBtn text={"登入"} onClick={handleClick} />
       </div>
       <div className={styles.otherLink}>
-        <div className={styles.register}>註冊</div>
+        <Link to={"/signup"}>
+          <div className={styles.register}>註冊</div>
+        </Link>
         <span className={styles.dot}>．</span>
-        <div className={styles.admin}>後台登入</div>
+        <Link to={"/admin"}>
+          <div className={styles.admin}>後台登入</div>
+        </Link>
       </div>
     </div>
   );

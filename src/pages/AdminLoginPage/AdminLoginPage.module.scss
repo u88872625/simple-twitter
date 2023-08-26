@@ -1,0 +1,75 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 64px;
+}
+
+.title {
+  margin: 24px auto 40px auto;
+  color: #1c1c1c;
+}
+
+.loginButton {
+  margin-top: 16px;
+}
+
+.otherLink {
+  width: 356px;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+
+  .frontend {
+    font-size: 16px;
+    color: var(--primary);
+    text-decoration: underline;
+    background-color: #fff;
+    cursor: pointer;
+  }
+}
+
+%errorInput {
+  background-color: var(--error);
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    color: var(--error);
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 500;
+  }
+}
+
+.accountLengthError {
+  @extend %errorInput;
+
+  &::after {
+    content: "請輸入帳號!";
+  }
+}
+
+.accountInfoError {
+  @extend %errorInput;
+
+  &::after {
+    content: "此帳號不存在!";
+  }
+}
+
+.passwordLengthError {
+  @extend %errorInput;
+
+  &::after {
+    content: "請輸入密碼!";
+  }
+}
+
+.passwordInfoError {
+  @extend %errorInput;
+
+  &::after {
+    content: "密碼錯誤!";
+  }
+}
