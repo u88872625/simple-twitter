@@ -1,49 +1,34 @@
 import React, { useState } from "react";
 import styles from "./ReplyModal.module.scss";
 import clsx from "clsx";
-import { Button } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 import IconClose from "../../../assets/icons/close.svg";
 import DefaultAvatar from "../../../assets/icons/default-img.svg";
 
 const ReplyModal = ({
-  avatar,
+  posterAvatar,
+  userAvatar,
   postUserName,
   postUserAccount,
   postCreatedAt,
   postDescription,
   onInputChange,
-
-  borderLine,
-  // show,
-  // handleClose,
+  show,
+  handleClose,
 }) => {
   const [reply, setReply] = useState("");
 
   function handleOnSave() {
-    if (reply.trim().length === 0) {
+    if (reply.length === 0) {
       return;
     }
   }
 
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   return (
     <>
       <div>
-        <Button variant="primary" onClick={handleShow}>
-          Launch demo modal
-        </Button>
-
         <div className={styles.Container}>
-          <Modal
-            className={styles.modal}
-            show={show}
-            onHide={handleClose}
-            size="lg"
-          >
+          <Modal className={styles.modal} show={show} onHide={handleClose}>
             <Modal.Header className={styles.header}>
               <Modal.Title>
                 <div>
@@ -52,6 +37,7 @@ const ReplyModal = ({
                     src={IconClose}
                     alt="close.svg"
                     onClick={handleClose}
+                    centered
                   />
                 </div>
               </Modal.Title>
@@ -59,8 +45,8 @@ const ReplyModal = ({
             <Modal.Body className={styles.modalBody}>
               <div className={styles.tweetWrapper}>
                 <img
-                  className={styles.postUserAvatar}
-                  src={avatar ? avatar : DefaultAvatar}
+                  className={styles.posterAvatar}
+                  src={posterAvatar ? posterAvatar : DefaultAvatar}
                   alt="avatar.svg"
                 />
 
@@ -86,7 +72,7 @@ const ReplyModal = ({
               <div className={styles.replyInputContainer}>
                 <img
                   className={styles.userSelfAvatar}
-                  src={avatar ? avatar : DefaultAvatar}
+                  src={userAvatar ? userAvatar : DefaultAvatar}
                   alt="avatar"
                 />
                 <textarea

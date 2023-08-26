@@ -1,11 +1,9 @@
 .modal {
-  max-width: 634px !important;
-  margin-left: 30%;
+  --bs-modal-width: 634px;
 
   .header {
     height: 56px;
     border-bottom: 1px solid var(--border);
-
     --bs-modal-inner-border-radius: 14px;
     .close {
       width: 15px;
@@ -22,9 +20,11 @@
     .tweetWrapper {
       display: flex;
 
-      .postUserAvatar {
+      .posterAvatar {
         width: 50px;
         height: 50px;
+        object-fit: cover;
+        border-radius: 50%;
       }
     }
   }
@@ -75,6 +75,13 @@
   margin-top: 18px;
   display: flex;
 
+  .userSelfAvatar {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
   .replyInput {
     position: absolute;
     top: 10px;
@@ -115,111 +122,3 @@
   color: white;
   font-size: 16px;
 }
-//     .firstModalPost {
-//       position: relative;
-//       min-height: 129px;
-
-//       &::after {
-//         content: "";
-//         position: absolute;
-//         left: 48px;
-//         top: 62px;
-//         bottom: 0;
-//         background-color: var(--grayscale-dark-60);
-//         width: 2px;
-//       }
-//     }
-//   }
-
-//   &Post {
-//     position: relative;
-//     padding: 0 24px;
-//     display: flex;
-//     flex: 0;
-//     align-items: flex-start;
-//     height: 100%;
-//     gap: 8px;
-//   }
-
-//   &TweetItemInfoWrapper {
-//     display: flex;
-//     flex-direction: column;
-//     padding: 0px;
-//     gap: 8px;
-//     width: 528px;
-//   }
-
-//   &UserTweetItemInfo {
-//     display: flex;
-//     gap: 8px;
-//     align-items: center;
-//   }
-
-//   &InputContainer {
-//     display: flex;
-//     align-items: center;
-//     margin-top: 16px;
-//   }
-
-//   &Input {
-//     height: 26px;
-//     width: 100%;
-//     font-size: 16px;
-//     border: none;
-//     outline: none;
-
-//     &::placeholder {
-//       color: var(--secondary);
-//     }
-//   }
-
-//   &Submit {
-//     position: absolute;
-//     right: 15px;
-//     bottom: 15px;
-//   }
-// }
-
-// .replyModaldAvatarContainer {
-//   align-self: flex-start;
-// }
-
-// .replyAt {
-//   color: var(--brand);
-// }
-
-// .tweetItemInfo {
-//   &Wrapper {
-//     display: flex;
-//     flex-direction: row;
-//     align-items: flex-start;
-//     padding: 0px;
-//     gap: 8px;
-//     width: 528px;
-//   }
-
-//   &User {
-//     padding: 0px;
-//     gap: 8px;
-//     height: 26px;
-
-//     &Name {
-//       font-weight: 700;
-//       font-size: 16px;
-//       /* identical to box height, or 162% */
-//       line-height: 26px;
-//       /* grayscale/dark-100 */
-//       color: #171725;
-//     }
-
-//     &Detail {
-//       height: 22px;
-//       font-weight: 400;
-//       font-size: 14px;
-//       /* identical to box height, or 157% */
-//       line-height: 22px;
-//       /* color/secondary */
-//       color: #6c757d;
-//     }
-//   }
-// }

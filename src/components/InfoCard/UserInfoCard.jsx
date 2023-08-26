@@ -1,24 +1,38 @@
-import styles from './UserInfoCard.module.scss'
+import styles from "./UserInfoCard.module.scss";
 // import { useEffect, useState } from 'react';
 // import { useNavigate} from 'react-router-dom';
-import SettingBtn from '../shared/shareBtn/SettingBtn'
+import SettingBtn from "../shared/shareBtn/SettingBtn";
+import ProfileEditModal from "../Modal/ProfileEditModal/ProfileEditModal";
+import { useState } from "react";
 
+export default function UserInfoCard({
+  name,
+  account,
+  introduction,
+  avatar,
+  banner,
+  follower,
+  following,
+}) {
+  // const [isEdit, setIsEdit] = useState(false)
+  // const navigate = useNavigate()
 
-export default function UserInfoCard({name, account,introduction,avatar,banner,follower, following}) {
-	// const [isEdit, setIsEdit] = useState(false)
-	// const navigate = useNavigate()
+  const [show, setShow] = useState(false);
 
-	const handleEditModalOpen = ()=>{
-		// setIsEdit(true)
-	}
+  const handleClose = () => setShow(false);
 
-	// useEffect(() => {
+  const handleEditModalOpen = () => {
+    // setIsEdit(true)
+    setShow(true);
+  };
+
+  // useEffect(() => {
   //   if (isEdit) {
   //     navigate("/signup");
-  //   } 
+  //   }
   // }, [navigate, isEdit]);
 
-	return (
+  return (
     <div className={styles.container}>
       <div className={styles.img}>
         <img
@@ -32,7 +46,7 @@ export default function UserInfoCard({name, account,introduction,avatar,banner,f
           alt="avatar"
         />
         <div className={styles.editBtn}>
-            <SettingBtn text="編輯個人資料" onClick={handleEditModalOpen} />
+          <SettingBtn text="編輯個人資料" onClick={handleEditModalOpen} />
         </div>
       </div>
       <div className={styles.userInfo}>
@@ -52,6 +66,12 @@ export default function UserInfoCard({name, account,introduction,avatar,banner,f
           59位<span className={styles.sub}>跟隨者</span>
         </p>
       </div>
+      <ProfileEditModal
+        show={show}
+        handleClose={handleClose}
+        avatar={avatar}
+        userBanner={banner}
+      />
     </div>
   );
 }

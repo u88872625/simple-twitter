@@ -3,6 +3,7 @@ import reply from "../../assets/icons/reply.svg";
 import like from "../../assets/icons/like.svg";
 import likeFilled from "../../assets/icons/like-filled.svg";
 import { useState } from "react";
+import ReplyModal from "../Modal/ReplyModal/ReplyModal";
 
 const dummyData = [
   {
@@ -29,16 +30,19 @@ export default function TopTweet() {
   const [isReply, setIsReply] = useState(false);
   const [isLike, setIsLike] = useState(data.isLiked);
   const [likesNum, setLikesNum] = useState(data.likesNum);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
 
   const handleReplyClick = () => {
     setIsReply(true);
+    setShow(true);
   };
 
   // 更新like數 後續需要把變動傳回後端
   const handleLikeClick = () => {
     setIsLike(!isLike);
-		data.isLiked = !data.isLiked;
-		
+    data.isLiked = !data.isLiked;
+
     if (isLike) {
       setLikesNum(likesNum + 1);
     } else {
@@ -95,6 +99,15 @@ export default function TopTweet() {
         </div>
         {/* {isReply && <Modal/>} */}
       </div>
+      <ReplyModal
+        show={show}
+        handleClose={handleClose}
+        posterAvatar={data.User.avatar}
+        postDescription={data.description}
+        postUserName={data.User.name}
+        postUserAccount={data.User.account}
+        postCreatedAt={data.createdAt}
+      />
     </div>
   );
 }

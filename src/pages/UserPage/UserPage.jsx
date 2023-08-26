@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./UserPage.module.scss";
-import FontendLayout from "../../components/shared/layout/FontendLayout";
+import FontendLayout from "../../components/shared/layout/FontendLayout/FontendLayout.jsx";
 import UserInfoCard from "../../components/InfoCard/UserInfoCard";
 import TweetTabs from "../../components/TweetTabs/TweetTabs";
 import arrow from "../../assets/icons/back.svg";
