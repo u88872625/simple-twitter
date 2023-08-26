@@ -54,7 +54,7 @@ export const register = async ({
       checkPassword,
     });
 
-    const { token } = data;
+    const { token } = data.data;
 
     if (token) {
       return { success: true, ...data };
