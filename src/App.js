@@ -16,9 +16,11 @@ import FollowTabs from "./components/FollowTabs/FollowTabs";
 import "./styles/App.module.scss";
 
 
+import FontendSettingLayout from './components/shared/layout/FontendSettingLayout/FontendSettingLayout'
 function App() {
   return (
     <div className="App">
+      <FontendSettingLayout/>
       <BrowserRouter>
         <Routes>
           <Route path="/signup" element={<SignUpPage />} />

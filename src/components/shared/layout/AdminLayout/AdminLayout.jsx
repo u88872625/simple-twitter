@@ -1,5 +1,5 @@
 import styles from "./AdminLayout.module.scss";
-import AdminSideBar from "../../SideBar/AdminSideBar.jsx";
+import AdminSideBar from "../../../SideBar/AdminSideBar.jsx";
 
 export default function AdminLayout({ children }) {
   return (
