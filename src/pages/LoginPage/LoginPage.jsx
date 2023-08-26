@@ -1,18 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./LoginPage.module.scss";
 import IconLogo from "../../assets/icons/logo.svg";
 import AuthInput from "../../components/AuthInput/AuthInput";
 import AuthBtn from "../../components/shared/shareBtn/AuthBtn";
 import clsx from "clsx";
 import Swal from "sweetalert2";
-import { login } from "../../api/auth";
 import { useNavigate, Link } from "react-router-dom/dist";
+import { useAuth } from "../../contexts/AuthContext";
+// import { login } from "../../api/auth";
 
 const LoginPage = () => {
   const [account, setAccount] = useState("");
   const [password, setPassword] = useState("");
   // 後端錯誤訊息判定
   const [errorMessage, setErrorMessage] = useState("");
+  const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const handleClick = async () => {
@@ -28,11 +30,13 @@ const LoginPage = () => {
       password,
     });
 
-    const { token, success, cause } = response;
+    const token = response.data.token;
+
+    const { success, cause } = response;
 
     if (success) {
       localStorage.setItem("authToken", token);
-      navigate("/Home");
+      // navigate("/Home");
       // 登入成功訊息
       Swal.fire({
         position: "top",
@@ -49,6 +53,12 @@ const LoginPage = () => {
     const passwordErrMsg = cause?.passwordErrMsg || "";
     setErrorMessage(accountErrMsg + " " + passwordErrMsg);
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/home");
+    }
+  }, [navigate, isAuthenticated]);
 
   return (
     <div className={styles.container}>
