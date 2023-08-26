@@ -1,8 +1,10 @@
+
 import React, { useEffect, useState } from "react";
 import styles from "./PopularList.module.scss";
 import IconDefaultAvatar from "../../assets/icons/default-img.svg";
 import FollowBtn from "../shared/shareBtn/FollowBtn";
 import FollowingBtn from "../shared/shareBtn/FollowingBtn";
+
 import { getTopUsers } from "../../api/tweets";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -12,15 +14,18 @@ export default function PopularList() {
   // const { isAuthenticated } = useAuth();
   // const navigate = useNavigate();
 
+
   // useEffect(() => {
   //   const getTopUsersAsync = async () => {
   //     try {
   //       const topUsers = await getTopUsers();
   //       setTopUsers(topUsers.map((topUser) => ({ ...topUser })));
+
   //     } catch (error) {
   //       console.error(error);
   //     }
   //   };
+
 
   //   if (isAuthenticated) {
   //     getTopUsersAsync();
@@ -28,6 +33,7 @@ export default function PopularList() {
   //     navigate("/login");
   //   }
   // }, [navigate, isAuthenticated]);
+
 
   return (
     <div>
@@ -39,6 +45,7 @@ export default function PopularList() {
     </div>
   );
 }
+
 
 function PopularListContent({ topUsers }) {
   return (
