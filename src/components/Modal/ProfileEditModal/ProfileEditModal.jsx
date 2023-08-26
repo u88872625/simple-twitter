@@ -20,25 +20,18 @@ const ProfileEditModal = ({
   onNameChange,
   onIntroChange,
   onSave,
+  show,
+  handleClose,
 }) => {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const [name, setName] = useState("");
   const [introduction, setIntroduction] = useState("");
   return (
     <div className={styles.container}>
-      <Button variant="primary" onClick={handleShow}>
-        Launch static backdrop modal
-      </Button>
       <div className={styles.container}>
         <Modal
           className={styles.modal}
           show={show}
           onHide={handleClose}
-          size="lg"
           centered
         >
           <Modal.Header className={styles.modalHeader}>
