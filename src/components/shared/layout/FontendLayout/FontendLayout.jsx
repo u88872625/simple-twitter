@@ -1,6 +1,6 @@
 import styles from "./FontendLayout.module.scss";
-import FontendSideBar from "../../SideBar/FontendSideBar.jsx";
-import PopularList from "../../PopularList/PopularList";
+import FontendSideBar from "../../../SideBar/FontendSideBar.jsx";
+import PopularList from "../../../PopularList/PopularList";
 
 export default function FontendLayout({children}) {
   return (
