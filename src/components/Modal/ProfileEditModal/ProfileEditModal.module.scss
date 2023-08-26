@@ -1,0 +1,158 @@
+.modal {
+  max-width: 634px;
+  margin-left: 30%;
+}
+
+.modalHeader {
+  height: 56px;
+  padding: 0;
+  border-radius: 14px;
+
+  .headerWrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+  .close {
+    width: 15px;
+    height: 15px;
+    margin-left: 20px;
+    margin-top: 4.5px;
+    cursor: pointer;
+  }
+
+  .text {
+    width: 80%;
+    margin-left: 25px;
+    margin-top: 10px;
+    color: #1c1c1c;
+  }
+
+  .button {
+    position: absolute;
+    right: 16px;
+    width: 64px;
+    height: 40px;
+    background-color: var(--brand);
+    border-radius: 50px;
+    color: white;
+    font-size: 16px;
+    margin-right: 16px;
+  }
+}
+
+.modalBody {
+  width: 100%;
+  padding: 0;
+  height: 553px;
+}
+
+.imageWrapper {
+  position: relative;
+  --bs-modal-padding: 0;
+  .userBanner {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(50%);
+  }
+
+  .avatar {
+    position: absolute;
+    top: 124px;
+    left: 16.13px;
+    width: 140px;
+    height: 140px;
+    border: 4px solid #fff;
+    border-radius: 50%;
+  }
+}
+
+.editPhoto {
+  position: absolute;
+  top: 90px;
+  right: 350px;
+}
+
+.deleteIcon {
+  position: absolute;
+  top: 91px;
+  right: 280px;
+}
+
+.avatarChange {
+  position: absolute;
+  top: 184px;
+  left: 76px;
+}
+
+.bannerChange {
+  position: absolute;
+  z-index: 999;
+  top: 90px;
+  right: 350px;
+  width: 40px;
+  opacity: 0;
+}
+
+.avatarChange {
+  position: absolute;
+  z-index: 999;
+  top: 185px;
+  left: 75px;
+  width: 40px;
+  opacity: 0;
+}
+
+.editAvatarIcon {
+  position: absolute;
+  top: 185px;
+  left: 75px;
+}
+
+// input
+.inputWrapper {
+  position: absolute;
+  top: 281px;
+  left: 16px;
+
+  .nameInput {
+    width: 602px;
+    height: 54px;
+  }
+
+  .introductionInput {
+    width: 602px;
+    height: 147px;
+  }
+}
+
+%errorInput {
+  background-color: var(--error);
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    color: var(--error);
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 500;
+  }
+}
+
+.nameError {
+  @extend %errorInput;
+
+  &::after {
+    content: "字數超出上限！";
+  }
+}
+
+.introError {
+  @extend %errorInput;
+
+  &::after {
+    content: "字數超出上限！";
+  }
+}

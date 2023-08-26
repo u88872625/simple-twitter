@@ -11,6 +11,7 @@ const AuthInput = ({
   onChange,
   dataPage,
   borderMode,
+  inputStyle,
 }) => {
   const [charCount, setCharCount] = useState(value.length);
   let maxChar = 0;
@@ -34,15 +35,15 @@ const AuthInput = ({
   };
 
   return (
-    <div className={styles.inputContainer}>
+    <div className={clsx(styles.inputContainer, inputStyle)}>
       <label className={styles.label}>{label}</label>
-      <input
+      <textarea
         className={styles.input}
         type={type || "text"}
         value={value}
         placeholder={placeholder}
         onChange={(e) => handleInputChange(e.target.value)}
-      ></input>
+      ></textarea>
       <div className={clsx(styles.inputButtomBorder, borderMode)}></div>
       {maxChar && (
         <div className={styles.charCount}>
