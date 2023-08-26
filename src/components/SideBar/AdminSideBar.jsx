@@ -1,5 +1,6 @@
 import styles from "./SideBar.module.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import NavItem from "../shared/NavItem/NavItem.jsx";
 import home from "../../assets/icons/home.svg";
 import homeActive from "../../assets/icons/home-active.svg";
@@ -10,6 +11,19 @@ import logo from "../../assets/icons/logo.svg";
 
 export default function AdminSideBar() {
   const [activeItem, setActiveItem] = useState("推文清單");
+  const location = useLocation();
+
+  // 監聽路由變化更改isActive屬性 即時更新屬性狀態
+  useEffect(() => {
+    const pathname = location.pathname;
+
+    if (pathname === "/admin/main") {
+      setActiveItem("推文清單");
+    }
+    if (pathname === "/admin/users") {
+      setActiveItem("使用者列表");
+    }
+  }, [location]);
 
   const handleItemClick = (itemName) => {
     setActiveItem(itemName);
@@ -26,7 +40,7 @@ export default function AdminSideBar() {
               icon={home}
               activeIcon={homeActive}
               text="推文清單"
-              url="#"
+              path="/admin/main"
               isActive={activeItem === "推文清單"}
               onClick={() => handleItemClick("推文清單")}
             />
@@ -34,7 +48,7 @@ export default function AdminSideBar() {
               icon={userInfo}
               activeIcon={userInfoActive}
               text="使用者列表"
-              url="#"
+              path="/admin/users"
               isActive={activeItem === "使用者列表"}
               onClick={() => handleItemClick("使用者列表")}
             />
@@ -46,7 +60,7 @@ export default function AdminSideBar() {
               icon={logout}
               activeIcon={logout}
               text="登出"
-              url="#"
+              path="/"
               isActive={activeItem === "登出"}
               onClick={() => handleItemClick("登出")}
             />
