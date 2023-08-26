@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import FontendLayout from "../components/shared/layout/FontendLayout/FontendLayout";
 import AddTweet from "../components/AddTweet/AddTweet";
 import TweetContent from "../components/TweetTabs/TweetContent/TweetContent";
+// import { getAllTweets } from "../api/tweets";
 
 const dummyUserTweets = [
   {
@@ -101,18 +102,19 @@ const dummyUserTweets = [
 ];
 
 const HomePage = () => {
-  // const [tweets, setTweets] = useState([]);
+  //   const [tweets, setTweets] = useState([]);
 
-  // useEffect(() => {
-  //   const getTweetsAsync = async () => {
-  //     try {
-  //       const tweets = await getAllTweets();
-  //       setTweets(tweets.map((tweet) => ({ ...tweet })));
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  // }, []);
+  //   useEffect(() => {
+  //     const getTweetsAsync = async () => {
+  //       try {
+  //         const tweets = await getAllTweets();
+  //         setTweets(tweets.map((tweet) => ({ ...tweet })));
+  //       } catch (error) {
+  //         console.error(error);
+  //       }
+  //     };
+  //     getTweetsAsync();
+  //   }, []);
 
   return (
     <div>
