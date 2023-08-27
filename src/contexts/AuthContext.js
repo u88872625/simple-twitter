@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom/dist";
-import { login } from "../api/auth";
+import { login, register } from "../api/auth";
 import { addTweet } from "../api/tweets";
 import { useNavigate } from "react-router-dom/dist";
 import jwt_decode from "jwt-decode";
@@ -66,8 +66,32 @@ export const AuthProvider = ({ children }) => {
       value={{
         isAuthenticated,
         currentUser: payload && {
-          id: payload.id,
+          account: payload.account,
           avatar: payload.avatar,
+        },
+        register: async (data) => {
+          const response = await register({
+            account: data.account,
+            name: data.name,
+            email: data.email,
+            password: data.password,
+            checkPassword: data.checkPassword,
+          });
+          const { success } = response;
+          if (success) {
+            const token = response.data.token;
+            const id = response.data.user.id;
+
+            const tempPayload = jwt_decode(token);
+              setPayload(tempPayload);
+              setIsAuthenticated(true);
+              localStorage.setItem("token", token);
+              localStorage.setItem("userId", id);
+            } else {
+              setPayload(null);
+              setIsAuthenticated(false);
+            }
+            return response;
         },
         login: async (data) => {
           const response = await login({

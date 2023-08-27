@@ -1,17 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "../styles/App.module.scss";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthInput from "../components/AuthInput/AuthInput";
 import AuthBtn from "../components/shared/shareBtn/AuthBtn";
 import logo from "../assets/icons/logo.svg";
-import error from "../assets/icons/error.png"
+import error from "../assets/icons/error.png";
 import clsx from "clsx";
-
-import {register} from '../api/auth.js'
-import Alert from '../components/shared/Alert/Alert'
-import Swal from 'sweetalert2'
-
+import { useAuth } from "../contexts/AuthContext";
+import Alert from "../components/shared/Alert/Alert";
+import Swal from "sweetalert2";
 
 const SignupPage = () => {
   const [account, setAccount] = useState("");
@@ -20,11 +18,13 @@ const SignupPage = () => {
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
   const passwordMatch = password === checkPassword;
-  const [showErrMsg, setShowErrMsg] = useState(null)
+  const [showErrMsg, setShowErrMsg] = useState(null);
+  const navigate = useNavigate();
   // const [showEmptyErr, setShowEmptyErr] = useState(false)
 
+  const { register, isAuthenticated } = useAuth();
 
-  const handleClick = async () =>{
+  const handleSignUpClick = async () => {
     // 清除先前的錯誤狀態
     setShowErrMsg(null);
 
@@ -39,22 +39,24 @@ const SignupPage = () => {
     //   setShowEmptyErr(true)
     //   // return;
     // }
-    
+
     // // 清除先前錯誤狀態
     // setShowEmptyErr(false)
-
-    const { success, token, id, error } = await register({
-
+    // success, token, id, error;
+    const response = await register({
       account,
       name,
       email,
       password,
       checkPassword,
     });
+    // const token = response.data.token;
+    // const userId = response.data.user.id
 
+    const { success } = response;
     if (success) {
-      localStorage.setItem("token", token);
-      localStorage.setItem("userId", id);
+      // localStorage.setItem("token", token);
+      // localStorage.setItem("userId", id);
       Swal.fire({
         title: "註冊成功",
         icon: "success",
@@ -65,23 +67,31 @@ const SignupPage = () => {
       return;
     }
 
-
     if (!success) {
-      const { cause } = error.response.data;
-      const errMsg = [];
-
-      // 取得cause物件返回的屬性名及其值
-      for (const key in cause) {
-        if (cause[key]) {
-          errMsg.push(cause[key]);
-        }
+      if (response.accountErrMsg) {
+        setShowErrMsg(response.accountErrMsg);
       }
-
-      setShowErrMsg(errMsg.join(" "));
+      if (response.nameErrMsg) {
+        setShowErrMsg(response.nameErrMsg);
+      }
+      if (response.emailErrMsg) {
+        setShowErrMsg(response.emailErrMsg);
+      }
+      if (response.passwordErrMsg) {
+        setShowErrMsg(response.passwordErrMsg);
+      }
+      if (response.checkPasswordErrMsg) {
+        setShowErrMsg(response.checkPasswordErrMsg);
+      }
     }
-  }
-    
-    
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/home");
+    }
+  }, [navigate, isAuthenticated]);
+
   return (
     <div className={styles.container}>
       <img className={styles.logo} src={logo} alt="logo" />
@@ -125,7 +135,7 @@ const SignupPage = () => {
           setCheckPassword(checkPasswordInputValue)
         }
       />
-      <AuthBtn text="註冊" onClick={handleClick} />
+      <AuthBtn text="註冊" onClick={handleSignUpClick} />
       <Link to="/login">
         <div className={styles.cancelBtn}>取消</div>
       </Link>
