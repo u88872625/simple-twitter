@@ -45,7 +45,7 @@ function PopularListContent({ topUsers }) {
   return (
     <>
       {topUsers.map((topUser) => {
-        return <PopularListItem topUser={topUser} />;
+        return <PopularListItem key={topUser.id} topUser={topUser} />;
       })}
     </>
   );
@@ -54,7 +54,7 @@ function PopularListContent({ topUsers }) {
 function PopularListItem({ topUser }) {
   const { id, avatar, name, account, isFollowed } = topUser;
   return (
-    <div key={id} className={styles.popularListItem}>
+    <div id={id} className={styles.popularListItem}>
       {/* 暫時使用預設頭像 */}
       <div className={styles.PopularListItemAvatar}>
         <img
