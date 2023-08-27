@@ -51,29 +51,17 @@
     margin-left: 8px;
 
     .popularItemName {
-      width: 77px;
       font-size: 16px;
       font-weight: 700;
       color: var(--grayscale-dark-100);
       line-height: 26px;
-
-      // 文本溢出省略設定
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
     .popularItemAccount {
-      width: 77px;
       font-size: 14px;
       font-weight: 500;
       color: var(--grayscale-dark-70);
       line-height: 22px;
-
-      // 文本溢出省略設定
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
   }
 }

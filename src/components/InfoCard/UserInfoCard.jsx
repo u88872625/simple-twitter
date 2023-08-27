@@ -20,16 +20,15 @@ export default function UserInfoCard({ info }) {
     setShow(true);
   };
 
-  // useEffect(() => {
-  //   if (isEdit) {
-  //     navigate("/signup");
-  //   }
-  // }, [navigate, isEdit]);
+  if(!info){
+    return <div>can't found</div>
+  }
+
 
   return (
     <div className={styles.container}>
       <div className={styles.img}>
-        {info.banner ? (
+        {info && info.banner ? (
           <img className={styles.banner} src={info.banner} alt="banner" />
         ) : (
           <img
