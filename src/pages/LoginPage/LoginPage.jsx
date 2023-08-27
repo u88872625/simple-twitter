@@ -31,12 +31,12 @@ const LoginPage = () => {
     });
 
     const token = response.data.token;
-    const userId = response.data.user.id
+    const userId = response.data.user.id;
 
     const { success, cause } = response;
 
     if (success) {
-      localStorage.setItem("authToken", token);
+      localStorage.setItem("token", token);
       localStorage.setItem("userId", userId);
       // navigate("/Home");
       // 登入成功訊息

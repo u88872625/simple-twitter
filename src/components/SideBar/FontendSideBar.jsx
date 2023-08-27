@@ -2,7 +2,7 @@ import styles from "./SideBar.module.scss";
 import NavItem from "../shared/NavItem/NavItem.jsx";
 import TweetBtn from "../shared/shareBtn/TweetBtn.jsx";
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import home from "../../assets/icons/home.svg";
 import homeActive from "../../assets/icons/home-active.svg";
 import userInfo from "../../assets/icons/userInfo.svg";
@@ -12,15 +12,17 @@ import settingActive from "../../assets/icons/setting-active.svg";
 import logo from "../../assets/icons/logo.svg";
 import logoutIcon from "../../assets/icons/logout.svg";
 import AddTweetModal from "../Modal/AddTweetModal/AddTweetModal";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function FontendSideBar() {
   const [activeItem, setActiveItem] = useState("首頁");
-  const [show, setShow] = useState(false);
-  const { logout } = useAuth();
   const navigate = useNavigate();
+  const { logout, currentUser, addTweet } = useAuth();
+  const [show, setShow] = useState(false);
+  const [tweet, setTweet] = useState("");
+  const [isUpdating, setIsUpdating] = useState(false);
 
+  //  show Modal
   const handleClose = () => setShow(false);
   const handleAddTweet = () => {
     setShow(true);
@@ -32,7 +34,28 @@ export default function FontendSideBar() {
       logout();
       navigate("/login");
     }
+
     setActiveItem(itemName);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      if (isUpdating) return;
+      if (tweet.length > 140) return;
+      if (tweet.trim().length < 1) return;
+      const res = await addTweet({ description: tweet });
+      setIsUpdating(true);
+      //若新增推文成功
+      if (res) {
+        setShow(false);
+        setIsUpdating(false);
+      }
+    } catch (error) {
+      console.error("AddTweeet failed ]", error);
+      setShow(false);
+    }
+
+    console.log(tweet);
   };
 
   const location = useLocation();
@@ -102,7 +125,15 @@ export default function FontendSideBar() {
           </ul>
         </div>
       </div>
-      <AddTweetModal handleClose={handleClose} show={show} />
+      <AddTweetModal
+        handleClose={handleClose}
+        show={show}
+        avatar={currentUser?.avatar}
+        onSubmit={handleSubmit}
+        onChange={(tweetInput) => {
+          setTweet(tweetInput);
+        }}
+      />
     </div>
   );
 }
