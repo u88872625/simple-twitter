@@ -8,33 +8,33 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 export default function PopularList() {
-  // const [topUsers, setTopUsers] = useState("");
-  // const { isAuthenticated } = useAuth();
-  // const navigate = useNavigate();
+  const [topUsers, setTopUsers] = useState([]);
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const getTopUsersAsync = async () => {
-  //     try {
-  //       const topUsers = await getTopUsers();
-  //       setTopUsers(topUsers.map((topUser) => ({ ...topUser })));
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
+  useEffect(() => {
+    const getTopUsersAsync = async () => {
+      try {
+        const topUsers = await getTopUsers();
+        setTopUsers(topUsers.map((topUser) => ({ ...topUser })));
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  //   if (isAuthenticated) {
-  //     getTopUsersAsync();
-  //   } else {
-  //     navigate("/login");
-  //   }
-  // }, [navigate, isAuthenticated]);
+    if (isAuthenticated) {
+      getTopUsersAsync();
+    } else {
+      navigate("/login");
+    }
+  }, [navigate, isAuthenticated]);
 
   return (
     <div>
       <div className={styles.popularList}>
         <p className={styles.popularListTitle}>推薦跟隨</p>
         <div className={styles.popularListLine}></div>
-        {/* <PopularListContent topUsers={topUsers} />; */}
+        <PopularListContent topUsers={topUsers} />
       </div>
     </div>
   );
