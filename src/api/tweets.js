@@ -40,7 +40,8 @@ export const getTopUsers = async () => {
 };
 
 // 發布一則推文
-export const addTweet = async ({ description }) => {
+export const addTweet = async (payload) => {
+  const { description } = payload;
   try {
     const res = await axiosInstance.post(`${baseUrl}/tweets`, {
       description,

@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
 
       setIsTweetUpdated(false);
       // 從 localStorage 取得 token
-      const authToken = localStorage.getItem("authToken");
+      const authToken = localStorage.getItem("token");
       // 如果沒有token 則返回
       if (!authToken) {
         setIsAuthenticated(false);
@@ -69,6 +69,8 @@ export const AuthProvider = ({ children }) => {
           id: payload.id,
           avatar: payload.avatar,
         },
+        isTweetUpdated,
+        setIsTweetUpdated,
         login: async (data) => {
           const response = await login({
             account: data.account,
@@ -80,7 +82,7 @@ export const AuthProvider = ({ children }) => {
             const temPayload = jwt_decode(token);
             setPayload(temPayload);
             setIsAuthenticated(true);
-            localStorage.setItem("authToken", token);
+            localStorage.setItem("token", token);
           } else {
             setPayload(null);
             setIsAuthenticated(false);
@@ -88,12 +90,12 @@ export const AuthProvider = ({ children }) => {
           return response;
         },
         logout: () => {
-          localStorage.removeItem("authToken");
+          localStorage.removeItem("token");
           setPayload(null);
           setIsAuthenticated(false);
         },
         addTweet: async (data) => {
-          const response = await addTweet({ description: data });
+          const response = await addTweet({ description: data.description });
           if (response.data) setIsTweetUpdated(true);
           return response;
         },
