@@ -4,16 +4,10 @@ import styles from "./UserInfoCard.module.scss";
 import SettingBtn from "../shared/shareBtn/SettingBtn";
 import ProfileEditModal from "../Modal/ProfileEditModal/ProfileEditModal";
 import { useState } from "react";
+import defaultAvatar from "../../assets/icons/default-img.svg";
+import defaultBanner from "../../assets/images/bg-user.png";
 
-export default function UserInfoCard({
-  name,
-  account,
-  introduction,
-  avatar,
-  banner,
-  follower,
-  following,
-}) {
+export default function UserInfoCard({ info }) {
   // const [isEdit, setIsEdit] = useState(false)
   // const navigate = useNavigate()
 
@@ -35,42 +29,46 @@ export default function UserInfoCard({
   return (
     <div className={styles.container}>
       <div className={styles.img}>
-        <img
-          className={styles.banner}
-          src="https://images.unsplash.com/photo-1580436541340-36b8d0c60bae"
-          alt="banner"
-        />
-        <img
-          className={styles.avatar}
-          src="https://pic.baike.soso.com/ugc/baikepic2/1284/20230320164402-1468310604_jpeg_1131_754_187393.jpg/1284"
-          alt="avatar"
-        />
+        {info.banner ? (
+          <img className={styles.banner} src={info.banner} alt="banner" />
+        ) : (
+          <img
+            className={styles.banner}
+            src={defaultBanner}
+            alt="defalt-banner"
+          />
+        )}
+        {info.avatar ? (
+          <img className={styles.avatar} src={info.avatar} alt="avatar" />
+        ) : (
+          <img
+            className={styles.avatar}
+            src={defaultAvatar}
+            alt="defalt-avatar"
+          />
+        )}
         <div className={styles.editBtn}>
           <SettingBtn text="編輯個人資料" onClick={handleEditModalOpen} />
         </div>
       </div>
       <div className={styles.userInfo}>
-        <h5 className={styles.userName}>John Doe</h5>
-        <p className={styles.userAccount}>@heyjohn</p>
+        <h5 className={styles.userName}>{info.name}</h5>
+        <p className={styles.userAccount}>@{info.account}</p>
       </div>
-      <div className={styles.introduction}>
-        Passionate individual with expertise in [Field]. Skilled in [Skills]
-        with a record of [Achievements]. Enthusiastic problem solver, eager to
-        collaborate.
-      </div>
+      <div className={styles.introduction}>{info.introcuction}</div>
       <div className={styles.showFollow}>
         <p className={styles.showfolloing}>
-          34個<span className={styles.sub}>跟隨中</span>
+          {info.followingNum}個<span className={styles.sub}>跟隨中</span>
         </p>
         <p className={styles.showfollowers}>
-          59位<span className={styles.sub}>跟隨者</span>
+          {info.followerNum}位<span className={styles.sub}>跟隨者</span>
         </p>
       </div>
       <ProfileEditModal
         show={show}
         handleClose={handleClose}
-        avatar={avatar}
-        userBanner={banner}
+        avatar={info.avatar}
+        userBanner={info.banner}
       />
     </div>
   );
