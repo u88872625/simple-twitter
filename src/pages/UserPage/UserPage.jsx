@@ -44,7 +44,7 @@ const UserPage = () => {
           setLoading(false); //當取得資料後變回false
         } catch (error) {
           console.error(error);
-        }
+        } 
       };
       getUserInfoAsync();
     }
@@ -101,31 +101,35 @@ const UserPage = () => {
         navigate('/login')
       }
     }, [navigate, isAuthenticated]);
+
+
   return (
-    // <fragment>
     <FontendLayout>
-      <div className={styles.header}>
-        <img className={styles.arrow} src={arrow} alt="arrow" />
-        <div className={styles.text}>
-          <h5 className={styles.name}>{userInfo?.name}</h5>
-          <span className={styles.sub}>{userTweets.length}推文</span>
-        </div>
-      </div>
-      <div className={styles.infoCard}>
-        <UserInfoCard info={userInfo} />
-      </div>
-      <div className={styles.tabs}>
-        {!loading && (
-          <TweetTabs
-            tweets={userTweets}
-            replies={userReplied}
-            likes={userLike}
-            onClick={handleLikeClick}
-          />
-        )}
-      </div>
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          <div className={styles.header}>
+            <img className={styles.arrow} src={arrow} alt="arrow" />
+            <div className={styles.text}>
+              <h5 className={styles.name}>{userInfo?.name}</h5>
+              <span className={styles.sub}>{userTweets.length}推文</span>
+            </div>
+          </div>
+          <div className={styles.infoCard}>
+            <UserInfoCard info={userInfo} />
+          </div>
+          <div className={styles.tabs}>
+            <TweetTabs
+              tweets={userTweets}
+              replies={userReplied}
+              likes={userLike}
+              onClick={handleLikeClick}
+            />
+          </div>
+        </>
+      )}
     </FontendLayout>
-    // </fragment>
   );
 };
 export default UserPage;

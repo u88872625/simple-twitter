@@ -21,7 +21,7 @@ export default function UserInfoCard({ info }) {
   };
 
   if(!info){
-    return <div>can't found</div>
+    return <div>Loading...</div>
   }
 
 
@@ -57,10 +57,10 @@ export default function UserInfoCard({ info }) {
       <div className={styles.introduction}>{info.introcuction}</div>
       <div className={styles.showFollow}>
         <p className={styles.showfolloing}>
-          {info.followingNum}個<span className={styles.sub}>跟隨中</span>
+          {info.followingsNum}個<span className={styles.sub}>跟隨中</span>
         </p>
         <p className={styles.showfollowers}>
-          {info.followerNum}位<span className={styles.sub}>跟隨者</span>
+          {info.followersNum}位<span className={styles.sub}>跟隨者</span>
         </p>
       </div>
       <ProfileEditModal

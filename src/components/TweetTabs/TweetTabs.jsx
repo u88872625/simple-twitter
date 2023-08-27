@@ -4,7 +4,7 @@ import ReplyContent from "./ReplyContent/ReplyContent.jsx";
 import LikeContent from "./LikeContent/LikeContent.jsx";
 import styles from "./TweetTabs.module.scss";
 
-export default function TweetTabs({ tweets, replies, like, onClick }) {
+export default function TweetTabs({ tweets, replies, likes, onClick }) {
   const [activeTab, setActiveTab] = useState("tweets");
 
   // 監聽點擊哪個Tab
@@ -58,7 +58,7 @@ export default function TweetTabs({ tweets, replies, like, onClick }) {
         )}
         {activeTab === "replies" && <ReplyContent replies={replies} />}
         {activeTab === "likes" && (
-          <LikeContent likes={like} onClick={onClick} />
+          <LikeContent likes={likes} onClick={onClick} />
         )}
       </div>
     </>
