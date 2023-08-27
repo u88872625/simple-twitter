@@ -8,7 +8,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("token");
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
@@ -40,8 +40,7 @@ export const getTopUsers = async () => {
 };
 
 // 發布一則推文
-export const addTweet = async (payload) => {
-  const { description } = payload;
+export const addTweet = async ({ description }) => {
   try {
     const res = await axiosInstance.post(`${baseUrl}/tweets`, {
       description,
