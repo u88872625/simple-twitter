@@ -75,6 +75,11 @@ export const AuthProvider = ({ children }) => {
           }
           return response;
         },
+        logout: () => {
+          localStorage.removeItem("authToken");
+          setPayload(null);
+          setIsAuthenticated(false);
+        },
       }}
     >
       {children}
