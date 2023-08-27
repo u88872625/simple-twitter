@@ -54,7 +54,7 @@ export default function UserInfoCard({ info }) {
         <h5 className={styles.userName}>{info.name}</h5>
         <p className={styles.userAccount}>@{info.account}</p>
       </div>
-      <div className={styles.introduction}>{info.introcuction}</div>
+      <div className={styles.introduction}>{info.introduction}</div>
       <div className={styles.showFollow}>
         <p className={styles.showfolloing}>
           {info.followingsNum}個<span className={styles.sub}>跟隨中</span>
