@@ -38,3 +38,15 @@ export const getTopUsers = async () => {
     console.error("[Get TopUserfollowers failed]", error);
   }
 };
+
+// 發布一則推文
+export const addTweet = async ({ description }) => {
+  try {
+    const res = await axiosInstance.post(`${baseUrl}/tweets`, {
+      description,
+    });
+    return res.data;
+  } catch (error) {
+    console.error("[Add Tweet failed]: ", error);
+  }
+};

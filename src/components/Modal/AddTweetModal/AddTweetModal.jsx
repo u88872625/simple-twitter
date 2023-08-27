@@ -17,16 +17,8 @@ const AddTweetModal = ({
   show,
   onSubmit,
 }) => {
-  // const [show, setShow] = useState(false);
-
-  // const handleClose = () => setShow(false);
-  // const handleShow = () => setShow(true);
-
   return (
     <div>
-      {/* <Button className={styles.test} variant="primary" onClick={handleShow}>
-        Launch demo modal
-      </Button> */}
       <div className={styles.container}>
         <Modal
           className={styles.modal}

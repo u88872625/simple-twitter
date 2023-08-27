@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom/dist";
 import { login } from "../api/auth";
-import { getUser } from "../api/tweets";
+import { addTweet } from "../api/tweets";
 import { useNavigate } from "react-router-dom/dist";
 import jwt_decode from "jwt-decode";
 
@@ -18,10 +18,20 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [payload, setPayload] = useState(null);
+  // 使用者自己的Tweet更新
+  const [isTweetUpdated, setIsTweetUpdated] = useState(false);
   const { pathname } = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
     const checkTokenIsValid = async () => {
+      if (
+        pathname === "/login" ||
+        pathname === "/signup" ||
+        pathname === "/admin"
+      )
+        return;
+
+      setIsTweetUpdated(false);
       // 從 localStorage 取得 token
       const authToken = localStorage.getItem("authToken");
       // 如果沒有token 則返回
@@ -49,7 +59,6 @@ export const AuthProvider = ({ children }) => {
       }
     };
     checkTokenIsValid();
-    console.log("AuthProvider 重新渲染");
   }, [pathname, navigate]);
 
   return (
@@ -73,6 +82,16 @@ export const AuthProvider = ({ children }) => {
             setPayload(null);
             setIsAuthenticated(false);
           }
+          return response;
+        },
+        logout: () => {
+          localStorage.removeItem("authToken");
+          setPayload(null);
+          setIsAuthenticated(false);
+        },
+        addTweet: async (data) => {
+          const response = await addTweet({ description: data });
+          if (response.data) setIsTweetUpdated(true);
           return response;
         },
       }}

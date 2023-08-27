@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import styles from "./PopularList.module.scss";
 import IconDefaultAvatar from "../../assets/icons/default-img.svg";
@@ -10,48 +9,43 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 export default function PopularList() {
-  // const [topUsers, setTopUsers] = useState("");
-  // const { isAuthenticated } = useAuth();
-  // const navigate = useNavigate();
+  const [topUsers, setTopUsers] = useState([]);
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const getTopUsersAsync = async () => {
+      try {
+        const topUsers = await getTopUsers();
+        setTopUsers(topUsers.map((topUser) => ({ ...topUser })));
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  // useEffect(() => {
-  //   const getTopUsersAsync = async () => {
-  //     try {
-  //       const topUsers = await getTopUsers();
-  //       setTopUsers(topUsers.map((topUser) => ({ ...topUser })));
-
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-
-
-  //   if (isAuthenticated) {
-  //     getTopUsersAsync();
-  //   } else {
-  //     navigate("/login");
-  //   }
-  // }, [navigate, isAuthenticated]);
-
+    if (isAuthenticated) {
+      getTopUsersAsync();
+    } else {
+      navigate("/login");
+    }
+  }, [navigate, isAuthenticated]);
 
   return (
     <div>
       <div className={styles.popularList}>
         <p className={styles.popularListTitle}>推薦跟隨</p>
         <div className={styles.popularListLine}></div>
-        {/* <PopularListContent topUsers={topUsers} />; */}
+        <PopularListContent topUsers={topUsers} />
       </div>
     </div>
   );
 }
 
-
 function PopularListContent({ topUsers }) {
   return (
     <>
       {topUsers.map((topUser) => {
-        return <PopularListItem topUser={topUser} />;
+        return <PopularListItem key={topUser.id} topUser={topUser} />;
       })}
     </>
   );
@@ -60,7 +54,7 @@ function PopularListContent({ topUsers }) {
 function PopularListItem({ topUser }) {
   const { id, avatar, name, account, isFollowed } = topUser;
   return (
-    <div key={id} className={styles.popularListItem}>
+    <div id={id} className={styles.popularListItem}>
       {/* 暫時使用預設頭像 */}
       <div className={styles.PopularListItemAvatar}>
         <img

@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const [tweets, setTweets] = useState([]);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, currentUser } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,11 +29,10 @@ const HomePage = () => {
     }
   }, [navigate, isAuthenticated]);
 
-
   return (
     <div>
       <FontendLayout>
-        <AddTweet />
+        <AddTweet avatar={currentUser?.avatar} />
         <TweetContent tweets={tweets} />
       </FontendLayout>
     </div>
