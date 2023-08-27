@@ -2,6 +2,7 @@ import styles from "./TweetItem.module.scss";
 import reply from "../../assets/icons/reply.svg";
 import like from "../../assets/icons/like.svg";
 import likeFilled from "../../assets/icons/like-filled.svg";
+import defaultAvatar from "../../assets/icons/default-img.svg";
 import { useState } from "react";
 
 export default function TweetItem({ tweet, onClick }) {
@@ -14,30 +15,43 @@ export default function TweetItem({ tweet, onClick }) {
     setIsReply(true);
   };
 
+  // 追蹤哪個貼文被按讚
+  const handleLikeClick = () => {
+    onClick(tweet.id);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        <img className={styles.avatar} src={avatar} alt="avatar" />
+        {tweet.User.avatar ? (
+          <img className={styles.avatar} src={tweet.User.avatar} alt="avatar" />
+        ) : (
+          <img
+            className={styles.avatar}
+            src={defaultAvatar}
+            alt="defalt-avatar"
+          />
+        )}
         <div className={styles.tweet}>
           <div className={styles.title}>
-            <p className={styles.name}>{name}</p>
+            <p className={styles.name}>{tweet.User.name}</p>
             <p className={styles.acount}>
-              @{account} · {createdAt}
+              @{tweet.User.account} · {tweet.fromNow}
             </p>
           </div>
-          <p className={styles.text}>{description}</p>
+          <p className={styles.text}>{tweet.description}</p>
           <div className={styles.bottom}>
             <div className={styles.reply} onClick={handleReplyClick}>
               <img src={reply} alt="num-of-replies" />
-              <span>{repliesNum}</span>
+              <span>{tweet.repliesNum}</span>
             </div>
-            <div className={styles.like} onClick={onClick}>
-              {isLiked ? (
+            <div className={styles.like} onClick={handleLikeClick}>
+              {tweet.isLiked ? (
                 <img src={likeFilled} alt="like-fill" />
               ) : (
                 <img src={like} alt="like" />
               )}
-              <span>{likesNum}</span>
+              <span>{tweet.likesNum}</span>
             </div>
           </div>
         </div>
