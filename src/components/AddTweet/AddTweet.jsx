@@ -4,14 +4,14 @@ import ReplyBtn from "../shared/shareBtn/ReplyBtn";
 import avatarUser from "../../assets/images/avater-user.png";
 import clsx from "clsx";
 
-const AddTweet = ({ value, onChange, inputStyle }) => {
+const AddTweet = ({ avatar, value, onChange, inputStyle }) => {
   return (
     <div className={styles.AddTweetContainer}>
       <div className={styles.title}>
         <h4>首頁</h4>
       </div>
       <div className={styles.AddTweet}>
-        <img className={styles.avatar} src={avatarUser} />
+        <img className={styles.avatar} src={avatar ? avatar : avatarUser} />
         <textarea
           className={clsx(styles.input, inputStyle)}
           placeholder="有什麼新鮮事?"

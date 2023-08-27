@@ -65,7 +65,10 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         isAuthenticated,
-        // currentUser,
+        currentUser: payload && {
+          id: payload.id,
+          avatar: payload.avatar,
+        },
         login: async (data) => {
           const response = await login({
             account: data.account,
