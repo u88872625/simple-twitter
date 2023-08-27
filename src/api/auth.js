@@ -62,6 +62,15 @@ export const register = async ({
     return data;
   } catch (error) {
     console.error("[Register Failed]:", error);
-    return { success: false, error };
+
+    if (error.response?.data?.cause) {
+      const { cause: causeData } = error.response.data;
+      return {
+        success: false,
+        ...causeData,
+      };
+    } else {
+      return { success: false };
+    }
   }
 };
