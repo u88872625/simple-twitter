@@ -3,6 +3,7 @@ import styles from "./PopularList.module.scss";
 import IconDefaultAvatar from "../../assets/icons/default-img.svg";
 import FollowBtn from "../shared/shareBtn/FollowBtn";
 import FollowingBtn from "../shared/shareBtn/FollowingBtn";
+
 import { getTopUsers } from "../../api/tweets";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
