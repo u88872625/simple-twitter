@@ -43,7 +43,7 @@ const SignupPage = () => {
     // // 清除先前錯誤狀態
     // setShowEmptyErr(false)
 
-    const { success, token, error } = await register({
+    const { success, token, id, error } = await register({
 
       account,
       name,
@@ -54,6 +54,7 @@ const SignupPage = () => {
 
     if (success) {
       localStorage.setItem("token", token);
+      localStorage.setItem("userId", id);
       Swal.fire({
         title: "註冊成功",
         icon: "success",

@@ -27,7 +27,7 @@ function App() {
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/home" element={<HomePage />} />
-            <Route path="/:username" element={<UserPage />} />
+            <Route path="/:id" element={<UserPage />} />
             <Route path="/settings" element={<SettingPage />} />
             {/* <Route path="/settings/profile" element={<Modal />} />  */}
             <Route path="/:username/replies" element={<TweetTabs />} />

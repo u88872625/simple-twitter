@@ -21,13 +21,6 @@ export const AuthProvider = ({ children }) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
-    //登入註冊頁面皆不需要token，避免不能換頁
-    if (
-      pathname === "/login" ||
-      pathname === "/signup" ||
-      pathname === "/admin"
-    )
-      return;
     const checkTokenIsValid = async () => {
       // 從 localStorage 取得 token
       const authToken = localStorage.getItem("authToken");
@@ -81,11 +74,6 @@ export const AuthProvider = ({ children }) => {
             setIsAuthenticated(false);
           }
           return response;
-        },
-        logout: () => {
-          localStorage.removeItem("authToken");
-          setPayload(null);
-          setIsAuthenticated(false);
         },
       }}
     >

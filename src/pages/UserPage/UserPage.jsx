@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {getUserInfo, getUserTweet,getUserReplied,getUserLike} from '../../api/user'
 import {useAuth} from '../../contexts/AuthContext'
 import styles from "./UserPage.module.scss";
@@ -17,6 +17,8 @@ const UserPage = () => {
   const [loading, setLoading] = useState(true)
   const {isAuthenticated} = useAuth()
   const navigate=useNavigate()
+  // const {account} = useParams() //取得用戶account反映在路徑上
+
   // 更新對應推文的like數 後續需要把變動傳回後端
   const handleLikeClick = (tweetId) => {
     const newTweet = userTweets.map((tweet) => {
@@ -32,84 +34,102 @@ const UserPage = () => {
     setUserTweets(newTweet)
   };
   useEffect(()=>{
-    const getUserInfoAsync = async()=>{
-      try {
-        const userInfo = await getUserInfo();
-        setUserInfo(userInfo);
-        setLoading(false) //當取得資料後變回false
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getUserInfoAsync()
+    const userId = localStorage.getItem("userId");
+    if (userId) {
+      const getUserInfoAsync = async () => {
+        try {
+          const userInfo = await getUserInfo(userId);
+          console.log("User Info:", userInfo); 
+          setUserInfo(userInfo);
+          setLoading(false); //當取得資料後變回false
+        } catch (error) {
+          console.error(error);
+        } 
+      };
+      getUserInfoAsync();
+    }
   },[])
   useEffect(() => {
-    const getUserTweetAsync = async () => {
-      try {
-        const userTweets = await getUserTweet();
-        setUserTweets(userTweets);
-        setLoading(false) //當取得推文後變回false
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getUserTweetAsync();
+    const userId = localStorage.getItem("userId");
+    if (userId) {
+      const getUserTweetAsync = async () => {
+        try {
+          const userTweets = await getUserTweet(userId);
+          setUserTweets(userTweets);
+          setLoading(false); //當取得推文後變回false
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      getUserTweetAsync();
+    }
   }, []);
   useEffect(() =>{
-    const getUserRepliedAsync = async () =>{
+    const userId = localStorage.getItem("userId");
+    if (userId) {
+      const getUserRepliedAsync = async () => {
       try {
-        const userReplied = await getUserReplied();
+        const userReplied = await getUserReplied(userId);
         setUserReplied(userReplied);
-        setLoading(false) //當取得推文後變回false
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getUserRepliedAsync();
-  },[])
-  useEffect(() => {
-    const getUserLikeAsync = async () => {
-      try {
-        const userLike = await getUserLike();
-        setUserLike(userLike);
         setLoading(false); //當取得推文後變回false
       } catch (error) {
         console.error(error);
       }
     };
-    getUserLikeAsync();
+    getUserRepliedAsync();}
+    
+  },[])
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    if (userId) {
+      const getUserLikeAsync = async () => {
+        try {
+          const userLike = await getUserLike(userId);
+          setUserLike(userLike);
+          setLoading(false); //當取得推文後變回false
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      getUserLikeAsync();
+    }
+    
   }, []);
-  // // 驗證token是否存在
+  //  驗證token是否存在
     useEffect(() => {
       if (!isAuthenticated) {
         navigate('/login')
       }
     }, [navigate, isAuthenticated]);
+
+
   return (
-    // <fragment>
     <FontendLayout>
-      <div className={styles.header}>
-        <img className={styles.arrow} src={arrow} alt="arrow" />
-        <div className={styles.text}>
-          <h5 className={styles.name}>John Doe</h5>
-          <span className={styles.sub}>25推文</span>
-        </div>
-      </div>
-      <div className={styles.infoCard}>
-        <UserInfoCard info={userInfo}/>
-      </div>
-      <div className={styles.tabs}>
-        {!loading && (
-          <TweetTabs
-            tweets={userTweets}
-            replies={userReplied}
-            likes={userLike}
-            onClick={handleLikeClick}
-          />
-        )}
-      </div>
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          <div className={styles.header}>
+            <img className={styles.arrow} src={arrow} alt="arrow" />
+            <div className={styles.text}>
+              <h5 className={styles.name}>{userInfo?.name}</h5>
+              <span className={styles.sub}>{userTweets.length}推文</span>
+            </div>
+          </div>
+          <div className={styles.infoCard}>
+            <UserInfoCard info={userInfo} />
+          </div>
+          <div className={styles.tabs}>
+            <TweetTabs
+              tweets={userTweets}
+              replies={userReplied}
+              likes={userLike}
+              onClick={handleLikeClick}
+            />
+          </div>
+        </>
+      )}
     </FontendLayout>
-    // </fragment>
   );
 };
 export default UserPage;

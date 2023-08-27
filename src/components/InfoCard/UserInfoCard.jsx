@@ -20,16 +20,15 @@ export default function UserInfoCard({ info }) {
     setShow(true);
   };
 
-  // useEffect(() => {
-  //   if (isEdit) {
-  //     navigate("/signup");
-  //   }
-  // }, [navigate, isEdit]);
+  if(!info){
+    return <div>Loading...</div>
+  }
+
 
   return (
     <div className={styles.container}>
       <div className={styles.img}>
-        {info.banner ? (
+        {info && info.banner ? (
           <img className={styles.banner} src={info.banner} alt="banner" />
         ) : (
           <img
@@ -58,10 +57,10 @@ export default function UserInfoCard({ info }) {
       <div className={styles.introduction}>{info.introcuction}</div>
       <div className={styles.showFollow}>
         <p className={styles.showfolloing}>
-          {info.followingNum}個<span className={styles.sub}>跟隨中</span>
+          {info.followingsNum}個<span className={styles.sub}>跟隨中</span>
         </p>
         <p className={styles.showfollowers}>
-          {info.followerNum}位<span className={styles.sub}>跟隨者</span>
+          {info.followersNum}位<span className={styles.sub}>跟隨者</span>
         </p>
       </div>
       <ProfileEditModal

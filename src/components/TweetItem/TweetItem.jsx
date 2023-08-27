@@ -7,7 +7,7 @@ import { useState } from "react";
 
 export default function TweetItem({ tweet, onClick }) {
   let { name, account, avatar } = tweet.User;
-  const { id, UserId, description, createdAt, repliesNum, likesNum, isLiked } =
+  const { id, UserId, description, createdAt, repliesNum, likesNum, isLiked, fromNow } =
     tweet;
   const [isReply, setIsReply] = useState(false);
 
@@ -17,14 +17,14 @@ export default function TweetItem({ tweet, onClick }) {
 
   // 追蹤哪個貼文被按讚
   const handleLikeClick = () => {
-    onClick(tweet.id);
+    onClick(id);
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        {tweet.User.avatar ? (
-          <img className={styles.avatar} src={tweet.User.avatar} alt="avatar" />
+        {avatar ? (
+          <img className={styles.avatar} src={avatar} alt="avatar" />
         ) : (
           <img
             className={styles.avatar}
@@ -34,24 +34,24 @@ export default function TweetItem({ tweet, onClick }) {
         )}
         <div className={styles.tweet}>
           <div className={styles.title}>
-            <p className={styles.name}>{tweet.User.name}</p>
+            <p className={styles.name}>{name}</p>
             <p className={styles.acount}>
-              @{tweet.User.account} · {tweet.fromNow}
+              @{account} · {fromNow}
             </p>
           </div>
-          <p className={styles.text}>{tweet.description}</p>
+          <p className={styles.text}>{description}</p>
           <div className={styles.bottom}>
             <div className={styles.reply} onClick={handleReplyClick}>
               <img src={reply} alt="num-of-replies" />
-              <span>{tweet.repliesNum}</span>
+              <span>{repliesNum}</span>
             </div>
             <div className={styles.like} onClick={handleLikeClick}>
-              {tweet.isLiked ? (
+             {isLiked ? (
                 <img src={likeFilled} alt="like-fill" />
               ) : (
                 <img src={like} alt="like" />
               )}
-              <span>{tweet.likesNum}</span>
+              <span>{likesNum}</span>
             </div>
           </div>
         </div>
