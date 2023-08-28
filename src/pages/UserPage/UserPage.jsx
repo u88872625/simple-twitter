@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {getUserInfo, getUserTweet,getUserReplied,getUserLike} from '../../api/user'
+import{getTopTweet} from '../../api/tweets'
 import {useAuth} from '../../contexts/AuthContext'
 import styles from "./UserPage.module.scss";
 import FontendLayout from "../../components/shared/layout/FontendLayout/FontendLayout.jsx"
@@ -19,6 +20,12 @@ const UserPage = () => {
   const navigate=useNavigate()
   // const {account} = useParams() //取得用戶account反映在路徑上
 
+
+  // 追蹤單一貼文點擊
+  const handleTweetClick = async(id)=>{
+      navigate("/status/${id}");
+  }
+
   // 更新對應推文的like數 後續需要把變動傳回後端
   const handleLikeClick = (tweetId) => {
     const newTweet = userTweets.map((tweet) => {
@@ -33,6 +40,7 @@ const UserPage = () => {
     });
     setUserTweets(newTweet)
   };
+
   useEffect(()=>{
     const userId = localStorage.getItem("userId");
     if (userId) {
@@ -125,6 +133,7 @@ const UserPage = () => {
               replies={userReplied}
               likes={userLike}
               onClick={handleLikeClick}
+              onTweetClick={handleTweetClick}
             />
           </div>
         </>

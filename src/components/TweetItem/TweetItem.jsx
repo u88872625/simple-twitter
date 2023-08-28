@@ -5,11 +5,12 @@ import likeFilled from "../../assets/icons/like-filled.svg";
 import defaultAvatar from "../../assets/icons/default-img.svg";
 import { useState } from "react";
 
-export default function TweetItem({ tweet, onClick }) {
+export default function TweetItem({ tweet, onClick,onTweetClick }) {
   let { name, account, avatar } = tweet.User;
   const { id, UserId, description, createdAt, repliesNum, likesNum, isLiked, fromNow } =
     tweet;
   const [isReply, setIsReply] = useState(false);
+
 
   const handleReplyClick = () => {
     setIsReply(true);
@@ -21,7 +22,7 @@ export default function TweetItem({ tweet, onClick }) {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onClick={()=>{onTweetClick?.(id)}}>
       <div className={styles.wrapper}>
         {avatar ? (
           <img className={styles.avatar} src={avatar} alt="avatar" />

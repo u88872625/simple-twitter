@@ -50,3 +50,23 @@ export const addTweet = async ({ description }) => {
     console.error("[Add Tweet failed]: ", error);
   }
 };
+
+// 單一貼文
+export const getTopTweet = async(id)=>{
+  try{
+    const res = await axios.get(`${baseUrl}/tweets/${id}`)
+    return res.data
+  }catch (error){
+    console.error("[Get TopTweet failed]: ", error)
+  }
+}
+
+// 單一貼文的所有回覆
+export const getTopTweetReplies = async(id)=>{
+  try{
+    const res= await axios.get(`${baseUrl}/tweets/${id}/replies`)
+    return res.data
+  }catch(error){
+    console.error("[Get TopTweetReplies failed]: ", error);
+  }
+}

@@ -16,13 +16,14 @@ import FollowTabs from "./components/FollowTabs/FollowTabs";
 import "./styles/App.module.scss";
 import { AuthProvider } from "./contexts/AuthContext";
 
-import FontendSettingLayout from "./components/shared/layout/FontendSettingLayout/FontendSettingLayout";
+
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <AuthProvider>
+          <StatusPage />
           <Routes>
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
@@ -36,7 +37,7 @@ function App() {
             <Route path="/:username/followering" element={<FollowTabs />} />
             <Route path="/compose" element={<AddTweet />} />
             {/* <Route path="/compose" element={<Modal />} /> */}
-            <Route path="/:username/status/:id" element={<StatusPage />} />
+            <Route path="/status/:id" element={<StatusPage />} />
             <Route path="/admin" element={<AdminLoginPage />} />
             <Route path="/admin/main" element={<AdminMainPage />} />
             <Route path="/admin/users" element={<AdminUsersPage />} />
