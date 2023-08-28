@@ -13,6 +13,7 @@ import logo from "../../assets/icons/logo.svg";
 import logoutIcon from "../../assets/icons/logout.svg";
 import AddTweetModal from "../Modal/AddTweetModal/AddTweetModal";
 import { useAuth } from "../../contexts/AuthContext";
+import Swal from "sweetalert2";
 
 export default function FontendSideBar() {
   const [activeItem, setActiveItem] = useState("首頁");
@@ -39,16 +40,26 @@ export default function FontendSideBar() {
   };
 
   const handleSubmit = async () => {
+    // 按下推文時跳出loading提示
+    Swal.fire({
+      title: "推文中...",
+      allowOutsideClick: false,
+      showConfirmButton: false,
+    });
     try {
       if (isUpdating) return;
       if (tweet.length > 140) return;
       if (tweet.trim().length < 1) return;
       const res = await addTweet({ description: tweet });
+
       setIsUpdating(true);
+
       //若新增推文成功
       if (res) {
         setShow(false);
         setIsUpdating(false);
+
+        // 畫面自動重新整理
         window.location.reload();
       }
     } catch (error) {
