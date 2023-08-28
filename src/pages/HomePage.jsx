@@ -5,12 +5,13 @@ import TweetContent from "../components/TweetTabs/TweetContent/TweetContent";
 
 import { getAllTweets } from "../api/tweets";
 import { useAuth } from "../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const HomePage = () => {
   const [tweets, setTweets] = useState([]);
   const { isAuthenticated, currentUser } = useAuth();
   const navigate = useNavigate();
+  // const{account} = useParams()
 
   useEffect(() => {
     const getTweetsAsync = async () => {

@@ -23,7 +23,8 @@ const UserPage = () => {
 
   // 追蹤單一貼文點擊
   const handleTweetClick = async(id)=>{
-      navigate("/status/${id}");
+    console.log('tweetid:',id)
+      navigate(`/status/${id}`);
   }
 
   // 更新對應推文的like數 後續需要把變動傳回後端
@@ -49,13 +50,14 @@ const UserPage = () => {
           const userInfo = await getUserInfo(userId);
           console.log("User Info:", userInfo); 
           setUserInfo(userInfo);
-          setLoading(false); //當取得資料後變回false
         } catch (error) {
           console.error(error);
-        } 
+        } finally{
+          setLoading(false); //當取得資料後變回false
       };
-      getUserInfoAsync();
     }
+    getUserInfoAsync();
+  }
   },[])
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -64,9 +66,10 @@ const UserPage = () => {
         try {
           const userTweets = await getUserTweet(userId);
           setUserTweets(userTweets);
-          setLoading(false); //當取得推文後變回false
         } catch (error) {
           console.error(error);
+        } finally {
+          setLoading(false); //當取得資料後變回false
         }
       };
       getUserTweetAsync();
@@ -76,14 +79,15 @@ const UserPage = () => {
     const userId = localStorage.getItem("userId");
     if (userId) {
       const getUserRepliedAsync = async () => {
-      try {
-        const userReplied = await getUserReplied(userId);
-        setUserReplied(userReplied);
-        setLoading(false); //當取得推文後變回false
-      } catch (error) {
-        console.error(error);
-      }
-    };
+        try {
+          const userReplied = await getUserReplied(userId);
+          setUserReplied(userReplied);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoading(false); //當取得資料後變回false
+        }
+      };
     getUserRepliedAsync();}
     
   },[])
@@ -94,9 +98,10 @@ const UserPage = () => {
         try {
           const userLike = await getUserLike(userId);
           setUserLike(userLike);
-          setLoading(false); //當取得推文後變回false
         } catch (error) {
           console.error(error);
+        } finally {
+          setLoading(false); //當取得資料後變回false
         }
       };
       getUserLikeAsync();

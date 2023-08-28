@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import {
   SignUpPage,
   LoginPage,
@@ -19,16 +19,17 @@ import { AuthProvider } from "./contexts/AuthContext";
 
 
 function App() {
+
   return (
     <div className="App">
       <BrowserRouter>
         <AuthProvider>
-          <StatusPage />
           <Routes>
+            <Route path="/" element={<HomePage />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/home" element={<HomePage />} />
-            <Route path="/:id" element={<UserPage />} />
+            <Route path="/:account" element={<UserPage />} />
             <Route path="/settings" element={<SettingPage />} />
             {/* <Route path="/settings/profile" element={<Modal />} />  */}
             <Route path="/:username/replies" element={<TweetTabs />} />

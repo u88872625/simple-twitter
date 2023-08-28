@@ -13,36 +13,34 @@ const StatusPage = () => {
   const { id } = useParams();
   const [topTweet, setTopTweet] = useState(null);
   const [topTweetReplies, setTopTweetReplies] = useState(null);
- const navigate = useNavigate();
+  const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
 
-  // 取得貼文
+  // 取得貼文和所有回覆
   useEffect(() => {
     const userId = localStorage.getItem("userId");
     if (userId) {
       const getTopTweetAsync = async () => {
         try {
           const res = await getTopTweet(id);
-          setTopTweet(res.data);
+          console.log(res);
+          setTopTweet(res);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      const getTopTweetRepliesAsync = async () => {
+        try {
+          const res = await getTopTweetReplies(id);
+          console.log(res);
+          setTopTweetReplies(res);
         } catch (error) {
           console.error(error);
         }
       };
       getTopTweetAsync();
+      getTopTweetRepliesAsync();
     }
-  }, [id]);
-
-  // 取得所有回覆
-  useEffect(() => {
-    const getTopTweetRepliesAsync = async () => {
-      try {
-        const res = await getTopTweetReplies(id);
-        setTopTweetReplies(res.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getTopTweetRepliesAsync();
   }, [id]);
 
   //  驗證token是否存在

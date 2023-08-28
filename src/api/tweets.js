@@ -54,7 +54,8 @@ export const addTweet = async ({ description }) => {
 // 單一貼文
 export const getTopTweet = async(id)=>{
   try{
-    const res = await axios.get(`${baseUrl}/tweets/${id}`)
+    const res = await axiosInstance.get(`${baseUrl}/tweets/${id}`);
+    console.log(res.data)
     return res.data
   }catch (error){
     console.error("[Get TopTweet failed]: ", error)
@@ -64,7 +65,8 @@ export const getTopTweet = async(id)=>{
 // 單一貼文的所有回覆
 export const getTopTweetReplies = async(id)=>{
   try{
-    const res= await axios.get(`${baseUrl}/tweets/${id}/replies`)
+    const res = await axiosInstance.get(`${baseUrl}/tweets/${id}/replies`);
+    console.log(res.data);
     return res.data
   }catch(error){
     console.error("[Get TopTweetReplies failed]: ", error);
