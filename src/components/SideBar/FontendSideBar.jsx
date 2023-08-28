@@ -40,6 +40,9 @@ export default function FontendSideBar() {
   };
 
   const handleSubmit = async () => {
+    if (isUpdating) return;
+    if (tweet.length > 140) return;
+    if (tweet.trim().length === 0) return;
     // 按下推文時跳出loading提示
     Swal.fire({
       title: "推文中...",
@@ -47,9 +50,6 @@ export default function FontendSideBar() {
       showConfirmButton: false,
     });
     try {
-      if (isUpdating) return;
-      if (tweet.length > 140) return;
-      if (tweet.trim().length < 1) return;
       const res = await addTweet({ description: tweet });
 
       setIsUpdating(true);

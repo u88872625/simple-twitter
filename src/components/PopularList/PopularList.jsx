@@ -4,13 +4,14 @@ import IconDefaultAvatar from "../../assets/icons/default-img.svg";
 import FollowBtn from "../shared/shareBtn/FollowBtn";
 import FollowingBtn from "../shared/shareBtn/FollowingBtn";
 
-import { getTopUsers } from "../../api/tweets";
+import { getTopUsers, userFollow, unFollow } from "../../api/tweets";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 export default function PopularList() {
   const [topUsers, setTopUsers] = useState([]);
   const { isAuthenticated } = useAuth();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -53,6 +54,24 @@ function PopularListContent({ topUsers }) {
 
 function PopularListItem({ topUser }) {
   const { id, avatar, name, account, isFollowed } = topUser;
+  const [followState, setFollowState] = useState(isFollowed);
+
+  // 切換追蹤狀態
+  const handleFollowClick = async (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    try {
+      if (followState) {
+        await unFollow(id);
+      } else {
+        await userFollow(id);
+      }
+      setFollowState(!followState);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div id={id} className={styles.popularListItem}>
       {/* 暫時使用預設頭像 */}
@@ -69,10 +88,10 @@ function PopularListItem({ topUser }) {
 
       {/* 暫時使用單一Btn */}
       <div className={styles.popularItemBtn}>
-        {isFollowed ? (
-          <FollowingBtn text={"正在跟隨"} />
+        {followState ? (
+          <FollowingBtn text={"正在跟隨"} onClick={handleFollowClick} />
         ) : (
-          <FollowBtn text={"跟隨"} />
+          <FollowBtn text={"跟隨"} onClick={handleFollowClick} />
         )}
       </div>
     </div>
