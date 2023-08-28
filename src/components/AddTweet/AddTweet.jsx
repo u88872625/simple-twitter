@@ -4,19 +4,21 @@ import ReplyBtn from "../shared/shareBtn/ReplyBtn";
 import avatarUser from "../../assets/images/avater-user.png";
 import clsx from "clsx";
 import { useAuth } from "../../contexts/AuthContext";
+import Swal from "sweetalert2";
 
 const AddTweet = ({ avatar, value, inputStyle }) => {
   const { addTweet, isTweetUpdated } = useAuth();
   const [tweet, setTweet] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
 
-  // 清除推文框內的文字
-  const deleteContent = () => {
-    setTweet("");
-  };
-
-  // 上方AddTweet新增推文
+  // 新增推文
   const handleSubmit = async () => {
+    // 點擊推文按鈕跳出loading提示
+    Swal.fire({
+      title: "推文中...",
+      allowOutsideClick: false,
+      showConfirmButton: false,
+    });
     try {
       if (isUpdating) return;
       if (tweet.length > 140) return;
@@ -26,6 +28,9 @@ const AddTweet = ({ avatar, value, inputStyle }) => {
       //若新增推文成功
       if (res) {
         setIsUpdating(false);
+
+        // 畫面自動重新整理
+        window.location.reload();
       }
     } catch (error) {
       console.error("AddTweeet failed ]", error);
@@ -34,9 +39,6 @@ const AddTweet = ({ avatar, value, inputStyle }) => {
     console.log(tweet);
   };
 
-  useEffect(() => {
-    deleteContent();
-  }, [isTweetUpdated]);
   return (
     <div className={styles.AddTweetContainer}>
       <div className={styles.title}>
