@@ -13,6 +13,9 @@ const AddTweet = ({ avatar, value, inputStyle }) => {
 
   // 新增推文
   const handleSubmit = async () => {
+    if (isUpdating) return;
+    if (tweet.length > 140) return;
+    if (tweet.trim().length === 0) return;
     // 點擊推文按鈕跳出loading提示
     Swal.fire({
       title: "推文中...",
@@ -20,9 +23,6 @@ const AddTweet = ({ avatar, value, inputStyle }) => {
       showConfirmButton: false,
     });
     try {
-      if (isUpdating) return;
-      if (tweet.length > 140) return;
-      if (tweet.trim().length < 1) return;
       const res = await addTweet({ description: tweet });
       setIsUpdating(true);
       //若新增推文成功

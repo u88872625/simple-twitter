@@ -72,4 +72,26 @@ export const getTopTweetReplies = async (id) => {
   } catch (error) {
     console.error("[Get TopTweetReplies failed]: ", error);
   }
+}
+
+// 追蹤
+export const userFollow = async (id) => {
+  try {
+    const { data } = await axiosInstance.post(`${baseUrl}/followships`, {
+      id,
+    });
+    return data;
+  } catch (error) {
+    console.error("[User Follow failed]: ", error);
+  }
+};
+
+// 取消追蹤
+export const unFollow = async (id) => {
+  try {
+    const { data } = await axiosInstance.delete(`${baseUrl}/followships/${id}`);
+    return data;
+  } catch (error) {
+    console.error("[UnFollow failed]: ", error);
+  }
 };
