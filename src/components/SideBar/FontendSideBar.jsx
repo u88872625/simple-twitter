@@ -49,6 +49,7 @@ export default function FontendSideBar() {
       if (res) {
         setShow(false);
         setIsUpdating(false);
+        window.location.reload();
       }
     } catch (error) {
       console.error("AddTweeet failed ]", error);

@@ -33,17 +33,17 @@ export const AuthProvider = ({ children }) => {
 
       setIsTweetUpdated(false);
       // 從 localStorage 取得 token
-      const authToken = localStorage.getItem("token");
+      const token = localStorage.getItem("token");
       // 如果沒有token 則返回
-      if (!authToken) {
+      if (!token) {
         setIsAuthenticated(false);
         setPayload(null);
         return navigate("/login");
       }
 
       // 如果有 token 用jwt分析
-      if (authToken) {
-        const tempPayload = jwt_decode(authToken);
+      if (token) {
+        const tempPayload = jwt_decode(token);
         setPayload(tempPayload);
 
         if (!tempPayload) {
@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }) => {
           account: payload.account,
           avatar: payload.avatar,
         },
-       isTweetUpdated,
+        isTweetUpdated,
         setIsTweetUpdated,
         register: async (data) => {
           const response = await register({
@@ -85,15 +85,15 @@ export const AuthProvider = ({ children }) => {
             const id = response.data.user.id;
 
             const tempPayload = jwt_decode(token);
-              setPayload(tempPayload);
-              setIsAuthenticated(true);
-              localStorage.setItem("token", token);
-              localStorage.setItem("userId", id);
-            } else {
-              setPayload(null);
-              setIsAuthenticated(false);
-            }
-            return response;
+            setPayload(tempPayload);
+            setIsAuthenticated(true);
+            localStorage.setItem("token", token);
+            localStorage.setItem("userId", id);
+          } else {
+            setPayload(null);
+            setIsAuthenticated(false);
+          }
+          return response;
         },
 
         login: async (data) => {
