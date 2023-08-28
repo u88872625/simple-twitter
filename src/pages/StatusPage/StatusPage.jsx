@@ -2,46 +2,28 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./StatusPage.module.scss";
 import { useAuth } from "../../contexts/AuthContext";
-import{getTopTweet,getTopTweetReplies} from '../../api/tweets'
+import { useTweetId } from "../../contexts/TweetIdContext";
 import FontendLayout from "../../components/shared/layout/FontendLayout/FontendLayout.jsx";
 import TopTweet from "../../components/TopTweet/TopTweet.jsx";
 import ReplyCollection from "./ReplyCollection.jsx";
 import arrow from "../../assets/icons/back.svg";
 
 const StatusPage = () => {
-  // 從路由路徑取得貼文id
-  const { id } = useParams();
-  const [topTweet, setTopTweet] = useState(null);
-  const [topTweetReplies, setTopTweetReplies] = useState(null);
+  // // 從路由路徑取得貼文id
+  // const { id } = useParams();
+  const { tweetId, tweetData, repliesData } = useTweetId(); //取得存在context的最新id
+  const [topTweet, setTopTweet] = useState(tweetData);
+  const [topTweetReplies, setTopTweetReplies] = useState(repliesData);
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
 
-  // 取得貼文和所有回覆
+  console.log("status:", tweetId);
+  console.log("statustweetdata:", tweetData);
+
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
-    if (userId) {
-      const getTopTweetAsync = async () => {
-        try {
-          const res = await getTopTweet(id);
-          console.log(res);
-          setTopTweet(res);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      const getTopTweetRepliesAsync = async () => {
-        try {
-          const res = await getTopTweetReplies(id);
-          console.log(res);
-          setTopTweetReplies(res);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      getTopTweetAsync();
-      getTopTweetRepliesAsync();
-    }
-  }, [id]);
+    setTopTweet(tweetData);
+    setTopTweetReplies(repliesData);
+  }, [tweetData, repliesData]);
 
   //  驗證token是否存在
   useEffect(() => {

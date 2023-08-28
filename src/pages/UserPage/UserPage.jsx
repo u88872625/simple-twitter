@@ -8,24 +8,27 @@ import FontendLayout from "../../components/shared/layout/FontendLayout/FontendL
 import UserInfoCard from "../../components/InfoCard/UserInfoCard";
 import TweetTabs from "../../components/TweetTabs/TweetTabs";
 import arrow from "../../assets/icons/back.svg";
+import { useTweetId } from "../../contexts/TweetIdContext";
 
 const UserPage = () => {
-  const [userInfo, setUserInfo] = useState()
+  const [userInfo, setUserInfo] = useState();
   const [userTweets, setUserTweets] = useState([]);
-  const [userReplied, setUserReplied] = useState([])
-  const [userLike, setUserLike] = useState([]) 
-   // 確保先取得userTweets再渲染TweetTabs
-  const [loading, setLoading] = useState(true)
-  const {isAuthenticated} = useAuth()
-  const navigate=useNavigate()
-  // const {account} = useParams() //取得用戶account反映在路徑上
+  const [userReplied, setUserReplied] = useState([]);
+  const [userLike, setUserLike] = useState([]);
+  // 確保先取得userTweets再渲染TweetTabs
+  const [loading, setLoading] = useState(true);
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  const { account } = useParams(); //取得用戶account反映在路徑上
+  const { id } = useParams(); //取得貼文id反映在路徑上
+  const { handleTweetClick } = useTweetId();//更新貼文id
 
-
-  // 追蹤單一貼文點擊
-  const handleTweetClick = async(id)=>{
-    console.log('tweetid:',id)
-      navigate(`/status/${id}`);
-  }
+  // // 追蹤單一貼文點擊
+  // const handleTweetClick = async (id) => {
+  //   console.log("tweetid:", id);
+  //   setTweetId(id);
+  //   navigate(`/status/${id}`);
+  // };
 
   // 更新對應推文的like數 後續需要把變動傳回後端
   const handleLikeClick = (tweetId) => {
@@ -39,26 +42,26 @@ const UserPage = () => {
       }
       return tweet;
     });
-    setUserTweets(newTweet)
+    setUserTweets(newTweet);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     const userId = localStorage.getItem("userId");
     if (userId) {
       const getUserInfoAsync = async () => {
         try {
           const userInfo = await getUserInfo(userId);
-          console.log("User Info:", userInfo); 
+          console.log("User Info:", userInfo);
           setUserInfo(userInfo);
         } catch (error) {
           console.error(error);
-        } finally{
+        } finally {
           setLoading(false); //當取得資料後變回false
+        }
       };
+      getUserInfoAsync();
     }
-    getUserInfoAsync();
-  }
-  },[])
+  }, []);
   useEffect(() => {
     const userId = localStorage.getItem("userId");
     if (userId) {
@@ -75,7 +78,7 @@ const UserPage = () => {
       getUserTweetAsync();
     }
   }, []);
-  useEffect(() =>{
+  useEffect(() => {
     const userId = localStorage.getItem("userId");
     if (userId) {
       const getUserRepliedAsync = async () => {
@@ -88,9 +91,9 @@ const UserPage = () => {
           setLoading(false); //當取得資料後變回false
         }
       };
-    getUserRepliedAsync();}
-    
-  },[])
+      getUserRepliedAsync();
+    }
+  }, []);
   useEffect(() => {
     const userId = localStorage.getItem("userId");
     if (userId) {
@@ -106,15 +109,13 @@ const UserPage = () => {
       };
       getUserLikeAsync();
     }
-    
   }, []);
   //  驗證token是否存在
-    useEffect(() => {
-      if (!isAuthenticated) {
-        navigate('/login')
-      }
-    }, [navigate, isAuthenticated]);
-
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/login");
+    }
+  }, [navigate, isAuthenticated]);
 
   return (
     <FontendLayout>

@@ -15,6 +15,7 @@ import AddTweet from "./components/AddTweet/AddTweet";
 import FollowTabs from "./components/FollowTabs/FollowTabs";
 import "./styles/App.module.scss";
 import { AuthProvider } from "./contexts/AuthContext";
+import {TweetIdContextProvider} from './contexts/TweetIdContext'
 
 
 
@@ -24,6 +25,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <AuthProvider>
+          <TweetIdContextProvider>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/signup" element={<SignUpPage />} />
@@ -43,6 +45,7 @@ function App() {
             <Route path="/admin/main" element={<AdminMainPage />} />
             <Route path="/admin/users" element={<AdminUsersPage />} />
           </Routes>
+          </TweetIdContextProvider>
         </AuthProvider>
       </BrowserRouter>
     </div>
