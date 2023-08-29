@@ -6,8 +6,9 @@ import ProfileEditModal from "../Modal/ProfileEditModal/ProfileEditModal";
 import { useState } from "react";
 import defaultAvatar from "../../assets/icons/default-img.svg";
 import defaultBanner from "../../assets/images/bg-user.png";
+import { Link } from "react-router-dom";
 
-export default function UserInfoCard({ info }) {
+export default function UserInfoCard({ info, handleFollowDetail }) {
   // const [isEdit, setIsEdit] = useState(false)
   // const navigate = useNavigate()
 
@@ -20,10 +21,9 @@ export default function UserInfoCard({ info }) {
     setShow(true);
   };
 
-  if(!info){
-    return <div>Loading...</div>
+  if (!info) {
+    return <div>Loading...</div>;
   }
-
 
   return (
     <div className={styles.container}>
@@ -55,7 +55,8 @@ export default function UserInfoCard({ info }) {
         <p className={styles.userAccount}>@{info.account}</p>
       </div>
       <div className={styles.introduction}>{info.introduction}</div>
-      <div className={styles.showFollow}>
+
+      <div className={styles.showFollow} onClick={handleFollowDetail}>
         <p className={styles.showfolloing}>
           {info.followingsNum}個<span className={styles.sub}>跟隨中</span>
         </p>
@@ -63,6 +64,7 @@ export default function UserInfoCard({ info }) {
           {info.followersNum}位<span className={styles.sub}>跟隨者</span>
         </p>
       </div>
+
       <ProfileEditModal
         show={show}
         handleClose={handleClose}

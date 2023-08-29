@@ -1,21 +1,25 @@
 import SignUpPage from "./SignUpPage";
 import LoginPage from "./LoginPage/LoginPage";
-import HomePage from "./HomePage";
+import MainPage from "./MainPage";
 import UserPage from "./UserPage/UserPage";
 import SettingPage from "./SettingPage";
 import StatusPage from "./StatusPage";
 import AdminLoginPage from "./AdminLoginPage/AdminLoginPage";
 import AdminMainPage from "./AdminMainPage";
 import AdminUsersPage from "./AdminUsersPage";
+import UserFollowPage from "./UserFollowPage/UserFollowPage";
+import HomePage from "./MainPage";
 
 export {
   SignUpPage,
   LoginPage,
-  HomePage,
+  MainPage,
   UserPage,
   SettingPage,
   StatusPage,
   AdminLoginPage,
   AdminMainPage,
   AdminUsersPage,
+  UserFollowPage,
+  HomePage,
 };

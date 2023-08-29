@@ -29,8 +29,8 @@ const AddTweet = ({ avatar, value, inputStyle }) => {
       if (res) {
         setIsUpdating(false);
 
-        // 畫面自動重新整理
-        window.location.reload();
+        // // 畫面自動重新整理
+        // window.location.reload();
       }
     } catch (error) {
       console.error("AddTweeet failed ]", error);
