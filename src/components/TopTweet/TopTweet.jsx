@@ -1,9 +1,10 @@
 import styles from "./TopTweet.module.scss";
-import reply from "../../assets/icons/reply.svg";
+import replyIcon from "../../assets/icons/reply.svg";
 import like from "../../assets/icons/like.svg";
 import likeFilled from "../../assets/icons/like-filled.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ReplyModal from "../Modal/ReplyModal/ReplyModal";
+import { useAuth } from "../../contexts/AuthContext";
 
 // const dummytweet = [
 //   {
@@ -23,12 +24,18 @@ import ReplyModal from "../Modal/ReplyModal/ReplyModal";
 //     isLiked: false,
 //   },
 // ];
-export default function TopTweet({tweet} ) {
-// console.log('toptweet', tweet)
-
+export default function TopTweet({ tweet }) {
+  // console.log('toptweet', tweet)
+  const { replyTweet, currentUser, setIsReplyUpdated } = useAuth();
   const [isReply, setIsReply] = useState(false);
   const [isLike, setIsLike] = useState(tweet.isLiked);
   const [likesNum, setLikesNum] = useState(tweet.likesNum);
+  const [reply, setReply] = useState("");
+  const [replyCount, setReplyCount] = useState(tweet.repliesNum);
+  const contentDelete = () => {
+    setReply("");
+  };
+
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
 
@@ -49,7 +56,28 @@ export default function TopTweet({tweet} ) {
     }
   };
 
-  
+  // 回覆功能
+  // const handleReply = async () => {
+  //   //預防空值與回覆文字限制
+  //   if (reply.length > 140) return;
+  //   if (reply.trim().length === 0) return;
+  //   const response = await replyTweet(tweet.id, { comment: reply });
+  //   //若新增推文成功
+  //   if (response.data.comment) {
+  //     contentDelete();
+  //     handleClose();
+  //     setReplyCount(replyCount + 1);
+  //     return;
+  //   } else {
+  //     contentDelete();
+  //     handleClose();
+  //     return alert("新增回覆失敗");
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   setIsReplyUpdated(false);
+  // }, [setIsReplyUpdated]);
 
   return (
     <div>
@@ -84,7 +112,7 @@ export default function TopTweet({tweet} ) {
             <div className={styles.icon}>
               <img
                 className={styles.replyIcon}
-                src={reply}
+                src={replyIcon}
                 alt="num-of-replies"
                 onClick={handleReplyClick}
               />
@@ -108,6 +136,12 @@ export default function TopTweet({tweet} ) {
         postUserName={tweet.User.name}
         postUserAccount={tweet.User.account}
         postCreatedAt={tweet.createdAt}
+        userAvatar={currentUser?.avatar}
+        // handleReply={handleReply}
+        onInputChange={(replyInput) => {
+          setReply(replyInput);
+        }}
+        value={reply}
       />
     </div>
   );
