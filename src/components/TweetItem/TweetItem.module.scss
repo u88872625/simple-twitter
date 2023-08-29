@@ -3,6 +3,11 @@
 	height: 153px;
 	margin-top: 16px;
 	border-bottom: 1px solid var(--border);
+	cursor: pointer;
+	
+	&:hover{
+		background-color: var(--grayscale-dark-40);
+	}
 
   .wrapper {
 		display: flex;

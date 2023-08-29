@@ -10,6 +10,7 @@ axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
     if (token) {
+      console.log("Authorization header added:", `Bearer ${token}`);
       config.headers["Authorization"] = `Bearer ${token}`;
     }
     return config;
@@ -50,6 +51,28 @@ export const addTweet = async ({ description }) => {
     console.error("[Add Tweet failed]: ", error);
   }
 };
+
+// 單一貼文
+export const getTopTweet = async (id) => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/tweets/${id}`);
+    console.log(res.data);
+    return res.data;
+  } catch (error) {
+    console.error("[Get TopTweet failed]: ", error);
+  }
+};
+
+// 單一貼文的所有回覆
+export const getTopTweetReplies = async (id) => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/tweets/${id}/replies`);
+    console.log(res.data);
+    return res.data;
+  } catch (error) {
+    console.error("[Get TopTweetReplies failed]: ", error);
+  }
+}
 
 // 追蹤
 export const userFollow = async (id) => {

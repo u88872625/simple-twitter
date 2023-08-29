@@ -1,23 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {getUserInfo, getUserTweet,getUserReplied,getUserLike} from '../../api/user'
+import{getTopTweet} from '../../api/tweets'
 import {useAuth} from '../../contexts/AuthContext'
 import styles from "./UserPage.module.scss";
 import FontendLayout from "../../components/shared/layout/FontendLayout/FontendLayout.jsx"
 import UserInfoCard from "../../components/InfoCard/UserInfoCard";
 import TweetTabs from "../../components/TweetTabs/TweetTabs";
 import arrow from "../../assets/icons/back.svg";
+import { useTweetId } from "../../contexts/TweetIdContext";
 
 const UserPage = () => {
-  const [userInfo, setUserInfo] = useState()
+  const [userInfo, setUserInfo] = useState();
   const [userTweets, setUserTweets] = useState([]);
-  const [userReplied, setUserReplied] = useState([])
-  const [userLike, setUserLike] = useState([]) 
-   // 確保先取得userTweets再渲染TweetTabs
-  const [loading, setLoading] = useState(true)
-  const {isAuthenticated} = useAuth()
-  const navigate=useNavigate()
-  // const {account} = useParams() //取得用戶account反映在路徑上
+  const [userReplied, setUserReplied] = useState([]);
+  const [userLike, setUserLike] = useState([]);
+  // 確保先取得userTweets再渲染TweetTabs
+  const [loading, setLoading] = useState(true);
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  const { account } = useParams(); //取得用戶account反映在路徑上
+  const { id } = useParams(); //取得貼文id反映在路徑上
+  const { handleTweetClick } = useTweetId();//更新貼文id
+
+  // // 追蹤單一貼文點擊
+  // const handleTweetClick = async (id) => {
+  //   console.log("tweetid:", id);
+  //   setTweetId(id);
+  //   navigate(`/status/${id}`);
+  // };
 
   // 更新對應推文的like數 後續需要把變動傳回後端
   const handleLikeClick = (tweetId) => {
@@ -31,24 +42,26 @@ const UserPage = () => {
       }
       return tweet;
     });
-    setUserTweets(newTweet)
+    setUserTweets(newTweet);
   };
-  useEffect(()=>{
+
+  useEffect(() => {
     const userId = localStorage.getItem("userId");
     if (userId) {
       const getUserInfoAsync = async () => {
         try {
           const userInfo = await getUserInfo(userId);
-          console.log("User Info:", userInfo); 
+          console.log("User Info:", userInfo);
           setUserInfo(userInfo);
-          setLoading(false); //當取得資料後變回false
         } catch (error) {
           console.error(error);
-        } 
+        } finally {
+          setLoading(false); //當取得資料後變回false
+        }
       };
       getUserInfoAsync();
     }
-  },[])
+  }, []);
   useEffect(() => {
     const userId = localStorage.getItem("userId");
     if (userId) {
@@ -56,29 +69,31 @@ const UserPage = () => {
         try {
           const userTweets = await getUserTweet(userId);
           setUserTweets(userTweets);
-          setLoading(false); //當取得推文後變回false
         } catch (error) {
           console.error(error);
+        } finally {
+          setLoading(false); //當取得資料後變回false
         }
       };
       getUserTweetAsync();
     }
   }, []);
-  useEffect(() =>{
+  useEffect(() => {
     const userId = localStorage.getItem("userId");
     if (userId) {
       const getUserRepliedAsync = async () => {
-      try {
-        const userReplied = await getUserReplied(userId);
-        setUserReplied(userReplied);
-        setLoading(false); //當取得推文後變回false
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getUserRepliedAsync();}
-    
-  },[])
+        try {
+          const userReplied = await getUserReplied(userId);
+          setUserReplied(userReplied);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoading(false); //當取得資料後變回false
+        }
+      };
+      getUserRepliedAsync();
+    }
+  }, []);
   useEffect(() => {
     const userId = localStorage.getItem("userId");
     if (userId) {
@@ -86,22 +101,21 @@ const UserPage = () => {
         try {
           const userLike = await getUserLike(userId);
           setUserLike(userLike);
-          setLoading(false); //當取得推文後變回false
         } catch (error) {
           console.error(error);
+        } finally {
+          setLoading(false); //當取得資料後變回false
         }
       };
       getUserLikeAsync();
     }
-    
   }, []);
   //  驗證token是否存在
-    useEffect(() => {
-      if (!isAuthenticated) {
-        navigate('/login')
-      }
-    }, [navigate, isAuthenticated]);
-
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/login");
+    }
+  }, [navigate, isAuthenticated]);
 
   return (
     <FontendLayout>
@@ -125,6 +139,7 @@ const UserPage = () => {
               replies={userReplied}
               likes={userLike}
               onClick={handleLikeClick}
+              onTweetClick={handleTweetClick}
             />
           </div>
         </>
