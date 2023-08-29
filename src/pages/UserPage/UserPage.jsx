@@ -1,23 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {getUserInfo, getUserTweet,getUserReplied,getUserLike} from '../../api/user'
-import {useAuth} from '../../contexts/AuthContext'
+import {
+  getUserInfo,
+  getUserTweet,
+  getUserReplied,
+  getUserLike,
+} from "../../api/user";
+import { useAuth } from "../../contexts/AuthContext";
 import styles from "./UserPage.module.scss";
-import FontendLayout from "../../components/shared/layout/FontendLayout/FontendLayout.jsx"
+import FontendLayout from "../../components/shared/layout/FontendLayout/FontendLayout.jsx";
 import UserInfoCard from "../../components/InfoCard/UserInfoCard";
 import TweetTabs from "../../components/TweetTabs/TweetTabs";
 import arrow from "../../assets/icons/back.svg";
 
 const UserPage = () => {
-  const [userInfo, setUserInfo] = useState()
+  const userDetail = JSON.parse(localStorage.getItem("userInfo"));
+  const userId = userDetail.id;
+  const [userInfo, setUserInfo] = useState();
   const [userTweets, setUserTweets] = useState([]);
-  const [userReplied, setUserReplied] = useState([])
-  const [userLike, setUserLike] = useState([]) 
-   // 確保先取得userTweets再渲染TweetTabs
-  const [loading, setLoading] = useState(true)
-  const {isAuthenticated} = useAuth()
-  const navigate=useNavigate()
+  const [userReplied, setUserReplied] = useState([]);
+  const [userLike, setUserLike] = useState([]);
+  // 確保先取得userTweets再渲染TweetTabs
+  const [loading, setLoading] = useState(true);
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   // const {account} = useParams() //取得用戶account反映在路徑上
+
+  // 點擊user追蹤者資訊欄位，進入follow頁面
+  function handleFollowDetailClick() {
+    navigate("/:username/followers");
+  }
 
   // 更新對應推文的like數 後續需要把變動傳回後端
   const handleLikeClick = (tweetId) => {
@@ -31,26 +43,24 @@ const UserPage = () => {
       }
       return tweet;
     });
-    setUserTweets(newTweet)
+    setUserTweets(newTweet);
   };
-  useEffect(()=>{
-    const userId = localStorage.getItem("userId");
+  useEffect(() => {
     if (userId) {
       const getUserInfoAsync = async () => {
         try {
           const userInfo = await getUserInfo(userId);
-          console.log("User Info:", userInfo); 
+          console.log("User Info:", userInfo);
           setUserInfo(userInfo);
           setLoading(false); //當取得資料後變回false
         } catch (error) {
           console.error(error);
-        } 
+        }
       };
       getUserInfoAsync();
     }
-  },[])
+  }, []);
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
     if (userId) {
       const getUserTweetAsync = async () => {
         try {
@@ -64,23 +74,21 @@ const UserPage = () => {
       getUserTweetAsync();
     }
   }, []);
-  useEffect(() =>{
-    const userId = localStorage.getItem("userId");
+  useEffect(() => {
     if (userId) {
       const getUserRepliedAsync = async () => {
-      try {
-        const userReplied = await getUserReplied(userId);
-        setUserReplied(userReplied);
-        setLoading(false); //當取得推文後變回false
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getUserRepliedAsync();}
-    
-  },[])
+        try {
+          const userReplied = await getUserReplied(userId);
+          setUserReplied(userReplied);
+          setLoading(false); //當取得推文後變回false
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      getUserRepliedAsync();
+    }
+  }, []);
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
     if (userId) {
       const getUserLikeAsync = async () => {
         try {
@@ -93,15 +101,13 @@ const UserPage = () => {
       };
       getUserLikeAsync();
     }
-    
   }, []);
   //  驗證token是否存在
-    useEffect(() => {
-      if (!isAuthenticated) {
-        navigate('/login')
-      }
-    }, [navigate, isAuthenticated]);
-
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/login");
+    }
+  }, [navigate, isAuthenticated]);
 
   return (
     <FontendLayout>
@@ -117,7 +123,10 @@ const UserPage = () => {
             </div>
           </div>
           <div className={styles.infoCard}>
-            <UserInfoCard info={userInfo} />
+            <UserInfoCard
+              info={userInfo}
+              handleFollowDetail={handleFollowDetailClick}
+            />
           </div>
           <div className={styles.tabs}>
             <TweetTabs

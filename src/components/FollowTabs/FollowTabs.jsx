@@ -5,66 +5,8 @@ import { useState } from "react";
 import FollowerContent from "./FollowerContent/FollowerContent";
 import FollowingContent from "./FollowingContent/FollowingContent";
 
-const dummyFollower = [
-  {
-    id: 1,
-    avatar:
-      "https://images.pexels.com/photos/11305141/pexels-photo-11305141.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    name: "Amy",
-    description: "description",
-    followerId: 111,
-    isFollowed: true,
-  },
-
-  {
-    id: 2,
-    avatar: "",
-    name: "Amy",
-    description: "description",
-    followerId: 112,
-    isFollowed: true,
-  },
-  {
-    id: 3,
-    avatar: "https://images.pexels.com/photos/814822/pexels-photo-814822.jpeg",
-    name: "Amy",
-    description: "",
-    followerId: 113,
-    isFollowed: false,
-  },
-];
-
-const dummyFollowing = [
-  {
-    id: 4,
-    avatar: "",
-    name: "Amy",
-    description: "description",
-    following: 120,
-    isFollowed: true,
-  },
-
-  {
-    id: 5,
-    avatar:
-      "https://images.pexels.com/photos/11305141/pexels-photo-11305141.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    name: "Amy",
-    description: "description",
-    followring: 121,
-    isFollowed: true,
-  },
-  {
-    id: 6,
-    avatar: "https://images.pexels.com/photos/814822/pexels-photo-814822.jpeg",
-    name: "Amy",
-    description: "description",
-    following: 122,
-    isFollowed: true,
-  },
-];
-
-const FollowTabs = () => {
-  const [followMode, setFollowMode] = useState("follower");
+const FollowTabs = ({ followers, followings, rerender, setRerender }) => {
+  const [followMode, setFollowMode] = useState("followers");
 
   function handleChangeMode(mode) {
     setFollowMode(mode);
@@ -75,29 +17,37 @@ const FollowTabs = () => {
       <div className={styles.buttonWrapper}>
         <button
           className={clsx({
-            [styles.buttonActive]: followMode === "follower",
-            [styles.button]: followMode !== "follower",
+            [styles.buttonActive]: followMode === "followers",
+            [styles.button]: followMode !== "followers",
           })}
-          onClick={() => handleChangeMode("follower")}
+          onClick={() => handleChangeMode("followers")}
         >
           追隨者
         </button>
         <button
           className={clsx({
-            [styles.buttonActive]: followMode === "following",
-            [styles.button]: followMode !== "following",
+            [styles.buttonActive]: followMode === "followings",
+            [styles.button]: followMode !== "followings",
           })}
-          onClick={() => handleChangeMode("following")}
+          onClick={() => handleChangeMode("followings")}
         >
           正在追隨
         </button>
       </div>
       <div className={styles.contentwrapper}>
-        {followMode === "follower" && (
-          <FollowerContent followers={dummyFollower} />
+        {followMode === "followers" && (
+          <FollowerContent
+            followers={followers}
+            rerender={rerender}
+            setRerender={setRerender}
+          />
         )}
-        {followMode === "following" && (
-          <FollowingContent followings={dummyFollowing} />
+        {followMode === "followings" && (
+          <FollowingContent
+            followings={followings}
+            rerender={rerender}
+            setRerender={setRerender}
+          />
         )}
       </div>
     </div>
