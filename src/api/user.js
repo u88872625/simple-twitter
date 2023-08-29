@@ -64,3 +64,23 @@ export const getUserLike = async (userId) => {
     console.error("[Get UerLike Failed]:", error);
   }
 };
+
+// 編輯使用者資料
+export const patchUserInfo = async(payload)=>{
+  const {id, account, name, email, password,checkPassord,introduction, avatar, banner} = payload
+  try{
+    const res = await axiosInstance.put(`${baseUrl}/users/${id}`, {
+      account,
+      name,
+      email,
+      password,
+      checkPassord,
+      introduction,
+      avatar,
+      banner,
+    });
+    return res.data
+  }catch(error){
+    console.error('[Patch UserIfo Failed]:', error)
+  }
+}

@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom/dist";
 import { login, register } from "../api/auth";
 import { addTweet } from "../api/tweets";
+import{patchUserInfo} from '../api/user'
 import { useNavigate } from "react-router-dom/dist";
 import jwt_decode from "jwt-decode";
 
@@ -20,7 +21,8 @@ export const AuthProvider = ({ children }) => {
   const [payload, setPayload] = useState(null);
   // 使用者自己的Tweet更新
   const [isTweetUpdated, setIsTweetUpdated] = useState(false);
-
+// 使用者編輯個人資料
+  const [editedUserInfo, setEditedUserInfo]=useState(null)
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
@@ -70,11 +72,15 @@ export const AuthProvider = ({ children }) => {
           id: payload.id,
           account: payload.account,
           avatar: payload.avatar,
-          id: payload.id,
           name: payload.name,
+          email: payload.email,
+          password: payload.password,
+          checkPassword:payload.checkPassword,
         },
         isTweetUpdated,
         setIsTweetUpdated,
+        editedUserInfo,
+        setEditedUserInfo,
         register: async (data) => {
           const response = await register({
             account: data.account,
@@ -135,6 +141,13 @@ export const AuthProvider = ({ children }) => {
           if (response.data) setIsTweetUpdated(true);
           return response;
         },
+        patchUerInfo: async()=>{
+          try{
+            const res = await patchUserInfo(payload.id,)
+          }catch(error){
+            console.error(error)
+          }
+        }
       }}
     >
       {children}

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./AuthInput.module.scss";
+import styles from "./AuthSettingInput.module.scss";
 import { useState } from "react";
 import clsx from "clsx";
 
@@ -34,10 +34,8 @@ const AuthInput = ({
     setCharCount(inputValue.length);
   };
 
-  
-
   return (
-    <div className={clsx(styles.inputContainer, inputStyle,)} >
+    <div className={clsx(styles.inputContainer, inputStyle)}>
       <label className={styles.label}>{label}</label>
       <input
         className={styles.input}
