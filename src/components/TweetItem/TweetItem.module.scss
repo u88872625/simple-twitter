@@ -1,78 +1,110 @@
 .container {
-	width: 639px;
-	height: 153px;
-	margin-top: 16px;
-	border-bottom: 1px solid var(--border);
-	cursor: pointer;
-	
-	&:hover{
-		background-color: var(--grayscale-dark-40);
-	}
+  width: 639px;
+  height: 153px;
+  margin-top: 16px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--grayscale-dark-40);
+  }
 
   .wrapper {
-		display: flex;
-		width: 634px;
-		height: 136px;
-		padding: 0 24px 0 24px;
-	}
+    display: flex;
+    width: 634px;
+    height: 136px;
+    padding: 0 24px 0 24px;
+  }
 
-	.avatar {
-		width: 50px;
-		height: 50px;
-		margin-right: 13px;
-		object-fit: cover;
-		border-radius: 50%;
-	}
+  .avatar {
+    width: 50px;
+    height: 50px;
+    margin-right: 13px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
 
-	.title {
-		display: flex;
-		margin-top: 8px;
+  .title {
+    display: flex;
+    margin-top: 8px;
 
-		.name {
-			font-size: 16px;
-			font-weight: 700;
-			color: var(--grayscale-dark-100);
-			margin-right: 8px;
-		}
+    .name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--grayscale-dark-100);
+      margin-right: 8px;
+    }
 
-		.acount {
-			font-size: 14px;
-			font-weight: 400;
-			color: var( --secondary);
-		}
-	}
+    .acount {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--secondary);
+    }
+  }
 
-	.text {
-		width: 528px;
-		height: 78px;
-		margin: 8px 0;
-		font-size: 16px;
-		font-weight: 400;
-		line-height: 26px;
-		color: var(--grayscale-dark-100);
-	}
+  .text {
+    width: 528px;
+    height: 78px;
+    margin: 8px 0;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px;
+    color: var(--grayscale-dark-100);
+  }
 
-	.bottom {
-		display: flex;
-		justify-content: space-between;
-		width: 120px;
-		height: 16px
+  .bottom {
+    display: flex;
+    justify-content: space-between;
+    width: 120px;
+    height: 16px img {
+      width: 16px;
+      height: 16px;
+    }
 
-		img {
-			width: 16px;
-			height: 16px;
-		}
+    span {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--secondary);
+      margin-left: 8px;
+    }
 
-		span {
-			font-size: 14px;
-			font-weight: 600;
-			color: var(--secondary);
-			margin-left: 8px;
-		}
+    .reply,
+    .like {
+      display: flex;
+    }
+  }
+}
 
-		.reply,
-		.like {
-			display: flex;
-		}
-	}
+// 錯誤訊息提示
+%error {
+  position: absolute;
+  bottom: 43px;
+  right: -80px;
+  height: 2px;
+  width: 50%;
+
+  &::after {
+    content: "";
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--error);
+  }
+}
+
+.emptyError {
+  @extend %error;
+
+  &::after {
+    content: "內容不可空白";
+    position: absolute;
+    right: 185px;
+  }
+}
+
+.overError {
+  @extend %error;
+
+  &::after {
+    content: "字數不可超過140字";
+  }
 }

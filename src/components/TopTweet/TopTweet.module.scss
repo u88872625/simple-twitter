@@ -65,61 +65,95 @@
 }
 
 .bottom {
-	position: relative;
-	display: flex;
-	flex-direction: column;
+  position: relative;
+  display: flex;
+  flex-direction: column;
   width: 602px;
-	height: 130px;
+  height: 130px;
 
-	&::before {
-	  content:"";
-		position: absolute;
-		width: 100%;
-		height: 1px;
-		background-color: var(--border);
-	}
+  &::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background-color: var(--border);
+  }
 
-	&::after {
-	  content: "";
-		position: absolute;
-		top: 50%;
-		width: 100%;
-		height: 1px;
-		background-color: var(--border);
-	}
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background-color: var(--border);
+  }
 
   .showBox {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		width:210px;
-		height:28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 210px;
+    height: 28px;
     margin: 16.5px 0;
 
     .showReply,
-		.showLikes {
-			display: inline-block;
+    .showLikes {
+      display: inline-block;
       font-size: 19px;
       font-weight: 500;
       color: var(--secondary);
     }
-		span {
-			color: var(--grayscale-dark-100);
-		}
+    span {
+      color: var(--grayscale-dark-100);
+    }
   }
 
-	 .icon {
-		display: flex;
-		justify-content: space-between;
-		width: 188px;
-		height: 36px;
-		margin: 16.5px 0;
-		padding: 3px 0;
+  .icon {
+    display: flex;
+    justify-content: space-between;
+    width: 188px;
+    height: 36px;
+    margin: 16.5px 0;
+    padding: 3px 0;
 
-		img {
-			width: 30px;
-			height: 30px;
-			cursor: pointer
-		}
+    img {
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
     }
+  }
+}
+
+// 錯誤訊息提示
+%error {
+  position: absolute;
+  bottom: 43px;
+  right: -80px;
+  height: 2px;
+  width: 50%;
+
+  &::after {
+    content: "";
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--error);
+  }
+}
+
+.emptyError {
+  @extend %error;
+
+  &::after {
+    content: "內容不可空白";
+    position: absolute;
+    right: 185px;
+  }
+}
+
+.overError {
+  @extend %error;
+
+  &::after {
+    content: "字數不可超過140字";
+  }
 }
