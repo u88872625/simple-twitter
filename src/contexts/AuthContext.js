@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom/dist";
-import { login, register } from "../api/auth";
+import { login, register, adminLogin } from "../api/auth";
 import { addTweet, replyTweet } from "../api/tweets";
 import { useNavigate } from "react-router-dom/dist";
 import jwt_decode from "jwt-decode";
@@ -11,6 +11,7 @@ const defaultAuthContext = {
   register: null,
   login: null,
   logout: null,
+  role: null,
 };
 
 const AuthContext = createContext(defaultAuthContext);
@@ -25,6 +26,10 @@ export const AuthProvider = ({ children }) => {
 
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const role = {
+    user: "user",
+    admin: "admin",
+  };
 
   useEffect(() => {
     const checkTokenIsValid = async () => {
@@ -75,6 +80,7 @@ export const AuthProvider = ({ children }) => {
           account: payload.account,
           avatar: payload.avatar,
           name: payload.name,
+          role: payload.role,
         },
         isTweetUpdated,
         setIsTweetUpdated,
@@ -115,6 +121,28 @@ export const AuthProvider = ({ children }) => {
           if (success) {
             const token = response.data.token;
             const id = response.data.user.id;
+
+            const temPayload = jwt_decode(token);
+            setPayload(temPayload);
+            setIsAuthenticated(true);
+            localStorage.setItem("token", token);
+            localStorage.setItem("userId", id);
+          } else {
+            setPayload(null);
+            setIsAuthenticated(false);
+          }
+          return response;
+        },
+        adminLogin: async (data) => {
+          const response = await adminLogin({
+            account: data.account,
+            password: data.password,
+          });
+          const { success } = response;
+          if (success) {
+            const token = response.data.token;
+            const id = response.data.user.id;
+
             const temPayload = jwt_decode(token);
             setPayload(temPayload);
             setIsAuthenticated(true);
