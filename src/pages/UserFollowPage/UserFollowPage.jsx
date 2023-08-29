@@ -6,19 +6,20 @@ import styles from "./UserFollowPage.module.scss";
 import { getUserFollowers, getUserFollowings } from "../../api/tweets";
 import { getUserTweet } from "../../api/user";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
 const UserFollowPage = () => {
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  const userId = userInfo.id;
+  const userId = localStorage.getItem("userId");
   const [userTweets, setUserTweets] = useState([]);
   const [userFollowings, setUserFollowings] = useState([]);
   const [userFollowers, setUserFollowers] = useState([]);
   // 與popularList聯動重新渲染
   const [rerender, setRerender] = useState(false);
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
 
   // 返回上一頁
-  function handleUserInfoClick() {
+  function handleUserPageClick() {
     navigate("/:id");
   }
 
@@ -70,10 +71,10 @@ const UserFollowPage = () => {
           <img
             className={styles.backArrow}
             src={arrow}
-            onClick={handleUserInfoClick}
+            onClick={handleUserPageClick}
           ></img>
           <div className={styles.userInfo}>
-            <h5 className={styles.name}>{userInfo.name}</h5>
+            <h5 className={styles.name}>{currentUser?.name}</h5>
             <p className={styles.tweetCount}> {userTweets.length}推文</p>
           </div>
         </div>

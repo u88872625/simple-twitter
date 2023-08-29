@@ -14,8 +14,7 @@ import TweetTabs from "../../components/TweetTabs/TweetTabs";
 import arrow from "../../assets/icons/back.svg";
 
 const UserPage = () => {
-  const userDetail = JSON.parse(localStorage.getItem("userInfo"));
-  const userId = userDetail.id;
+  const userId = localStorage.getItem("userId");
   const [userInfo, setUserInfo] = useState();
   const [userTweets, setUserTweets] = useState([]);
   const [userReplied, setUserReplied] = useState([]);

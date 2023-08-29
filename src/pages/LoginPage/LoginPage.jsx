@@ -30,16 +30,8 @@ const LoginPage = () => {
       password,
     });
 
-    const token = response.data.token;
-    const userId = response.data.user.id;
-
-    const { success, cause } = response.data;
-
-    if (success) {
-      localStorage.setItem("token", token);
-      localStorage.setItem("userId", userId);
-      // navigate("/Home");
-      // 登入成功訊息
+    // 登入成功
+    if (response.success) {
       Swal.fire({
         position: "top",
         title: "登入成功！",
@@ -47,17 +39,15 @@ const LoginPage = () => {
         icon: "success",
         showConfirmButton: false,
       });
-    } else {
-      // 使用後端返回的錯誤訊息來設置前端的錯誤狀態
-      if (response.cause) {
-        if (response.cause.accountErrMsg) {
-          // 這設置一個狀態來保存帳號的錯誤訊息
-          setAccountMsg(cause.accountErrMsg);
-        }
-        if (response.cause.passwordErrMsg) {
-          // 設置一個狀態來保存密碼的錯誤訊息
-          setPasswordErrorMsg(cause.passwordErrMsg);
-        }
+    }
+
+    // 登入失敗，出現相對應錯誤訊息提示
+    if (!response.success) {
+      if (response.cause.accountErrMsg) {
+        setAccountMsg(response.cause.accountErrMsg);
+      }
+      if (response.cause.passwordErrMsg) {
+        setPasswordErrorMsg(response.cause.passwordErrMsg);
       }
     }
   };
