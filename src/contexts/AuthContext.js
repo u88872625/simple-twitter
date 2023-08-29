@@ -20,42 +20,55 @@ export const AuthProvider = ({ children }) => {
   const [payload, setPayload] = useState(null);
   // 使用者自己的Tweet更新
   const [isTweetUpdated, setIsTweetUpdated] = useState(false);
+  // 儲存 userInfo 物件方便運用，裡面包含 account、avatar、banner、name 等
+  const [userInfo, setUserInfo] = useState({});
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  useEffect(() => {
-    const checkTokenIsValid = async () => {
-      if (
-        pathname === "/login" ||
-        pathname === "/signup" ||
-        pathname === "/admin"
-      )
-        return;
 
-      setIsTweetUpdated(false);
-      // 從 localStorage 取得 token
+  useEffect(() => {
+    //如果換頁要去的目的是登入/註冊頁面的話，請不用認證token
+    if (
+      pathname === "/login" ||
+      pathname === "/signup" ||
+      pathname === "/admin"
+    )
+      return;
+    //更新完Tweet後，要把isTweetUpdated退回false狀態
+    setIsTweetUpdated(false);
+
+    const checkTokenIsValid = async () => {
+      // 從 localStorage 拿 token
       const token = localStorage.getItem("token");
-      // 如果沒有token 則返回
+      // 如果 token 不存在則進行相關設定
       if (!token) {
         setIsAuthenticated(false);
         setPayload(null);
         return navigate("/login");
       }
+      // 若 token 存在則驗證其有效性
+      // 這邊似乎交給後端驗證？
+      // const result = await checkPermission(authToken);
 
-      // 如果有 token 用jwt分析
+      // 如果有 token（但似乎要給後端檢核是否有效）
       if (token) {
         const tempPayload = jwt_decode(token);
         setPayload(tempPayload);
-
+        //分析jwt解密的payload是否真的有此使用者
         if (!tempPayload) {
           setIsAuthenticated(false);
           setPayload(null);
           return navigate("/login");
         }
         setIsAuthenticated(true);
+        // 使用 localStorage 中的 userInfo 來初始化
+        const savedUserInfo = localStorage.getItem("userInfo");
+        if (savedUserInfo) {
+          setUserInfo(JSON.parse(savedUserInfo));
+        }
       } else {
+        // 無效
         setIsAuthenticated(false);
         setPayload(null);
-        navigate("/login");
       }
     };
     checkTokenIsValid();
@@ -68,6 +81,7 @@ export const AuthProvider = ({ children }) => {
         currentUser: payload && {
           account: payload.account,
           avatar: payload.avatar,
+          id: payload.id,
         },
         isTweetUpdated,
         setIsTweetUpdated,
@@ -102,22 +116,32 @@ export const AuthProvider = ({ children }) => {
             password: data.password,
           });
           const { success } = response;
-          const token = response.data.token;
+
           if (success) {
+            const token = response.data.token;
             const temPayload = jwt_decode(token);
             setPayload(temPayload);
             setIsAuthenticated(true);
             localStorage.setItem("token", token);
+            setUserInfo(response.data.user);
+            localStorage.setItem(
+              "userInfo",
+              JSON.stringify(response.data.user)
+            );
           } else {
             setPayload(null);
             setIsAuthenticated(false);
           }
           return response;
         },
-        logout: () => {
+        logout: async () => {
           localStorage.removeItem("token");
+          localStorage.removeItem("userId");
+
           setPayload(null);
           setIsAuthenticated(false);
+
+          navigate("/login");
         },
         addTweet: async (data) => {
           const response = await addTweet({ description: data.description });
