@@ -1,19 +1,63 @@
 import styles from "./TweetItem.module.scss";
-import reply from "../../assets/icons/reply.svg";
+import replyIcon from "../../assets/icons/reply.svg";
 import like from "../../assets/icons/like.svg";
 import likeFilled from "../../assets/icons/like-filled.svg";
 import defaultAvatar from "../../assets/icons/default-img.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import ReplyModal from "../Modal/ReplyModal/ReplyModal";
+import { useAuth } from "../../contexts/AuthContext";
+import Swal from "sweetalert2";
+import clsx from "clsx";
 
-export default function TweetItem({ tweet, onClick,onTweetClick }) {
+export default function TweetItem({ tweet, onClick, onTweetClick }) {
   let { name, account, avatar } = tweet.User;
-  const { id, UserId, description, createdAt, repliesNum, likesNum, isLiked, fromNow } =
-    tweet;
-  const [isReply, setIsReply] = useState(false);
+  const {
+    id,
+    UserId,
+    description,
+    createdAt,
+    repliesNum,
+    likesNum,
+    isLiked,
+    fromNow,
+  } = tweet;
+  const { replyTweet, currentUser, setIsReplyUpdated } = useAuth();
+  // const [isReply, setIsReply] = useState(false);
+  const [show, setShow] = useState();
+  const [reply, setReply] = useState("");
+  const [replyCount, setReplyCount] = useState(repliesNum);
+  const contentDelete = () => {
+    setReply("");
+  };
 
-
+  //  show Modal
+  const handleClose = () => setShow(false);
   const handleReplyClick = () => {
-    setIsReply(true);
+    setShow(true);
+  };
+
+  // 回覆功能
+  const handleReply = async () => {
+    if (reply.length > 140) return;
+    if (reply.trim().length === 0) return;
+    const response = await replyTweet(id, { comment: reply });
+    //若新增推文成功
+    if (response.data.comment) {
+      handleClose();
+      contentDelete();
+      setReplyCount(replyCount + 1);
+      return;
+    } else {
+      contentDelete();
+      handleClose();
+      Swal.fire({
+        position: "top",
+        title: "回覆失敗！",
+        timer: 1000,
+        icon: "error",
+        showConfirmButton: false,
+      });
+    }
   };
 
   // 追蹤哪個貼文被按讚
@@ -21,8 +65,17 @@ export default function TweetItem({ tweet, onClick,onTweetClick }) {
     onClick(id);
   };
 
+  useEffect(() => {
+    setIsReplyUpdated(false);
+  }, [setIsReplyUpdated]);
+
   return (
-    <div className={styles.container} onClick={()=>{onTweetClick?.(id)}}>
+    <div
+      className={styles.container}
+      onClick={() => {
+        onTweetClick?.(id);
+      }}
+    >
       <div className={styles.wrapper}>
         {avatar ? (
           <img className={styles.avatar} src={avatar} alt="avatar" />
@@ -43,11 +96,11 @@ export default function TweetItem({ tweet, onClick,onTweetClick }) {
           <p className={styles.text}>{description}</p>
           <div className={styles.bottom}>
             <div className={styles.reply} onClick={handleReplyClick}>
-              <img src={reply} alt="num-of-replies" />
+              <img src={replyIcon} alt="num-of-replies" />
               <span>{repliesNum}</span>
             </div>
             <div className={styles.like} onClick={handleLikeClick}>
-             {isLiked ? (
+              {isLiked ? (
                 <img src={likeFilled} alt="like-fill" />
               ) : (
                 <img src={like} alt="like" />
@@ -57,6 +110,26 @@ export default function TweetItem({ tweet, onClick,onTweetClick }) {
           </div>
         </div>
       </div>
+      <ReplyModal
+        show={show}
+        handleClose={handleClose}
+        handleReply={handleReply}
+        posterAvatar={avatar}
+        userAvatar={currentUser?.avatar}
+        postUserName={name}
+        postUserAccount={account}
+        postCreatedAt={fromNow}
+        postDescription={description}
+        onInputChange={(replyInput) => {
+          setReply(replyInput);
+        }}
+        value={reply}
+        errorMsg={clsx(
+          "",
+          { [styles.emptyError]: reply.trim().length === 0 },
+          { [styles.overError]: reply.length > 140 }
+        )}
+      />
       {/* {isReply && <Modal/>} */}
     </div>
   );

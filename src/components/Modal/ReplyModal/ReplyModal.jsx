@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styles from "./ReplyModal.module.scss";
-import clsx from "clsx";
 import { Modal } from "react-bootstrap";
 import IconClose from "../../../assets/icons/close.svg";
 import DefaultAvatar from "../../../assets/icons/default-img.svg";
+// import { Value } from "sass";
 
 const ReplyModal = ({
   posterAvatar,
@@ -15,14 +15,11 @@ const ReplyModal = ({
   onInputChange,
   show,
   handleClose,
+  handleReply,
+  value,
+  errorMsg,
 }) => {
-  const [reply, setReply] = useState("");
-
-  function handleOnSave() {
-    if (reply.length === 0) {
-      return;
-    }
-  }
+  // const [reply, setReply] = useState("");
 
   return (
     <>
@@ -78,11 +75,12 @@ const ReplyModal = ({
                 <textarea
                   className={styles.replyInput}
                   placeholder="推你的回覆"
-                  onChange={(replyInput) => setReply(replyInput)}
+                  onChange={(e) => onInputChange?.(e.target.value)}
+                  Value={value}
                 />
               </div>
-              <div className={styles.noText}>內容不可空白</div>
-              <button className={styles.replyButton} onClick={handleOnSave}>
+              <div className={errorMsg}></div>
+              <button className={styles.replyButton} onClick={handleReply}>
                 回覆
               </button>
             </Modal.Body>

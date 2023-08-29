@@ -72,7 +72,7 @@ export const getTopTweetReplies = async (id) => {
   } catch (error) {
     console.error("[Get TopTweetReplies failed]: ", error);
   }
-}
+};
 
 // 追蹤
 export const userFollow = async (token, id) => {
@@ -103,10 +103,9 @@ export const unFollow = async (token, id) => {
 export const getUserFollowers = async (id) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/users/${id}/followers`);
-    console.log("tweets.js 裡的 getUserFollowers 回傳值: ", res.data);
     return res.data;
   } catch (error) {
-    console.error("[Get user followers failed]", error.response.data.message);
+    console.error("[Get user followers failed]", error);
   }
 };
 
@@ -114,9 +113,20 @@ export const getUserFollowers = async (id) => {
 export const getUserFollowings = async (id) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/users/${id}/followings`);
-    console.log("tweets.js 裡的 getUserFollowings 回傳值: ", res.data);
+
     return res.data;
   } catch (error) {
-    console.error("[Get user followings failed]", error.response.data.message);
+    console.error("[Get user followings failed]", error);
+  }
+};
+
+export const replyTweet = async (id, { comment }) => {
+  try {
+    const res = await axiosInstance.post(`${baseUrl}/tweets/${id}/replies`, {
+      comment,
+    });
+    return res;
+  } catch (error) {
+    console.error("[ReplyTweet failed]", error);
   }
 };
