@@ -12,6 +12,7 @@
   height: 50px;
   object-fit: cover;
   border-radius: 50%;
+  margin-top: 5px;
 }
 
 .info {
@@ -26,13 +27,16 @@
     .name {
       font-size: 16px;
       font-weight: 700;
-      padding-top: 10px;
+      padding-top: 20px;
     }
+  }
+  .button {
+    margin-top: 5px;
   }
 
   .description {
     font-size: 16px;
     color: var(--grayscale-dark-100);
-    margin-top: 5px;
+    margin-top: 25px;
   }
 }

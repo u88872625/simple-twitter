@@ -35,12 +35,12 @@ export default function FontendSideBar() {
     // 登出
     if (itemName === "登出") {
       logout();
-      navigate("/login");
     }
 
     setActiveItem(itemName);
   };
 
+  // 新增推文
   const handleSubmit = async () => {
     if (isUpdating) return;
     if (tweet.length > 140) return;
@@ -65,11 +65,9 @@ export default function FontendSideBar() {
         window.location.reload();
       }
     } catch (error) {
-      console.error("AddTweeet failed ]", error);
+      console.error("[AddTweeet failed ]", error);
       setShow(false);
     }
-
-    console.log(tweet);
   };
 
   const location = useLocation();

@@ -3,14 +3,55 @@ import styles from "./FollowItem.module.scss";
 import IconDefaultAvatar from "../../../assets/icons/default-img.svg";
 import FollowingBtn from "../../shared/shareBtn/FollowingBtn";
 import FollowBtn from "../../shared/shareBtn/FollowBtn";
+import { userFollow, unFollow } from "../../../api/tweets";
 
-const FollowItem = ({ id, name, userAvatar, description, isFollowed }) => {
+const FollowItem = ({
+  id,
+  name,
+  avatar,
+  introduction,
+  isFollowed,
+  rerender,
+  setRerender,
+}) => {
+  const token = localStorage.getItem("token");
+
+  // 追蹤
+  const userFollowAsync = async (token, id) => {
+    try {
+      const res = await userFollow(token, id);
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // 去銷追蹤
+  const userUnfollowAsync = async (token, id) => {
+    try {
+      const res = await unFollow(token, id);
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // 設定追蹤、取消追蹤功能
+  const handleFollowClick = async (topUserId, isFollowed) => {
+    if (isFollowed) {
+      await userUnfollowAsync(token, topUserId);
+    } else {
+      await userFollowAsync(token, topUserId);
+    }
+    await setRerender(!rerender);
+  };
+
   return (
-    <div className={styles.container}>
+    <div id={id} className={styles.container}>
       <div>
         <img
           className={styles.avatar}
-          src={userAvatar ? userAvatar : IconDefaultAvatar}
+          src={avatar ? avatar : IconDefaultAvatar}
           alt="avatar"
         />
       </div>
@@ -19,13 +60,19 @@ const FollowItem = ({ id, name, userAvatar, description, isFollowed }) => {
           <div className={styles.name}>{name}</div>
           <div className={styles.button}>
             {isFollowed ? (
-              <FollowingBtn text={"正在跟隨"} />
+              <FollowingBtn
+                text={"正在跟隨"}
+                onClick={() => handleFollowClick(id, isFollowed)}
+              />
             ) : (
-              <FollowBtn text={"跟隨"} />
+              <FollowBtn
+                text={"跟隨"}
+                onClick={() => handleFollowClick(id, isFollowed)}
+              />
             )}
           </div>
         </div>
-        <div className={styles.description}>{description}</div>
+        <div className={styles.description}>{introduction}</div>
       </div>
     </div>
   );

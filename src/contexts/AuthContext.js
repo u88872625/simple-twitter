@@ -20,8 +20,10 @@ export const AuthProvider = ({ children }) => {
   const [payload, setPayload] = useState(null);
   // 使用者自己的Tweet更新
   const [isTweetUpdated, setIsTweetUpdated] = useState(false);
+
   const { pathname } = useLocation();
   const navigate = useNavigate();
+
   useEffect(() => {
     const checkTokenIsValid = async () => {
       if (
@@ -60,7 +62,6 @@ export const AuthProvider = ({ children }) => {
     };
     checkTokenIsValid();
   }, [pathname, navigate]);
-
   return (
     <AuthContext.Provider
       value={{
@@ -69,6 +70,8 @@ export const AuthProvider = ({ children }) => {
           id: payload.id,
           account: payload.account,
           avatar: payload.avatar,
+          id: payload.id,
+          name: payload.name,
         },
         isTweetUpdated,
         setIsTweetUpdated,
@@ -103,22 +106,29 @@ export const AuthProvider = ({ children }) => {
             password: data.password,
           });
           const { success } = response;
-          const token = response.data.token;
+
           if (success) {
+            const token = response.data.token;
+            const id = response.data.user.id;
             const temPayload = jwt_decode(token);
             setPayload(temPayload);
             setIsAuthenticated(true);
             localStorage.setItem("token", token);
+            localStorage.setItem("userId", id);
           } else {
             setPayload(null);
             setIsAuthenticated(false);
           }
           return response;
         },
-        logout: () => {
+        logout: async () => {
           localStorage.removeItem("token");
+          localStorage.removeItem("userId");
+
           setPayload(null);
           setIsAuthenticated(false);
+
+          navigate("/login");
         },
         addTweet: async (data) => {
           const response = await addTweet({ description: data.description });

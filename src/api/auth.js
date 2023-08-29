@@ -9,32 +9,14 @@ export const login = async ({ account, password }) => {
       password,
     });
 
-    const { token } = data;
-
-    if (token) {
+    if (data.success) {
       return { success: true, ...data };
+    } else {
+      return { success: false, ...data };
     }
-
-    return data;
-  } catch (err) {
-    console.error("[Login Failed]:", err);
-
-    const errorMessage = err.response?.data.message || "";
-    let accountErrMsg = "";
-    let passwordErrMsg = "";
-
-    if (errorMessage.includes("User does not exist")) {
-      accountErrMsg = "帳號不存在！";
-    } else if (errorMessage.includes("Incorrect password")) {
-      passwordErrMsg = "不正確的密碼！";
-    }
-    return {
-      success: false,
-      cause: {
-        accountErrMsg,
-        passwordErrMsg,
-      },
-    };
+  } catch (error) {
+    console.error("[Login Failed]:", error);
+    return error.response?.data || { message: "登入失敗", success: false };
   }
 };
 

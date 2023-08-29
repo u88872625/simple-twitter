@@ -3,17 +3,53 @@ import styles from "./PopularList.module.scss";
 import IconDefaultAvatar from "../../assets/icons/default-img.svg";
 import FollowBtn from "../shared/shareBtn/FollowBtn";
 import FollowingBtn from "../shared/shareBtn/FollowingBtn";
-
 import { getTopUsers, userFollow, unFollow } from "../../api/tweets";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-export default function PopularList() {
+export default function PopularList({ rerender, setRerender }) {
+  const token = localStorage.getItem("token");
   const [topUsers, setTopUsers] = useState([]);
-  const { isAuthenticated } = useAuth();
-
+  // popularList 自己的重新渲染
+  const [rerenderSelf, setRerenderSelf] = useState(false);
   const navigate = useNavigate();
 
+  // 追蹤
+  const userFollowAsync = async (token, id) => {
+    try {
+      const res = await userFollow(token, id);
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // 去銷追蹤
+  const userUnfollowAsync = async (token, id) => {
+    try {
+      const res = await unFollow(token, id);
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // 設定追蹤、取消追蹤功能
+  const handleFollowClick = async (topUserId, isFollowed) => {
+    if (isFollowed) {
+      await userUnfollowAsync(token, topUserId);
+    } else {
+      await userFollowAsync(token, topUserId);
+    }
+
+    if (setRerender) {
+      await setRerender(!rerender);
+    } else {
+      setRerenderSelf(!rerenderSelf);
+    }
+  };
+
+  // 取得top10的使用者資料
   useEffect(() => {
     const getTopUsersAsync = async () => {
       try {
@@ -23,54 +59,36 @@ export default function PopularList() {
         console.error(error);
       }
     };
-
-    if (isAuthenticated) {
-      getTopUsersAsync();
-    } else {
-      navigate("/login");
-    }
-  }, [navigate, isAuthenticated]);
+    getTopUsersAsync();
+  }, [rerender, rerenderSelf]);
 
   return (
     <div>
       <div className={styles.popularList}>
         <p className={styles.popularListTitle}>推薦跟隨</p>
         <div className={styles.popularListLine}></div>
-        <PopularListContent topUsers={topUsers} />
+        {topUsers.map((topUser) => {
+          return (
+            <PopularListItem
+              key={topUser.id}
+              topUser={topUser}
+              handleFollowClick={handleFollowClick}
+            />
+          );
+        })}
       </div>
     </div>
   );
 }
 
-function PopularListContent({ topUsers }) {
-  return (
-    <>
-      {topUsers.map((topUser) => {
-        return <PopularListItem key={topUser.id} topUser={topUser} />;
-      })}
-    </>
-  );
-}
-
-function PopularListItem({ topUser }) {
+function PopularListItem({ topUser, handleFollowClick }) {
   const { id, avatar, name, account, isFollowed } = topUser;
+  // 讓使用者即時看到跟隨按鈕變化
   const [followState, setFollowState] = useState(isFollowed);
 
-  // 切換追蹤狀態
-  const handleFollowClick = async (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-    try {
-      if (followState) {
-        await unFollow(id);
-      } else {
-        await userFollow(id);
-      }
-      setFollowState(!followState);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  useEffect(() => {
+    setFollowState(isFollowed);
+  }, [isFollowed]);
 
   return (
     <div id={id} className={styles.popularListItem}>
@@ -88,10 +106,22 @@ function PopularListItem({ topUser }) {
 
       {/* 暫時使用單一Btn */}
       <div className={styles.popularItemBtn}>
-        {followState ? (
-          <FollowingBtn text={"正在跟隨"} onClick={handleFollowClick} />
+        {isFollowed ? (
+          <FollowingBtn
+            text={"正在跟隨"}
+            onClick={() => {
+              setFollowState(!followState);
+              handleFollowClick(id, isFollowed);
+            }}
+          />
         ) : (
-          <FollowBtn text={"跟隨"} onClick={handleFollowClick} />
+          <FollowBtn
+            text={"跟隨"}
+            onClick={() => {
+              setFollowState(!followState);
+              handleFollowClick(id, isFollowed);
+            }}
+          />
         )}
       </div>
     </div>

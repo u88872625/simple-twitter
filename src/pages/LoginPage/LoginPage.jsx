@@ -7,13 +7,13 @@ import clsx from "clsx";
 import Swal from "sweetalert2";
 import { useNavigate, Link } from "react-router-dom/dist";
 import { useAuth } from "../../contexts/AuthContext";
-// import { login } from "../../api/auth";
 
 const LoginPage = () => {
   const [account, setAccount] = useState("");
   const [password, setPassword] = useState("");
   // 後端錯誤訊息判定
-  const [errorMessage, setErrorMessage] = useState("");
+  const [accountMsg, setAccountMsg] = useState("");
+  const [passwordErrorMsg, setPasswordErrorMsg] = useState("");
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
@@ -30,16 +30,8 @@ const LoginPage = () => {
       password,
     });
 
-    const token = response.data.token;
-    const userId = response.data.user.id;
-
-    const { success, cause } = response;
-
-    if (success) {
-      localStorage.setItem("token", token);
-      localStorage.setItem("userId", userId);
-      // navigate("/Home");
-      // 登入成功訊息
+    // 登入成功
+    if (response.success) {
       Swal.fire({
         position: "top",
         title: "登入成功！",
@@ -47,15 +39,18 @@ const LoginPage = () => {
         icon: "success",
         showConfirmButton: false,
       });
-      return;
     }
 
-    // 登入失敗時，辨別後端的錯誤訊息
-    const accountErrMsg = cause?.accountErrMsg || "";
-    const passwordErrMsg = cause?.passwordErrMsg || "";
-    setErrorMessage(accountErrMsg + " " + passwordErrMsg);
+    // 登入失敗，出現相對應錯誤訊息提示
+    if (!response.success) {
+      if (response.cause.accountErrMsg) {
+        setAccountMsg(response.cause.accountErrMsg);
+      }
+      if (response.cause.passwordErrMsg) {
+        setPasswordErrorMsg(response.cause.passwordErrMsg);
+      }
+    }
   };
-
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/home");
@@ -72,10 +67,10 @@ const LoginPage = () => {
           placeholder={"請輸入帳號"}
           value={account}
           borderMode={clsx("", {
-            [styles.accountInfoError]: errorMessage.includes("帳號不存在！"),
+            [styles.accountInfoError]: accountMsg.includes("帳號不存在！"),
           })}
           onChange={(accountInput) => {
-            setErrorMessage("");
+            setAccountMsg("");
             setAccount(accountInput);
           }}
         />
@@ -85,10 +80,11 @@ const LoginPage = () => {
           type={"password"}
           value={password}
           borderMode={clsx("", {
-            [styles.passwordInfoError]: errorMessage.includes("不正確的密碼！"),
+            [styles.passwordInfoError]:
+              passwordErrorMsg.includes("不正確的密碼！"),
           })}
           onChange={(passwordInput) => {
-            setErrorMessage("");
+            setPasswordErrorMsg("");
             setPassword(passwordInput);
           }}
         />

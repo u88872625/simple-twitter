@@ -2,22 +2,30 @@ import React from "react";
 import FollowItem from "../FollowItem/FollowItem";
 import styles from "./FollowingContent.module.scss";
 
-const FollowingContent = ({ followings }) => {
+const FollowingContent = ({ followings, rerender, setRerender }) => {
   return (
     <div>
       {followings ? (
-        followings.map((following) => (
-          <FollowItem
-            name={following.name}
-            userAvatar={following.avatar}
-            description={following.description}
-            isFollowed={following.isFollowed}
-          />
-        ))
+        followings.map((following) => {
+          const { id, avatar, name, followingId, isFollowed, introduction } =
+            following;
+          return (
+            <FollowItem
+              key={id}
+              id={followingId}
+              avatar={avatar}
+              name={name}
+              introduction={introduction}
+              isFollowed={isFollowed}
+              rerender={rerender}
+              setRerender={setRerender}
+            />
+          );
+        })
       ) : (
-        // 當沒有追隨者時顯示
-        <div className={styles.noFollow}>
-          <p>尚無追隨其他使用者</p>
+        <div className={styles.margin}>
+          <div></div>
+          <span>（此使用者尚未被任何人跟隨）</span>
         </div>
       )}
     </div>

@@ -75,23 +75,48 @@ export const getTopTweetReplies = async (id) => {
 }
 
 // 追蹤
-export const userFollow = async (id) => {
+export const userFollow = async (token, id) => {
   try {
-    const { data } = await axiosInstance.post(`${baseUrl}/followships`, {
-      id,
+    const { data } = await axios.post(
+      `${baseUrl}/followships`,
+      { id },
+      { headers: { Authorization: "Bearer " + token } }
+    );
+    return data;
+  } catch (error) {
+    console.error("[userFollow failed]", error);
+  }
+};
+// 取消追蹤
+export const unFollow = async (token, id) => {
+  try {
+    const { data } = await axios.delete(`${baseUrl}/followships/${id}`, {
+      headers: { Authorization: "Bearer " + token },
     });
     return data;
   } catch (error) {
-    console.error("[User Follow failed]: ", error);
+    console.error("[UnFollow failed]", error);
   }
 };
 
-// 取消追蹤
-export const unFollow = async (id) => {
+// / get某位使用者的 followers 資料
+export const getUserFollowers = async (id) => {
   try {
-    const { data } = await axiosInstance.delete(`${baseUrl}/followships/${id}`);
-    return data;
+    const res = await axiosInstance.get(`${baseUrl}/users/${id}/followers`);
+    console.log("tweets.js 裡的 getUserFollowers 回傳值: ", res.data);
+    return res.data;
   } catch (error) {
-    console.error("[UnFollow failed]: ", error);
+    console.error("[Get user followers failed]", error.response.data.message);
+  }
+};
+
+// get某位使用者的 followings 資料
+export const getUserFollowings = async (id) => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/users/${id}/followings`);
+    console.log("tweets.js 裡的 getUserFollowings 回傳值: ", res.data);
+    return res.data;
+  } catch (error) {
+    console.error("[Get user followings failed]", error.response.data.message);
   }
 };
