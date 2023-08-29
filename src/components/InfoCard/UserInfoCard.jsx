@@ -1,6 +1,7 @@
 import styles from "./UserInfoCard.module.scss";
 // import { useEffect, useState } from 'react';
 // import { useNavigate} from 'react-router-dom';
+import { useAuth } from "../../contexts/AuthContext";
 import SettingBtn from "../shared/shareBtn/SettingBtn";
 import ProfileEditModal from "../Modal/ProfileEditModal/ProfileEditModal";
 import { useState } from "react";
@@ -11,6 +12,7 @@ import { Link } from "react-router-dom";
 export default function UserInfoCard({ info, handleFollowDetail }) {
   // const [isEdit, setIsEdit] = useState(false)
   // const navigate = useNavigate()
+  const { currentUser } = useAuth();
 
   const [show, setShow] = useState(false);
 
@@ -29,7 +31,7 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
     <div className={styles.container}>
       <div className={styles.img}>
         {info && info.banner ? (
-          <img className={styles.banner} src={info.banner} alt="banner" />
+          <img className={styles.banner} src={currentUser.banner} alt="banner" />
         ) : (
           <img
             className={styles.banner}
@@ -38,7 +40,7 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
           />
         )}
         {info.avatar ? (
-          <img className={styles.avatar} src={info.avatar} alt="avatar" />
+          <img className={styles.avatar} src={currentUser.avatar} alt="avatar" />
         ) : (
           <img
             className={styles.avatar}
@@ -51,10 +53,10 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
         </div>
       </div>
       <div className={styles.userInfo}>
-        <h5 className={styles.userName}>{info.name}</h5>
-        <p className={styles.userAccount}>@{info.account}</p>
+        <h5 className={styles.userName}>{currentUser.name}</h5>
+        <p className={styles.userAccount}>@{currentUser.account}</p>
       </div>
-      <div className={styles.introduction}>{info.introduction}</div>
+      <div className={styles.introduction}>{currentUser.introduction}</div>
 
       <div className={styles.showFollow} onClick={handleFollowDetail}>
         <p className={styles.showfolloing}>
@@ -68,8 +70,8 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
       <ProfileEditModal
         show={show}
         handleClose={handleClose}
-        avatar={info.avatar}
-        userBanner={info.banner}
+        // avatar={info.avatar}
+        // userBanner={info.banner}
       />
     </div>
   );

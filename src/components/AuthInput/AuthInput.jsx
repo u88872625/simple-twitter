@@ -18,7 +18,9 @@ const AuthInput = ({
 
   if (
     dataPage &&
-    (dataPage === "signUpPage" || dataPage === "profileEditModal")
+    (dataPage === "signUpPage" ||
+      dataPage === "profileEditModal" ||
+      dataPage === "settingPage")
   ) {
     if (label === "名稱") {
       maxChar = 50;

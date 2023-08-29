@@ -18,7 +18,9 @@ const AuthInput = ({
 
   if (
     dataPage &&
-    (dataPage === "signUpPage" || dataPage === "profileEditModal")
+    (dataPage === "signUpPage" ||
+      dataPage === "profileEditModal" ||
+      dataPage === "settingPage")
   ) {
     if (label === "名稱") {
       maxChar = 50;
@@ -30,6 +32,9 @@ const AuthInput = ({
   }
 
   const handleInputChange = (inputValue) => {
+    // if (inputValue.length > maxChar + 1) {
+    //   return; // 如果字數超出上限不繼續更新值
+    // }
     onChange?.(inputValue);
     setCharCount(inputValue.length);
   };

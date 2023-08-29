@@ -64,6 +64,20 @@ export const AuthProvider = ({ children }) => {
     };
     checkTokenIsValid();
   }, [pathname, navigate]);
+
+  const updateUserInfo = (updatedInfo)=>{
+    setPayload((prevPayload)=>({
+      ...prevPayload,
+      account:updatedInfo.account,
+      name:updatedInfo.name,
+      introduction: updatedInfo.introduction,
+      avatar:updatedInfo.avatar,
+      email:updatedInfo.email,
+      avatar:updatedInfo.avatar,
+      banner: updatedInfo.banner,
+
+    }))
+  }
   return (
     <AuthContext.Provider
       value={{
@@ -76,7 +90,10 @@ export const AuthProvider = ({ children }) => {
           email: payload.email,
           password: payload.password,
           checkPassword:payload.checkPassword,
+          introduction: payload.introduction,
+          banner:payload.banner,
         },
+        updateUserInfo,
         isTweetUpdated,
         setIsTweetUpdated,
         editedUserInfo,
@@ -141,13 +158,7 @@ export const AuthProvider = ({ children }) => {
           if (response.data) setIsTweetUpdated(true);
           return response;
         },
-        patchUerInfo: async()=>{
-          try{
-            const res = await patchUserInfo(payload.id,)
-          }catch(error){
-            console.error(error)
-          }
-        }
+        
       }}
     >
       {children}

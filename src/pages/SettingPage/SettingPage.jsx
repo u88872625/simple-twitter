@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
-import {useNavigate} from 'react-router-dom'
-import styles from './SettingPage.module.scss'
+import { useNavigate } from "react-router-dom";
+import styles from "./SettingPage.module.scss";
 import clsx from "clsx";
-import FontendSettingLayout from '../../components/shared/layout/FontendSettingLayout/FontendSettingLayout'
+import FontendSettingLayout from "../../components/shared/layout/FontendSettingLayout/FontendSettingLayout";
 import AuthSettingInput from "../../components/AuthInput/AuthSettingInput";
-import { useAuth, editedUserInfo,setEditedUserInfo } from "../../contexts/AuthContext";
-import SettingBtn from '../../components/shared/shareBtn/ReplyBtn'
-import {patchUserInfo} from '../../api/user'
-import Alert from '../../components/shared/Alert/Alert'
-import successIcon from '../../assets/icons/success.png'
-import errorIcon from '../../assets/icons/error.png'
+import { useAuth } from "../../contexts/AuthContext";
+import SettingBtn from "../../components/shared/shareBtn/ReplyBtn";
+import { patchUserInfo } from "../../api/user";
+import Alert from "../../components/shared/Alert/Alert";
+import successIcon from "../../assets/icons/success.png";
+import errorIcon from "../../assets/icons/error.png";
 
 const SettingPage = () => {
-  const { currentUser } = useAuth();
+  const { currentUser, setEditedUserInfo } = useAuth();
   const [account, setAccount] = useState(currentUser?.account || "");
   const [name, setName] = useState(currentUser?.name || "");
   const [email, setEmail] = useState(currentUser?.email || "");
@@ -35,13 +35,17 @@ const SettingPage = () => {
         checkPassword,
       };
       const updateUserInfo = await patchUserInfo(editedInfo);
-      setEditedUserInfo(updateUserInfo)
-      setShowAlert(true);
-      setAlerMsg("儲存成功!");
+      setEditedUserInfo(updateUserInfo);
+
+      if (updateUserInfo.success) {
+        setShowAlert(true);
+        setAlerMsg("儲存成功!");
+      } else {
+        setShowAlert(true);
+        setAlerMsg(updateUserInfo.message || "儲存失敗!");
+      }
     } catch (error) {
       console.error(error);
-      setShowAlert(true);
-      setAlerMsg("儲存失敗!");
     }
   };
 
@@ -68,7 +72,7 @@ const SettingPage = () => {
           label="名稱"
           placeholder="請輸入使用者名稱"
           value={name}
-          dataPage={"signUpPage"}
+          dataPage={"settingPage"}
           borderMode={clsx("", {
             [styles.nameError]: name.length > 50,
           })}
