@@ -56,3 +56,19 @@ export const register = async ({
     }
   }
 };
+
+export const adminLogin = async ({ account, password }) => {
+  try {
+    const response = await axios.post(`${authURL}/admin/signin`, {
+      account,
+      password,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(
+      "[Login Failed]",
+      error.response ? error.response.data : error
+    );
+    return error;
+  }
+};
