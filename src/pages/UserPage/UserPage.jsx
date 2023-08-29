@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  getUserInfo,
-  getUserTweet,
-  getUserReplied,
-  getUserLike,
-} from "../../api/user";
-import { useAuth } from "../../contexts/AuthContext";
+import {getUserInfo, getUserTweet,getUserReplied,getUserLike} from '../../api/user'
+import{getTopTweet} from '../../api/tweets'
+import {useAuth} from '../../contexts/AuthContext'
 import styles from "./UserPage.module.scss";
 import FontendLayout from "../../components/shared/layout/FontendLayout/FontendLayout.jsx";
 import UserInfoCard from "../../components/InfoCard/UserInfoCard";
 import TweetTabs from "../../components/TweetTabs/TweetTabs";
 import arrow from "../../assets/icons/back.svg";
+import { useTweetId } from "../../contexts/TweetIdContext";
 
 const UserPage = () => {
   const userDetail = JSON.parse(localStorage.getItem("userInfo"));
@@ -24,7 +21,17 @@ const UserPage = () => {
   const [loading, setLoading] = useState(true);
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
-  // const {account} = useParams() //取得用戶account反映在路徑上
+  const { account } = useParams(); //取得用戶account反映在路徑上
+  const { id } = useParams(); //取得貼文id反映在路徑上
+  const { handleTweetClick } = useTweetId();//更新貼文id
+
+  // // 追蹤單一貼文點擊
+  // const handleTweetClick = async (id) => {
+  //   console.log("tweetid:", id);
+  //   setTweetId(id);
+  //   navigate(`/status/${id}`);
+  // };
+
 
   // 點擊user追蹤者資訊欄位，進入follow頁面
   function handleFollowDetailClick() {
@@ -45,16 +52,22 @@ const UserPage = () => {
     });
     setUserTweets(newTweet);
   };
+
   useEffect(() => {
+
     if (userId) {
       const getUserInfoAsync = async () => {
         try {
           const userInfo = await getUserInfo(userId);
           console.log("User Info:", userInfo);
           setUserInfo(userInfo);
-          setLoading(false); //當取得資料後變回false
         } catch (error) {
           console.error(error);
+
+
+        } finally {
+          setLoading(false); //當取得資料後變回false
+
         }
       };
       getUserInfoAsync();
@@ -66,9 +79,10 @@ const UserPage = () => {
         try {
           const userTweets = await getUserTweet(userId);
           setUserTweets(userTweets);
-          setLoading(false); //當取得推文後變回false
         } catch (error) {
           console.error(error);
+        } finally {
+          setLoading(false); //當取得資料後變回false
         }
       };
       getUserTweetAsync();
@@ -80,9 +94,11 @@ const UserPage = () => {
         try {
           const userReplied = await getUserReplied(userId);
           setUserReplied(userReplied);
-          setLoading(false); //當取得推文後變回false
+
         } catch (error) {
           console.error(error);
+        } finally {
+          setLoading(false); //當取得資料後變回false
         }
       };
       getUserRepliedAsync();
@@ -94,9 +110,10 @@ const UserPage = () => {
         try {
           const userLike = await getUserLike(userId);
           setUserLike(userLike);
-          setLoading(false); //當取得推文後變回false
         } catch (error) {
           console.error(error);
+        } finally {
+          setLoading(false); //當取得資料後變回false
         }
       };
       getUserLikeAsync();
@@ -134,6 +151,7 @@ const UserPage = () => {
               replies={userReplied}
               likes={userLike}
               onClick={handleLikeClick}
+              onTweetClick={handleTweetClick}
             />
           </div>
         </>

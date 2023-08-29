@@ -78,7 +78,7 @@ export default function FontendSideBar() {
       setActiveItem("首頁");
     }
 
-    if (pathname === "/:username") {
+    if (pathname === "/:account") {
       setActiveItem("個人資料");
     }
 
@@ -107,7 +107,7 @@ export default function FontendSideBar() {
               icon={userInfo}
               activeIcon={userInfoActive}
               text="個人資料"
-              path="/:username"
+              path="/:account"
               isActive={activeItem === "個人資料"}
               onClick={() => handleItemClick("個人資料")}
             />
@@ -128,7 +128,6 @@ export default function FontendSideBar() {
               icon={logoutIcon}
               activeIcon={logoutIcon}
               text="登出"
-              path="/"
               isActive={activeItem === "登出"}
               onClick={() => handleItemClick("登出")}
             />

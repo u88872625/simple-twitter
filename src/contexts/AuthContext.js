@@ -79,6 +79,7 @@ export const AuthProvider = ({ children }) => {
       value={{
         isAuthenticated,
         currentUser: payload && {
+          id: payload.id,
           account: payload.account,
           avatar: payload.avatar,
           id: payload.id,
