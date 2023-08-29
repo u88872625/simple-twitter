@@ -6,7 +6,7 @@ import {memo} from 'react'
 const NavItem=({ icon, activeIcon, text, path, onClick }) => {
   // 取得當前路徑 如當前路徑和傳入的path相同 則增加active class
   const location = useLocation()
-  const isActive = location.pathname === path
+  const isActive = location.pathname === path || location.pathname.startsWith(`${path}/`)
 
   return (
     <li className={`${styles.navItem} ${isActive ? styles.active : ""}`}>

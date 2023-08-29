@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { getTopTweet, getTopTweetReplies } from "../api/tweets";
 
 const TweetIdContext = createContext();
@@ -12,8 +12,10 @@ export function TweetIdContextProvider({ children }) {
   const [repliesData, setRepliesData] = useState(null);
 
   const navigate = useNavigate();
+  const location = useLocation()
 
-  const handleTweetClick = async (id) => {
+  // 參數為被點擊的貼文id和點擊時的頁面
+  const handleTweetClick = async (id,location) => {
     try {
       const tweetRes = await getTopTweet(id);
       const repliesRes = await getTopTweetReplies(id);
@@ -21,7 +23,7 @@ export function TweetIdContextProvider({ children }) {
       setTweetId(id);
       setTweetData(tweetRes);
       setRepliesData(repliesRes);
-      navigate(`/status/${id}`);
+      navigate(`/status/${id}`, { state: { from: location.pathname } });
     } catch (error) {
       console.error(error);
     }

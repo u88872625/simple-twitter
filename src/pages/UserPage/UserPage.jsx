@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams,useLocation } from "react-router-dom";
 import {getUserInfo, getUserTweet,getUserReplied,getUserLike} from '../../api/user'
 import{getTopTweet} from '../../api/tweets'
 import {useAuth} from '../../contexts/AuthContext'
@@ -21,7 +21,8 @@ const UserPage = () => {
   const navigate = useNavigate();
   const { account } = useParams(); //取得用戶account反映在路徑上
   const { id } = useParams(); //取得貼文id反映在路徑上
-  const { handleTweetClick } = useTweetId();//更新貼文id
+  const { handleTweetClick } = useTweetId(); //更新貼文id
+  const location = useLocation();
 
   // // 追蹤單一貼文點擊
   // const handleTweetClick = async (id) => {
@@ -29,6 +30,12 @@ const UserPage = () => {
   //   setTweetId(id);
   //   navigate(`/status/${id}`);
   // };
+
+  // 追蹤要返回的上一頁
+  const handleBack = () => {
+    const prevLocation = location.state?.from || "/home";
+    navigate(prevLocation);
+  };
 
   // 更新對應推文的like數 後續需要把變動傳回後端
   const handleLikeClick = (tweetId) => {
@@ -124,7 +131,12 @@ const UserPage = () => {
       ) : (
         <>
           <div className={styles.header}>
-            <img className={styles.arrow} src={arrow} alt="arrow" />
+            <img
+              className={styles.arrow}
+              src={arrow}
+              alt="arrow"
+              onClick={handleBack}
+            />
             <div className={styles.text}>
               <h5 className={styles.name}>{userInfo?.name}</h5>
               <span className={styles.sub}>{userTweets.length}推文</span>
@@ -139,7 +151,7 @@ const UserPage = () => {
               replies={userReplied}
               likes={userLike}
               onClick={handleLikeClick}
-              onTweetClick={handleTweetClick}
+              onTweetClick={(id) => handleTweetClick(id, location)}
             />
           </div>
         </>

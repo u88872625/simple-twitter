@@ -2,16 +2,18 @@ import React, { useState, useEffect } from "react";
 import FontendLayout from "../components/shared/layout/FontendLayout/FontendLayout";
 import AddTweet from "../components/AddTweet/AddTweet";
 import TweetContent from "../components/TweetTabs/TweetContent/TweetContent";
-
+import { useTweetId } from "../contexts/TweetIdContext";
 import { getAllTweets } from "../api/tweets";
 import { useAuth } from "../contexts/AuthContext";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate,useLocation ,useParams } from "react-router-dom";
 
 const HomePage = () => {
   const [tweets, setTweets] = useState([]);
   const { isAuthenticated, currentUser } = useAuth();
   const navigate = useNavigate();
   // const{account} = useParams()
+  const { handleTweetClick } = useTweetId(); //更新貼文id
+  const location = useLocation();
 
   useEffect(() => {
     const getTweetsAsync = async () => {
@@ -34,7 +36,7 @@ const HomePage = () => {
     <div>
       <FontendLayout>
         <AddTweet avatar={currentUser?.avatar} />
-        <TweetContent tweets={tweets} />
+        <TweetContent tweets={tweets} onTweetClick={(id)=>handleTweetClick(id,location)} />
       </FontendLayout>
     </div>
   );
