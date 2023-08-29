@@ -6,7 +6,7 @@ import SettingPage from "./SettingPage";
 import StatusPage from "./StatusPage/StatusPage";
 import AdminLoginPage from "./AdminLoginPage/AdminLoginPage";
 import AdminMainPage from "./AdminMainPage";
-import AdminUsersPage from "./AdminUsersPage";
+import AdminUsersPage from "./AdminUsersPage/AdminUsersPage";
 import UserFollowPage from "./UserFollowPage/UserFollowPage";
 import HomePage from "./MainPage";
 

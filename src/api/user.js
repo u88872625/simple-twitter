@@ -64,3 +64,13 @@ export const getUserLike = async (userId) => {
     console.error("[Get UerLike Failed]:", error);
   }
 };
+
+// 取得全站使用者資料
+export const getAllUsers = async () => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/admin/users`);
+    return res.data;
+  } catch (error) {
+    console.error("[Get all users Failed]:", error);
+  }
+};

@@ -1,11 +1,12 @@
 import React from "react";
 import UserCard from "./UserCard/UserCard";
+import styles from "./AdminUsers.module.scss";
 
 const AdminUsers = ({ users, onClick }) => {
   return (
-    <div>
+    <div className={styles.AdminUsers}>
       {users.map((user) => {
-        <UserCard onClick={onClick} />;
+        return <UserCard key={user.id} user={user} onClick={onClick} />;
       })}
     </div>
   );

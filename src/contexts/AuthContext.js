@@ -26,10 +26,6 @@ export const AuthProvider = ({ children }) => {
 
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const role = {
-    user: "user",
-    admin: "admin",
-  };
 
   useEffect(() => {
     const checkTokenIsValid = async () => {
