@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate,useLocation } from "react-router-dom";
 import styles from "./StatusPage.module.scss";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTweetId } from "../../contexts/TweetIdContext";
@@ -15,7 +15,14 @@ const StatusPage = () => {
   const [topTweet, setTopTweet] = useState(tweetData);
   const [topTweetReplies, setTopTweetReplies] = useState(repliesData);
   const navigate = useNavigate();
+  const location = useLocation()
   const { isAuthenticated } = useAuth();
+
+  // 追蹤要返回的上一頁
+  const handleBack =()=>{
+    const prevLocation = location.state?.from || '/home'
+    navigate(prevLocation)
+  }
 
   console.log("status:", tweetId);
   console.log("statustweetdata:", tweetData);
@@ -35,8 +42,8 @@ const StatusPage = () => {
   return (
     <FontendLayout>
       <div className={styles.header}>
-        <img className={styles.arrow} src={arrow} alt="arrow" />
-        <h5 className={styles.title}>推文</h5>
+        <img className={styles.arrow} src={arrow} alt="arrow" onClick={handleBack}/>
+        <h4 className={styles.title}>推文</h4>
       </div>
       <div>
         <TopTweet tweet={topTweet} />

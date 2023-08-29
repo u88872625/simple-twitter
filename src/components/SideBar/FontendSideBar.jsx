@@ -2,7 +2,7 @@ import styles from "./SideBar.module.scss";
 import NavItem from "../shared/NavItem/NavItem.jsx";
 import TweetBtn from "../shared/shareBtn/TweetBtn.jsx";
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import home from "../../assets/icons/home.svg";
 import homeActive from "../../assets/icons/home-active.svg";
 import userInfo from "../../assets/icons/userInfo.svg";
@@ -22,6 +22,8 @@ export default function FontendSideBar() {
   const [show, setShow] = useState(false);
   const [tweet, setTweet] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
+  const { account } = useParams(); //取得用戶account反映在路徑上
+ 
 
   //  show Modal
   const handleClose = () => setShow(false);
@@ -78,7 +80,7 @@ export default function FontendSideBar() {
       setActiveItem("首頁");
     }
 
-    if (pathname === "/:account") {
+    if (pathname === "/:account" || pathname.startsWith(`${currentUser?.account}/`)) {
       setActiveItem("個人資料");
     }
 
@@ -107,7 +109,7 @@ export default function FontendSideBar() {
               icon={userInfo}
               activeIcon={userInfoActive}
               text="個人資料"
-              path="/:account"
+              path={`/${currentUser?.account}`}
               isActive={activeItem === "個人資料"}
               onClick={() => handleItemClick("個人資料")}
             />

@@ -1,9 +1,18 @@
 .header {
-  display: flex;
-  width: 639px;
-  height: 59px;
-  margin-top: 16px;
-  padding: 9px 0 0 24px;
+
+	display: flex;
+	width: 639px;
+	height:59px;
+	margin-top: 16px;
+	padding: 9px 0 0 24px;
+	
+	.arrow {
+		width: 24px;
+		height: 24px;
+		margin-right: 40px;
+		cursor: pointer;
+	}
+
 
   .arrow {
     width: 24px;
