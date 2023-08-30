@@ -23,7 +23,6 @@ export default function FontendSideBar() {
   const [tweet, setTweet] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
   const { account } = useParams(); //取得用戶account反映在路徑上
- 
 
   //  show Modal
   const handleClose = () => setShow(false);
@@ -31,10 +30,21 @@ export default function FontendSideBar() {
     setShow(true);
   };
 
-  const handleItemClick = (itemName) => {
+  // 登出
+  const handleItemClick = async (itemName) => {
+    console.log("Item clicked: ", itemName); // Debugging line
+
     // 登出
     if (itemName === "登出") {
-      logout();
+      try {
+        console.log("Logging out..."); // Debugging line
+        await logout();
+        console.log("Logged out. Navigating..."); // Debugging line
+        navigate("/login");
+        console.log("Navigation should have happened."); // Debugging line
+      } catch (error) {
+        console.error("An error occurred during logout: ", error);
+      }
     }
 
     setActiveItem(itemName);
@@ -80,7 +90,10 @@ export default function FontendSideBar() {
       setActiveItem("首頁");
     }
 
-    if (pathname === "/:account" || pathname.startsWith(`${currentUser?.account}/`)) {
+    if (
+      pathname === "/:account" ||
+      pathname.startsWith(`${currentUser?.account}/`)
+    ) {
       setActiveItem("個人資料");
     }
 

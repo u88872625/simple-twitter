@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams,useLocation } from "react-router-dom";
-import {getUserInfo, getUserTweet,getUserReplied,getUserLike} from '../../api/user'
-import{getTopTweet} from '../../api/tweets'
-import {useAuth} from '../../contexts/AuthContext'
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+import {
+  getUserInfo,
+  getUserTweet,
+  getUserReplied,
+  getUserLike,
+} from "../../api/user";
+import { getTopTweet } from "../../api/tweets";
+import { useAuth } from "../../contexts/AuthContext";
 import styles from "./UserPage.module.scss";
 import FontendLayout from "../../components/shared/layout/FontendLayout/FontendLayout.jsx";
 import UserInfoCard from "../../components/InfoCard/UserInfoCard";
@@ -12,18 +17,22 @@ import { useTweetId } from "../../contexts/TweetIdContext";
 import { useDataUpdate } from "../../contexts/UserDataContext";
 
 const UserPage = () => {
+  const token = localStorage.getItem("token");
+  const { currentUser } = useAuth();
+  const role = currentUser?.role;
   const userId = localStorage.getItem("userId");
-  const [userInfo, setUserInfo] = useState();
+  const [userInfo, setUserInfo] = useState([]);
   const [userTweets, setUserTweets] = useState([]);
   const [userReplied, setUserReplied] = useState([]);
   const [userLike, setUserLike] = useState([]);
   // 確保先取得userTweets再渲染TweetTabs
   const [loading, setLoading] = useState(true);
-  const { isAuthenticated } = useAuth();
+
   const navigate = useNavigate();
   const { account } = useParams(); //取得用戶account反映在路徑上
   const { id } = useParams(); //取得貼文id反映在路徑上
   const { handleTweetClick } = useTweetId(); //更新貼文id
+
   const location = useLocation();
   const { isDataUpdate, setIsDataUpdate, notifyDataUpdate } = useDataUpdate();
 
@@ -33,8 +42,6 @@ const UserPage = () => {
   //   setTweetId(id);
   //   navigate(`/status/${id}`);
   // };
-
-
 
   // 點擊user追蹤者資訊欄位，進入follow頁面
   function handleFollowDetailClick() {
@@ -47,24 +54,7 @@ const UserPage = () => {
     navigate(prevLocation);
   };
 
-
-  // 更新對應推文的like數 後續需要把變動傳回後端
-  const handleLikeClick = (tweetId) => {
-    const newTweet = userTweets.map((tweet) => {
-      if (tweet.id === tweetId) {
-        return {
-          ...tweet,
-          isLike: !tweet.isLiked,
-          likesNum: tweet.isLiked ? tweet.likesNum - 1 : tweet.likesNum + 1,
-        };
-      }
-      return tweet;
-    });
-    setUserTweets(newTweet);
-  };
-
   useEffect(() => {
-
     if (userId) {
       const getUserInfoAsync = async () => {
         try {
@@ -73,11 +63,8 @@ const UserPage = () => {
           setUserInfo(userInfo);
         } catch (error) {
           console.error(error);
-
-
         } finally {
           setLoading(false); //當取得資料後變回false
-
         }
       };
       getUserInfoAsync();
@@ -105,7 +92,6 @@ const UserPage = () => {
         try {
           const userReplied = await getUserReplied(userId);
           setUserReplied(userReplied);
-
         } catch (error) {
           console.error(error);
         } finally {
@@ -132,10 +118,12 @@ const UserPage = () => {
   }, []);
   //  驗證token是否存在
   useEffect(() => {
-    if (localStorage.getItem("token") == null) {
+
+    if (!token && role === "admin") {
       navigate("/login");
     }
-  }, [navigate]);
+  }, [navigate, token, role]);
+
 
   return (
     <FontendLayout>
@@ -166,7 +154,6 @@ const UserPage = () => {
               tweets={userTweets}
               replies={userReplied}
               likes={userLike}
-              onClick={handleLikeClick}
               onTweetClick={(id) => handleTweetClick(id, location)}
             />
           </div>

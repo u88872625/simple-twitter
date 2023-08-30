@@ -21,12 +21,13 @@ import {TweetIdContextProvider} from './contexts/TweetIdContext'
 import {UserDataContextProvider} from './contexts/UserDataContext'
 
 
-function App() {
 
+function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <AuthProvider>
+
           <UserDataContextProvider>
             <TweetIdContextProvider>
               <Routes>

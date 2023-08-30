@@ -13,6 +13,7 @@ import errorIcon from "../../assets/icons/error.png";
 import {useDataUpdate} from '../../contexts/UserDataContext'
 
 const SettingPage = () => {
+  const token = localStorage.getItem("token");
   const { currentUser, setEditedUserInfo } = useAuth();
   const userId = currentUser?.id
   const{isDataUpdate, setIsDataUpdate } =useDataUpdate()
@@ -23,8 +24,8 @@ const SettingPage = () => {
   const [checkPassword, setCheckPassword] = useState("");
   const passwordMatch = password === checkPassword;
   const [showAlert, setShowAlert] = useState(false);
-  const [alertMsg, setAlerMsg] = useState("");
   // const { isAuthenticated } = useAuth();
+  const role = currentUser?.role;
   const navigate = useNavigate();
   const [isUserInfoUpdated, setIsUserInfoUpdated] = useState(false)
 
@@ -83,10 +84,10 @@ const SettingPage = () => {
 
   //  驗證token是否存在
   useEffect(() => {
-    if (localStorage.getItem("token") == null) {
+    if (!token && role === "admin") {
       navigate("/login");
     }
-  }, [navigate]);
+  }, [navigate, token, role]);
 
   return (
     <FontendSettingLayout>
