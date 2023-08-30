@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom/dist";
 import { login, register, adminLogin } from "../api/auth";
 import { addTweet, replyTweet } from "../api/tweets";
-import{patchUserInfo} from '../api/user'
+import { patchUserInfo } from "../api/user";
 import { useNavigate } from "react-router-dom/dist";
 import jwt_decode from "jwt-decode";
 
@@ -22,9 +22,9 @@ export const AuthProvider = ({ children }) => {
   const [payload, setPayload] = useState(null);
   // 使用者自己的Tweet更新
   const [isTweetUpdated, setIsTweetUpdated] = useState(false);
-// 使用者編輯個人資料
-  const [editedUserInfo, setEditedUserInfo]=useState(null)  
-// 若有更新過回覆推文
+  // 使用者編輯個人資料
+  const [editedUserInfo, setEditedUserInfo] = useState(null);
+  // 若有更新過回覆推文
   const [isReplyUpdated, setIsReplyUpdated] = useState(false);
 
   const { pathname } = useLocation();
@@ -71,19 +71,17 @@ export const AuthProvider = ({ children }) => {
     checkTokenIsValid();
   }, [pathname, navigate]);
 
-  const updateUserInfo = (updatedInfo)=>{
-    setPayload((prevPayload)=>({
+  const updateUserInfo = (updatedInfo) => {
+    setPayload((prevPayload) => ({
       ...prevPayload,
-      account:updatedInfo.account,
-      name:updatedInfo.name,
+      account: updatedInfo.account,
+      name: updatedInfo.name,
       introduction: updatedInfo.introduction,
-      avatar:updatedInfo.avatar,
-      email:updatedInfo.email,
-      avatar:updatedInfo.avatar,
+      avatar: updatedInfo.avatar,
+      email: updatedInfo.email,
       banner: updatedInfo.banner,
-
-    }))
-  }
+    }));
+  };
   return (
     <AuthContext.Provider
       value={{
@@ -95,9 +93,9 @@ export const AuthProvider = ({ children }) => {
           name: payload.name,
           email: payload.email,
           password: payload.password,
-          checkPassword:payload.checkPassword,
+          checkPassword: payload.checkPassword,
           introduction: payload.introduction,
-          banner:payload.banner,
+          banner: payload.banner,
           role: payload.role,
         },
         updateUserInfo,
