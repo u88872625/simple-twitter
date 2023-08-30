@@ -13,6 +13,7 @@ import errorIcon from "../../assets/icons/error.png";
 
 const SettingPage = () => {
   const { currentUser, setEditedUserInfo } = useAuth();
+
   const [account, setAccount] = useState(currentUser?.account || "");
   const [name, setName] = useState(currentUser?.name || "");
   const [email, setEmail] = useState(currentUser?.email || "");
@@ -21,11 +22,22 @@ const SettingPage = () => {
   const passwordMatch = password === checkPassword;
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlerMsg] = useState("");
-  const { isAuthenticated } = useAuth();
+  // const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+
+  // // 初始化currentUser值
+  // useEffect(() => {
+  //   if (currentUser) {
+  //     setAccount(currentUser.account);
+  //     setName(currentUser.name);
+  //     setEmail(currentUser.email);
+  //   }
+  // }, [currentUser]);
 
   const handleSave = async () => {
     try {
+      setShowAlert(false);
+
       const editedInfo = {
         id: currentUser.id,
         account,
@@ -37,12 +49,17 @@ const SettingPage = () => {
       const updateUserInfo = await patchUserInfo(editedInfo);
       setEditedUserInfo(updateUserInfo);
 
-      if (updateUserInfo.success) {
-        setShowAlert(true);
-        setAlerMsg("儲存成功!");
-      } else {
+      if (updateUserInfo.success === false) {
         setShowAlert(true);
         setAlerMsg(updateUserInfo.message || "儲存失敗!");
+      } else {
+        setShowAlert(true);
+        setAlerMsg("儲存成功!");
+        setEditedUserInfo(updateUserInfo);
+        setAccount(updateUserInfo.account);
+        setName(updateUserInfo.name);
+        setEmail(updateUserInfo.email);
+        console.log("setting", updateUserInfo.name);
       }
     } catch (error) {
       console.error(error);
@@ -51,10 +68,10 @@ const SettingPage = () => {
 
   //  驗證token是否存在
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (localStorage.getItem("token") == null) {
       navigate("/login");
     }
-  }, [navigate, isAuthenticated]);
+  }, [navigate]);
 
   return (
     <FontendSettingLayout>

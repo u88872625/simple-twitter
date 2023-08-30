@@ -73,6 +73,20 @@ export const AuthProvider = ({ children }) => {
       }
     };
     checkTokenIsValid();
+
+    // // 從本地讀取currentUser資料
+    // const storedUser = JSON.parse(localStorage.getItem('currentUser'))
+    // if(storedUser){
+    //   setPayload({
+    //     id: storedUser.id,
+    //     account: storedUser.account,
+    //     avatar: storedUser.avatar,
+    //     name: storedUser.name,
+    //     email: storedUser.email,
+    //     banner: storedUser.banner,
+    //   });
+    //   setIsAuthenticated(true)
+    // }
   }, [pathname, navigate]);
 
   const updateUserInfo = (updatedInfo)=>{
@@ -83,10 +97,20 @@ export const AuthProvider = ({ children }) => {
       introduction: updatedInfo.introduction,
       avatar:updatedInfo.avatar,
       email:updatedInfo.email,
-      avatar:updatedInfo.avatar,
       banner: updatedInfo.banner,
-
     }))
+
+    // // 更新本地存放的用戶數據
+    //  const updatedUser = {
+    //   ...payload,
+    //  account: updatedInfo.account,
+    //    name: updatedInfo.name,
+    //    introduction: updatedInfo.introduction,
+    //    avatar: updatedInfo.avatar,
+    //    email: updatedInfo.email,
+    //    banner: updatedInfo.banner,
+    //  };
+    //  localStorage.setItem("currentUser", JSON.stringify(updatedUser));
   }
   return (
     <AuthContext.Provider
