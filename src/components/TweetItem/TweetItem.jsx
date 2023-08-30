@@ -8,9 +8,10 @@ import ReplyModal from "../Modal/ReplyModal/ReplyModal";
 import { useAuth } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
 import clsx from "clsx";
-import { addLike, unLike } from "../../api/user";
+import {  addLike,unLike,} from "../../api/user";
+import { useDataUpdate } from "../../contexts/UserDataContext";
 
-export default function TweetItem({ tweet, onTweetClick }) {
+export default function TweetItem({ tweet, onTweetClick, onClick}) {
   let { name, account, avatar } = tweet.User;
   const {
     id,
@@ -27,8 +28,9 @@ export default function TweetItem({ tweet, onTweetClick }) {
   const [show, setShow] = useState();
   const [reply, setReply] = useState("");
   const [replyCount, setReplyCount] = useState(repliesNum);
-  const [likeCount, setLikeCount] = useState(likesNum);
-  const [like, setLike] = useState(isLiked);
+ const [likeCount, setLikeCount] = useState(likesNum);
+ const [like, setLike] = useState(isLiked);
+  const { isDataUpdate, setIsDataUpdate } = useDataUpdate();
   const token = localStorage.getItem("token");
   const contentDelete = () => {
     setReply("");
@@ -38,6 +40,23 @@ export default function TweetItem({ tweet, onTweetClick }) {
   const handleClose = () => setShow(false);
   const handleReplyClick = () => {
     setShow(true);
+  };
+
+  // 追蹤哪個貼文被按讚
+  const handleLikeClick = async () => {
+    try {
+      if (like === true) {
+        await unLike(id, token);
+        setLike((prevLike) => !prevLike);
+        setLikeCount(likeCount - 1);
+      } else {
+        await addLike(id, token);
+        setLike((prevLike) => !prevLike);
+        setLikeCount(likeCount + 1);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   // 回覆功能
@@ -64,66 +83,50 @@ export default function TweetItem({ tweet, onTweetClick }) {
     }
   };
 
-  // 追蹤哪個貼文被按讚
-  const handleLikeClick = async () => {
-    try {
-      if (like === true) {
-        await unLike(id, token);
-        setLike((prevLike) => !prevLike);
-        setLikeCount((prevCount) => prevCount - 1);
-      } else {
-        await addLike(id, token);
-        setLike((prevLike) => !prevLike);
-        setLikeCount((prevCount) => prevCount + 1);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
     setIsReplyUpdated(false);
   }, [setIsReplyUpdated]);
 
   return (
-    <div
-      className={styles.container}
-      onClick={() => {
-        onTweetClick?.(id);
-      }}
-    >
+    <div className={styles.container}>
       <div className={styles.wrapper}>
-        {avatar ? (
-          <img className={styles.avatar} src={avatar} alt="avatar" />
-        ) : (
-          <img
-            className={styles.avatar}
-            src={defaultAvatar}
-            alt="defalt-avatar"
-          />
-        )}
-        <div className={styles.tweet}>
-          <div className={styles.title}>
-            <p className={styles.name}>{name}</p>
-            <p className={styles.acount}>
-              @{account} · {fromNow}
-            </p>
+        <div
+          className={styles.top}
+          onClick={() => {
+            onTweetClick?.(id);
+          }}
+        >
+          {avatar ? (
+            <img className={styles.avatar} src={avatar} alt="avatar" />
+          ) : (
+            <img
+              className={styles.avatar}
+              src={defaultAvatar}
+              alt="defalt-avatar"
+            />
+          )}
+          <div className={styles.tweet}>
+            <div className={styles.title}>
+              <p className={styles.name}>{name}</p>
+              <p className={styles.acount}>
+                @{account} · {fromNow}
+              </p>
+            </div>
+            <p className={styles.text}>{description}</p>
           </div>
-          <p className={styles.text}>{description}</p>
-
-          <div className={styles.bottom}>
-            <div className={styles.reply} onClick={handleReplyClick}>
-              <img src={replyIcon} alt="num-of-replies" />
-              <span>{repliesNum}</span>
-            </div>
-            <div className={styles.like} onClick={handleLikeClick}>
-              {like ? (
-                <img src={likeFilled} alt="like-fill" />
-              ) : (
-                <img src={likeIcon} alt="like" />
-              )}
-              <span>{likeCount}</span>
-            </div>
+        </div>
+        <div className={styles.bottom}>
+          <div className={styles.reply} onClick={handleReplyClick}>
+            <img src={replyIcon} alt="num-of-replies" />
+            <span>{repliesNum}</span>
+          </div>
+          <div className={styles.like} onClick={handleLikeClick}>
+            {like ? (
+              <img src={likeFilled} alt="like-fill" />
+            ) : (
+              <img src={likeIcon} alt="like" />
+            )}
+            <span>{likeCount}</span>
           </div>
         </div>
       </div>

@@ -8,10 +8,11 @@ export const useDataUpdate = ()=>useContext(UserDataContext)
 export function UserDataContextProvider({children}){
 
 	const [isDataUpdate, setIsDataUpdate] = useState(false)
+  
 	
 	return (
     <UserDataContext.Provider
-      value={(isDataUpdate, setIsDataUpdate)}
+      value={{isDataUpdate, setIsDataUpdate}}
     >
       {children}
     </UserDataContext.Provider>

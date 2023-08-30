@@ -11,9 +11,14 @@
 
   .wrapper {
     display: flex;
+    flex-direction: column;
     width: 634px;
     height: 136px;
     padding: 0 24px 0 24px;
+  }
+
+  .top {
+    display: flex;
   }
 
   .avatar {
@@ -56,9 +61,21 @@
     display: flex;
     justify-content: space-between;
     width: 120px;
-    height: 16px img {
+    height: 16px;
+    margin-left: 64px;
+    
+    .reply,
+    .like {
+      display: flex;
+    }
+
+    img {
       width: 16px;
       height: 16px;
+
+      &:hover {
+        transform: scale(1.5)translate(-10%, -10%);
+      }
     }
 
     span {
@@ -68,10 +85,6 @@
       margin-left: 8px;
     }
 
-    .reply,
-    .like {
-      display: flex;
-    }
   }
 }
 
