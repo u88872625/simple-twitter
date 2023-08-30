@@ -65,28 +65,56 @@ export const getUserLike = async (userId) => {
   }
 };
 
-// 編輯使用者資料
-export const patchUserInfo = async(payload)=>{
-  const {id, account, name, email, password,checkPassword,introduction, avatar, banner} = payload
-  try{
-    const res = await axiosInstance.put(`${baseUrl}/users/${id}`, {
-      account,
-      name,
-      email,
-      password,
-      checkPassword,
-      introduction,
-      avatar,
-      banner,
-    });
-    return res.data
-  }catch(error){
-    console.error('[Patch UserIfo Failed]:', error)
-    return{success: false, ...error}
+// 取得全站使用者資料
+export const getAllUsers = async () => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/admin/users`);
+    return res.data;
+  } catch (error) {
+    console.error("[Get all users Failed]:", error);
   }
-}
+};
+
+// 編輯使用者資料
+export const patchUserInfo = async (payload, formData) => {
+  const {
+    id,
+    account,
+    name,
+    email,
+    password,
+    checkPassword,
+    introduction,
+    avatar,
+    banner,
+  } = payload;
+  try {
+    const res = await axiosInstance.put(
+      `${baseUrl}/users/${id}`,
+      formData,
+      {
+        account,
+        name,
+        email,
+        password,
+        checkPassword,
+        introduction,
+        avatar,
+        banner,
+      },
+      {
+        headers: { "Content-type": "multpart/form-data" },
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.error("[Patch UserIfo Failed]:", error);
+    return { success: false, ...error };
+  }
+};
 
 // 按讚
+
 export const addLike = async(id, token)=> {
   try{
     const {data} = await axiosInstance.post(`${baseUrl}/tweets/${id}/like`,{
@@ -94,14 +122,16 @@ export const addLike = async(id, token)=> {
         Authorization: "Bearer " + token,
       },
     });
+
     console.log(data);
     return data;
-  }catch(error){
-    console.error('[Add Like Failed]:', error)
+  } catch (error) {
+    console.error("[Add Like Failed]:", error);
   }
-}
+};
 
 // 收回讚
+
 export const unLike = async(id,token)=>{
   try{
     const token = localStorage.getItem('token')
@@ -113,5 +143,6 @@ export const unLike = async(id,token)=>{
     return data
   }catch(error){
     console.error('[Unlike Failed]:',error)
+
   }
-}
+};

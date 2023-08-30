@@ -10,16 +10,16 @@
   }
 
   .rightContainer {
-		min-width: 938px;
-		max-width: 1076px;
+    min-width: 938px;
+    max-width: 1076px;
     height: 100%;
-		margin-left: 24px;
+    margin-left: 24px;
+    border-left: 1px solid #e6ecf0;
   }
 }
 
-
 @media (min-width: 992px) and (max-width: 1199px) {
-	.container {
-		max-width: 960px;
-	}
+  .container {
+    max-width: 960px;
+  }
 }
