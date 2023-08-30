@@ -187,6 +187,12 @@ export const AuthProvider = ({ children }) => {
           if (response.data) setIsTweetUpdated(true);
           return response;
         },
+        replyTweet: async (id, { comment }) => {
+          const response = await replyTweet(id, { comment });
+          console.log("post a reply", response);
+          if (response.data) setIsReplyUpdated(true);
+          return response;
+        },
       }}
     >
       {children}
