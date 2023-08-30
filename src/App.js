@@ -22,8 +22,8 @@ import {LikeContexProvider} from './contexts/LikeContext'
 
 
 
-function App() {
 
+function App() {
   return (
     <div className="App">
       <BrowserRouter>

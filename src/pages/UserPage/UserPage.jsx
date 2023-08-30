@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams,useLocation } from "react-router-dom";
-import {getUserInfo, getUserTweet,getUserReplied,getUserLike} from '../../api/user'
-import{getTopTweet} from '../../api/tweets'
-import {useAuth} from '../../contexts/AuthContext'
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+import {
+  getUserInfo,
+  getUserTweet,
+  getUserReplied,
+  getUserLike,
+} from "../../api/user";
+import { getTopTweet } from "../../api/tweets";
+import { useAuth } from "../../contexts/AuthContext";
 import styles from "./UserPage.module.scss";
 import FontendLayout from "../../components/shared/layout/FontendLayout/FontendLayout.jsx";
 import UserInfoCard from "../../components/InfoCard/UserInfoCard";
@@ -13,7 +18,7 @@ import {useLike} from '../../contexts/LikeContext'
 
 const UserPage = () => {
   const userId = localStorage.getItem("userId");
-  const [userInfo, setUserInfo] = useState();
+  const [userInfo, setUserInfo] = useState([]);
   const [userTweets, setUserTweets] = useState([]);
   const [userReplied, setUserReplied] = useState([]);
   const [userLike, setUserLike] = useState([]);
@@ -34,8 +39,6 @@ const UserPage = () => {
   //   navigate(`/status/${id}`);
   // };
 
-
-
   // 點擊user追蹤者資訊欄位，進入follow頁面
   function handleFollowDetailClick() {
     navigate("/:username/followers");
@@ -48,8 +51,9 @@ const UserPage = () => {
   };
 
 
-  useEffect(() => {
 
+
+  useEffect(() => {
     if (userId) {
       const getUserInfoAsync = async () => {
         try {
@@ -58,11 +62,8 @@ const UserPage = () => {
           setUserInfo(userInfo);
         } catch (error) {
           console.error(error);
-
-
         } finally {
           setLoading(false); //當取得資料後變回false
-
         }
       };
       getUserInfoAsync();
@@ -89,7 +90,6 @@ const UserPage = () => {
         try {
           const userReplied = await getUserReplied(userId);
           setUserReplied(userReplied);
-
         } catch (error) {
           console.error(error);
         } finally {
