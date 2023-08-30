@@ -2,7 +2,7 @@ import SignUpPage from "./SignUpPage";
 import LoginPage from "./LoginPage/LoginPage";
 import MainPage from "./MainPage";
 import UserPage from "./UserPage/UserPage";
-import SettingPage from "./SettingPage";
+import SettingPage from "./SettingPage/SettingPage";
 import StatusPage from "./StatusPage/StatusPage";
 import AdminLoginPage from "./AdminLoginPage/AdminLoginPage";
 import AdminMainPage from "./AdminMainPage";

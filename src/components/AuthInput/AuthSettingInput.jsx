@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./AuthInput.module.scss";
+import styles from "./AuthSettingInput.module.scss";
 import { useState } from "react";
 import clsx from "clsx";
 
@@ -32,14 +32,15 @@ const AuthInput = ({
   }
 
   const handleInputChange = (inputValue) => {
+    // if (inputValue.length > maxChar + 1) {
+    //   return; // 如果字數超出上限不繼續更新值
+    // }
     onChange?.(inputValue);
     setCharCount(inputValue.length);
   };
 
-  
-
   return (
-    <div className={clsx(styles.inputContainer, inputStyle,)} >
+    <div className={clsx(styles.inputContainer, inputStyle)}>
       <label className={styles.label}>{label}</label>
       <input
         className={styles.input}
