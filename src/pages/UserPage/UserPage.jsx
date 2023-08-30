@@ -9,7 +9,6 @@ import UserInfoCard from "../../components/InfoCard/UserInfoCard";
 import TweetTabs from "../../components/TweetTabs/TweetTabs";
 import arrow from "../../assets/icons/back.svg";
 import { useTweetId } from "../../contexts/TweetIdContext";
-import {useLike} from '../../contexts/LikeContext'
 
 const UserPage = () => {
   const userId = localStorage.getItem("userId");
@@ -24,7 +23,6 @@ const UserPage = () => {
   const { account } = useParams(); //取得用戶account反映在路徑上
   const { id } = useParams(); //取得貼文id反映在路徑上
   const { handleTweetClick } = useTweetId(); //更新貼文id
-  const {handleLikeClick} = useLike()
   const location = useLocation();
 
   // // 追蹤單一貼文點擊
