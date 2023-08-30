@@ -14,22 +14,23 @@ import UserInfoCard from "../../components/InfoCard/UserInfoCard";
 import TweetTabs from "../../components/TweetTabs/TweetTabs";
 import arrow from "../../assets/icons/back.svg";
 import { useTweetId } from "../../contexts/TweetIdContext";
-import {useLike} from '../../contexts/LikeContext'
 
 const UserPage = () => {
+  const { isAuthenticated, currentUser } = useAuth();
   const userId = localStorage.getItem("userId");
-  const [userInfo, setUserInfo] = useState([]);
+  const role = currentUser?.role;
+  const [userInfo, setUserInfo] = useState();
   const [userTweets, setUserTweets] = useState([]);
   const [userReplied, setUserReplied] = useState([]);
   const [userLike, setUserLike] = useState([]);
   // 確保先取得userTweets再渲染TweetTabs
   const [loading, setLoading] = useState(true);
-  const { isAuthenticated } = useAuth();
+
   const navigate = useNavigate();
   const { account } = useParams(); //取得用戶account反映在路徑上
   const { id } = useParams(); //取得貼文id反映在路徑上
   const { handleTweetClick } = useTweetId(); //更新貼文id
-  const {handleLikeClick} = useLike()
+
   const location = useLocation();
 
   // // 追蹤單一貼文點擊
@@ -49,9 +50,6 @@ const UserPage = () => {
     const prevLocation = location.state?.from || "/home";
     navigate(prevLocation);
   };
-
-
-
 
   useEffect(() => {
     if (userId) {
@@ -116,7 +114,7 @@ const UserPage = () => {
   }, []);
   //  驗證token是否存在
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!userId) {
       navigate("/login");
     }
   }, [navigate, isAuthenticated]);
