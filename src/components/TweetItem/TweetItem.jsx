@@ -10,12 +10,7 @@ import Swal from "sweetalert2";
 import clsx from "clsx";
 import { addLike, unLike } from "../../api/user";
 
-export default function TweetItem({
-  tweet,
-  onClick,
-  onTweetClick,
-  onLikeClick,
-}) {
+export default function TweetItem({ tweet, onTweetClick }) {
   let { name, account, avatar } = tweet.User;
   const {
     id,
@@ -33,7 +28,7 @@ export default function TweetItem({
   const [reply, setReply] = useState("");
   const [replyCount, setReplyCount] = useState(repliesNum);
   const [likeCount, setLikeCount] = useState(likesNum);
-  const [like, setLike]=useState(isLiked)
+  const [like, setLike] = useState(isLiked);
   const token = localStorage.getItem("token");
   const contentDelete = () => {
     setReply("");
@@ -69,38 +64,20 @@ export default function TweetItem({
     }
   };
 
-  // 按讚
-  const addLikeAsync = async (id, token) => {
-    try {
-      const res = await addLike(id, token);
-      console.log("likecontext:", res);
-    } catch (error) {
-      console.error(error);
-      console.log("likecontext:", error);
-    }
-  };
-
-  // 收回讚
-  const unLikeAsync = async (id, token) => {
-    try {
-      const res = await unLike(id, token);
-      console.log("likecontext:", res);
-    } catch (error) {
-      console.error(error);
-      console.log("likecontext:", error);
-    }
-  };
-
   // 追蹤哪個貼文被按讚
-  const handleLikeClick = async (id, isLiked) => {
-    if (isLiked) {
-      await unLikeAsync(id, token);
-      setLike(!like)
-      setLikeCount(likeCount - 1);
-    } else {
-      await addLikeAsync(id, token);
-      setLike(!like);
-      setLikeCount(likeCount + 1);
+  const handleLikeClick = async () => {
+    try {
+      if (like === true) {
+        await unLike(id, token);
+        setLike((prevLike) => !prevLike);
+        setLikeCount((prevCount) => prevCount - 1);
+      } else {
+        await addLike(id, token);
+        setLike((prevLike) => !prevLike);
+        setLikeCount((prevCount) => prevCount + 1);
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -140,12 +117,12 @@ export default function TweetItem({
               <span>{repliesNum}</span>
             </div>
             <div className={styles.like} onClick={handleLikeClick}>
-              {isLiked ? (
+              {like ? (
                 <img src={likeFilled} alt="like-fill" />
               ) : (
                 <img src={likeIcon} alt="like" />
               )}
-              <span>{likesNum}</span>
+              <span>{likeCount}</span>
             </div>
           </div>
         </div>
