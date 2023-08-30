@@ -19,7 +19,8 @@ const UserPage = () => {
   const { isAuthenticated, currentUser } = useAuth();
   const role = currentUser?.role;
   const userId = localStorage.getItem("userId");
-  const [userInfo, setUserInfo] = useState([]);
+  const role = currentUser?.role;
+  const [userInfo, setUserInfo] = useState();
   const [userTweets, setUserTweets] = useState([]);
   const [userReplied, setUserReplied] = useState([]);
   const [userLike, setUserLike] = useState([]);

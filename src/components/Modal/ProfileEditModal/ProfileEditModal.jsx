@@ -15,21 +15,68 @@ import { patchUserInfo } from "../../../api/user";
 import Alert from "../../../components/shared/Alert/Alert";
 
 const ProfileEditModal = ({
-  name,
-  introduction,
-  avatar,
-  banner,
-  handleChangeBanner,
-  handleChangeAvatar,
+  // avatar,
+  // userBanner,
+  // handleChangeBanner,
+  // handleChangeAvatar,
   introBorderMode,
   nameBorderMode,
   onNameChange,
   onIntroChange,
+  onSave,
   show,
   handleClose,
-  handleSave,
-  handleBannerDelete,
 }) => {
+  const { currentUser, updateUserInfo, setEditedUserInfo } = useAuth();
+  const [name, setName] = useState(currentUser?.name || "");
+  const [introduction, setIntroduction] = useState("");
+  const [avatar, setAvatar] = useState(currentUser?.avatar || DefaultAvatar);
+  const [banner, setBanner] = useState(currentUser?.banner || DefaultBanner);
+  const [selectedAvatar, setSelectedAvatar] = useState(null);
+  const [selectedBanner, setSelectedBanner] = useState(null);
+   const [showAlert, setShowAlert] = useState(false);
+   const [alertMsg, setAlerMsg] = useState("");
+
+
+
+  //  變更頭像
+  const handleChangeAvatar = (e) => {
+    setSelectedAvatar(e.target.files[0]);
+  };
+
+  // 變更背景
+  const handleChangeBanner = (e) => {
+    setSelectedBanner(e.target.files[0]);
+  };
+
+  const handleSave = async () => {
+    try {
+      const formData = new FormData();
+
+      if (selectedAvatar) {
+        formData.append("avatar", selectedAvatar);
+      }
+      if (selectedBanner) {
+        formData.append("banner", selectedBanner);
+      }
+
+      const updateUserInfoRes = await patchUserInfo(currentUser.id, formData);
+
+      if (updateUserInfoRes.success) {
+        setEditedUserInfo(updateUserInfoRes);
+        updateUserInfo(updateUserInfoRes);
+        handleClose();
+        setShowAlert(true);
+        setAlerMsg("儲存成功!");
+      } else {
+        setShowAlert(true);
+        setAlerMsg(updateUserInfo.message || "儲存失敗!");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <form>
@@ -50,11 +97,7 @@ const ProfileEditModal = ({
 
               <h5 className={styles.text}>編輯個人資料</h5>
               {/* <button className={styles.button} onClick={handleSave}> */}
-              <button
-                className={styles.button}
-                type="button"
-                onClick={handleSave}
-              >
+              <button className={styles.button} type="button" onClick={handleSave}>
                 儲存
               </button>
             </div>
@@ -62,9 +105,15 @@ const ProfileEditModal = ({
           <Modal.Body className={styles.modalBody}>
             <div className={styles.imageWrapper}>
               {/* 背景 */}
-              <img className={styles.userBanner} src={banner}></img>
+              <img
+                className={styles.userBanner}
+                src={banner ? banner : DefaultBanner}
+              ></img>
               {/* 頭像 */}
-              <img className={styles.avatar} src={avatar}></img>
+              <img
+                className={styles.avatar}
+                src={avatar ? avatar : DefaultAvatar}
+              ></img>
               <div className={styles.fileChangeWrapper}>
                 <img
                   className={styles.editPhoto}
@@ -75,17 +124,15 @@ const ProfileEditModal = ({
                   className={styles.deleteIcon}
                   src={BannerDelete}
                   alt="BannerDelete.svg"
-                  onClick={handleBannerDelete}
                 />
                 {/* 更換背景 */}
                 <input
                   id="bannerChange"
                   className={styles.bannerChange}
                   name="banner"
-                  type="file"
-                  onChange={(e) => {
-                    handleChangeBanner?.(e);
-                  }}
+                  type="file" 
+                  
+                  onChange={handleChangeBanner}
                 />
 
                 {/* 更換頭像 */}
@@ -93,10 +140,9 @@ const ProfileEditModal = ({
                   id="avatarChange"
                   className={styles.avatarChange}
                   name="avatar"
-                  type="file"
-                  onChange={(e) => {
-                    handleChangeAvatar?.(e);
-                  }}
+                  type="file" 
+                  
+                  onChange={handleChangeAvatar}
                 />
 
                 <img
@@ -114,7 +160,7 @@ const ProfileEditModal = ({
                 inputStyle={styles.nameInput}
                 borderMode={clsx("", { [styles.nameError]: name.length > 50 })}
                 label={"名稱"}
-                onChange={onNameChange}
+                onChange={(nameInput) => setName(nameInput)}
                 value={name}
                 dataPage={"profileEditModal"}
               />
@@ -125,7 +171,7 @@ const ProfileEditModal = ({
                   [styles.introError]: introduction.length > 160,
                 })}
                 label={"自我介紹"}
-                onChange={onIntroChange}
+                onChange={(introInput) => setIntroduction(introInput)}
                 value={introduction}
                 dataPage={"profileEditModal"}
               />

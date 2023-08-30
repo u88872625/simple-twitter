@@ -10,7 +10,10 @@ import Swal from "sweetalert2";
 import clsx from "clsx";
 import { addLike, unLike } from "../../api/user";
 
+
 export default function TweetItem({ tweet, onTweetClick }) {
+
+
   let { name, account, avatar } = tweet.User;
   const {
     id,
@@ -66,6 +69,7 @@ export default function TweetItem({ tweet, onTweetClick }) {
 
   // 追蹤哪個貼文被按讚
   const handleLikeClick = async () => {
+
     try {
       if (like === true) {
         await unLike(id, token);
@@ -78,6 +82,7 @@ export default function TweetItem({ tweet, onTweetClick }) {
       }
     } catch (error) {
       console.error(error);
+
     }
   };
 

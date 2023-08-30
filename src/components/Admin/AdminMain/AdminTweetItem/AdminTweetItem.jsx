@@ -4,19 +4,19 @@ import close from '../../../../assets/icons/close-black.svg'
 export default function AdminTweetItem({ tweet , onClick }) {
 	const maxLength = 50
 	const truncatedText =
-    tweet.description.length > 50
-      ? tweet.description.slice(0, maxLength) + "..."
-      : tweet.description;
+    tweet.post.textContent.length > 50
+      ? tweet.post.textContent.slice(0, maxLength) + "..."
+      : tweet.post.textContent;
 
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        <img className={styles.avatar} src={tweet.User.avatar} alt="avatar" />
+        <img className={styles.avatar} src={tweet.avatar} alt="avatar" />
         <div className={styles.tweet}>
           <div className={styles.title}>
-            <p className={styles.name}>{tweet.User.name}</p>
+            <p className={styles.name}>{tweet.name}</p>
             <p className={styles.acount}>
-              @{tweet.User.account} · {tweet.updatedAt}
+              @{tweet.account} · {tweet.post.createdAt}
             </p>
           </div>
           <p className={styles.text}>{truncatedText}</p>
@@ -26,7 +26,7 @@ export default function AdminTweetItem({ tweet , onClick }) {
         className={styles.closeIcon}
         src={close}
         alt="close-icon"
-        onClick={()=>onClick?.(tweet.id)}
+        onClick={onClick}
       />
     </div>
   );

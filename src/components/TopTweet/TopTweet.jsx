@@ -7,6 +7,7 @@ import ReplyModal from "../Modal/ReplyModal/ReplyModal";
 import { useAuth } from "../../contexts/AuthContext";
 import { addLike, unLike } from "../../api/user";
 
+
 // const dummytweet = [
 //   {
 //     id: 1,
@@ -37,6 +38,7 @@ export default function TopTweet({ tweet }) {
   const contentDelete = () => {
     setReply("");
   };
+
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);

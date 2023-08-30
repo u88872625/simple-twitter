@@ -4,33 +4,17 @@ import styles from "./UserInfoCard.module.scss";
 import { useAuth } from "../../contexts/AuthContext";
 import SettingBtn from "../shared/shareBtn/SettingBtn";
 import ProfileEditModal from "../Modal/ProfileEditModal/ProfileEditModal";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import defaultAvatar from "../../assets/icons/default-img.svg";
 import defaultBanner from "../../assets/images/bg-user.png";
 import { Link } from "react-router-dom";
-import DefaultBanner from "../../assets/images/bg-user.png";
-import DefaultAvatar from "../../assets/icons/default-img.svg";
-import { getUserInfo } from "../../api/user";
-import Swal from "sweetalert2";
 
 export default function UserInfoCard({ info, handleFollowDetail }) {
   // const [isEdit, setIsEdit] = useState(false)
   // const navigate = useNavigate()
-  const { currentUser, patchUserInfo, setIsEditedUserInfo, updateUserInfo } =
-    useAuth();
+  const { currentUser } = useAuth();
+
   const [show, setShow] = useState(false);
-  const [name, setName] = useState(currentUser?.name || "");
-  const [introduction, setIntroduction] = useState("");
-  const [avatar, setAvatar] = useState(null);
-  const [banner, setBanner] = useState(currentUser?.banner || null);
-  const [avatarPreview, setAvatarPreview] = useState(null);
-  const [bannerPreview, setBannerPreview] = useState(null);
-  // 設一個暫存的Object變數
-  const [tempData, setTempData] = useState(null);
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMsg, setAlerMsg] = useState("");
-  const userId = currentUser?.id;
-  // const savedUserInfo = JSON.parse(localStorage.getItem("userInfo"))
 
   const handleClose = () => setShow(false);
 
@@ -38,6 +22,7 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
     // setIsEdit(true)
     setShow(true);
   };
+
 
   //  變更頭像
   const handleChangeAvatar = (e) => {
@@ -60,11 +45,11 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
     try {
       setAvatarPreview(null);
       setBannerPreview(null);
-      // 若input空值，則返回
+      // 若input限制輸入條件
       if (name.trim().length === 0) return;
-      // 若自我介紹或是名字長度超過限制，則返回
       if (name.length > 50 || introduction.length > 160) return;
-      // API的資訊傳遞(需轉換成 Form-data)
+
+      // API的資訊傳遞需轉換成 Form-data
       const formData = new FormData();
       //設定key及相對應的value
       for (let key in tempData) {
@@ -139,6 +124,7 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
     setIsEditedUserInfo(false);
   }, [getUserInfo, userId, setIsEditedUserInfo]);
 
+
   if (!info) {
     return <div>Loading...</div>;
   }
@@ -146,34 +132,24 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
   return (
     <div className={styles.container}>
       <div className={styles.img}>
-        <img
-          className={styles.banner}
-          src={
-            tempData
-              ? tempData.banner
-                ? tempData.banner
-                : info.banner
-              : info.banner
-              ? info.banner
-              : DefaultBanner
-          }
-          alt="banner"
-        />
-
-        <img
-          className={styles.avatar}
-          src={
-            tempData
-              ? tempData.avatar
-                ? tempData.avatar
-                : info.avatar
-              : info.avatar
-              ? info.avatar
-              : DefaultAvatar
-          }
-          alt="avatar"
-        />
-
+        {info && info.banner ? (
+          <img className={styles.banner} src={currentUser.banner} alt="banner" />
+        ) : (
+          <img
+            className={styles.banner}
+            src={defaultBanner}
+            alt="defalt-banner"
+          />
+        )}
+        {info.avatar ? (
+          <img className={styles.avatar} src={currentUser.avatar} alt="avatar" />
+        ) : (
+          <img
+            className={styles.avatar}
+            src={defaultAvatar}
+            alt="defalt-avatar"
+          />
+        )}
         <div className={styles.editBtn}>
           <SettingBtn text="編輯個人資料" onClick={handleEditModalOpen} />
         </div>
@@ -196,36 +172,8 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
       <ProfileEditModal
         show={show}
         handleClose={handleClose}
-        handleSave={handleSave}
-        handleChangeAvatar={handleChangeAvatar}
-        handleChangeBanner={handleChangeBanner}
-        name={name}
-        introduction={introduction}
-        onNameChange={(nameInput) => setName(nameInput)}
-        onIntroChange={(introInput) => setIntroduction(introInput)}
-        handleBannerDelete={handleBannerDelete}
-        avatar={
-          avatarPreview
-            ? avatarPreview
-            : tempData
-            ? tempData.avatar
-              ? tempData.avatar
-              : DefaultAvatar
-            : currentUser.avatar
-            ? currentUser.avatar
-            : DefaultAvatar
-        }
-        banner={
-          bannerPreview
-            ? bannerPreview
-            : tempData
-            ? tempData.banner
-              ? tempData.banner
-              : currentUser.banner
-            : currentUser.banner
-            ? currentUser.banner
-            : DefaultBanner
-        }
+        // avatar={info.avatar}
+        // userBanner={info.banner}
       />
     </div>
   );
