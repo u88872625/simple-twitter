@@ -4,7 +4,7 @@ export default function AdminTweetItemCollection({tweets, onClick}){
 	return (
     <div>
       {tweets.map((tweet) => {
-        return <AdminTweetItem key={tweet.post.id} tweet={tweet} onClick={onClick}/>;
+        return <AdminTweetItem key={tweet.id} tweet={tweet} onClick={(id)=>onClick?.(id)}/>;
       })}
     </div>
   );

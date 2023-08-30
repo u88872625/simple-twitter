@@ -4,6 +4,10 @@
 	height: 86px;
 	margin-top: 16px;
 	border-bottom: 1px solid var(--border);
+	
+	&:hover{
+		background-color: var(--grayscale-dark-30);
+	}
 
   .wrapper {
 		display: flex;
@@ -52,6 +56,7 @@
 	.closeIcon {
 		width: 24px;
 		height: 24px;
+		cursor: pointer;
 	}
 
 }

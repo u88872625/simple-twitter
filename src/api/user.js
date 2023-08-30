@@ -114,17 +114,15 @@ export const patchUserInfo = async (payload, formData) => {
 };
 
 // 按讚
-export const addLike = async (id, token) => {
-  try {
-    const { data } = await axiosInstance.post(
-      `${baseUrl}/tweets/${id}/like`,
-      { id },
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    );
+
+export const addLike = async(id, token)=> {
+  try{
+    const {data} = await axiosInstance.post(`${baseUrl}/tweets/${id}/like`,{
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+
     console.log(data);
     return data;
   } catch (error) {
@@ -133,20 +131,18 @@ export const addLike = async (id, token) => {
 };
 
 // 收回讚
-export const unLike = async (id, token) => {
-  try {
-    const token = localStorage.getItem("token");
-    const { data } = await axiosInstance.post(
-      `${baseUrl}/tweets/${id}/unlike`,
-      { id },
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    );
-    return data;
-  } catch (error) {
-    console.error("[Unlike Failed]:", error);
+
+export const unLike = async(id,token)=>{
+  try{
+    const token = localStorage.getItem('token')
+    const {data} = await axiosInstance.post(`${baseUrl}/tweets/${id}/unlike`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+    return data
+  }catch(error){
+    console.error('[Unlike Failed]:',error)
+
   }
 };
