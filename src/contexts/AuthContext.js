@@ -73,20 +73,6 @@ export const AuthProvider = ({ children }) => {
       }
     };
     checkTokenIsValid();
-
-    // // 從本地讀取currentUser資料
-    // const storedUser = JSON.parse(localStorage.getItem('currentUser'))
-    // if(storedUser){
-    //   setPayload({
-    //     id: storedUser.id,
-    //     account: storedUser.account,
-    //     avatar: storedUser.avatar,
-    //     name: storedUser.name,
-    //     email: storedUser.email,
-    //     banner: storedUser.banner,
-    //   });
-    //   setIsAuthenticated(true)
-    // }
   }, [pathname, navigate]);
 
   const updateUserInfo = (updatedInfo)=>{

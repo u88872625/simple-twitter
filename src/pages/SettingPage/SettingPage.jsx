@@ -6,17 +6,19 @@ import FontendSettingLayout from "../../components/shared/layout/FontendSettingL
 import AuthSettingInput from "../../components/AuthInput/AuthSettingInput";
 import { useAuth } from "../../contexts/AuthContext";
 import SettingBtn from "../../components/shared/shareBtn/ReplyBtn";
-import { patchUserInfo } from "../../api/user";
+import { getUserInfo,patchUserInfo } from "../../api/user";
 import Alert from "../../components/shared/Alert/Alert";
 import successIcon from "../../assets/icons/success.png";
 import errorIcon from "../../assets/icons/error.png";
+import {useDataUpdate} from '../../contexts/UserDataContext'
 
 const SettingPage = () => {
   const { currentUser, setEditedUserInfo } = useAuth();
-
-  const [account, setAccount] = useState(currentUser?.account || "");
-  const [name, setName] = useState(currentUser?.name || "");
-  const [email, setEmail] = useState(currentUser?.email || "");
+  const userId = currentUser?.id
+  const{isDataUpdate, setIsDataUpdate } =useDataUpdate()
+  const [account, setAccount] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
   const passwordMatch = password === checkPassword;
@@ -24,15 +26,25 @@ const SettingPage = () => {
   const [alertMsg, setAlerMsg] = useState("");
   // const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const [isUserInfoUpdated, setIsUserInfoUpdated] = useState(false)
 
-  // // 初始化currentUser值
-  // useEffect(() => {
-  //   if (currentUser) {
-  //     setAccount(currentUser.account);
-  //     setName(currentUser.name);
-  //     setEmail(currentUser.email);
-  //   }
-  // }, [currentUser]);
+
+   useEffect(() => {
+     if (userId) {
+       const getUserInfoAsync = async () => {
+         try {
+           const userInfo = await getUserInfo(userId);
+           console.log("User Info:", userInfo);
+          await setAccount(userInfo.account);
+          await setName(userInfo.name);
+          await setEmail(userInfo.email)
+         } catch (error) {
+           console.error(error);
+         } 
+       };
+       getUserInfoAsync();
+     }
+   }, [userId,isDataUpdate]);
 
   const handleSave = async () => {
     try {
@@ -52,6 +64,7 @@ const SettingPage = () => {
       if (updateUserInfo.success === false) {
         setShowAlert(true);
         setAlerMsg(updateUserInfo.message || "儲存失敗!");
+        return
       } else {
         setShowAlert(true);
         setAlerMsg("儲存成功!");
@@ -59,6 +72,8 @@ const SettingPage = () => {
         setAccount(updateUserInfo.account);
         setName(updateUserInfo.name);
         setEmail(updateUserInfo.email);
+        setIsUserInfoUpdated(true)
+        
         console.log("setting", updateUserInfo.name);
       }
     } catch (error) {

@@ -1,10 +1,9 @@
 import styles from "./UserInfoCard.module.scss";
-// import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 // import { useNavigate} from 'react-router-dom';
 import { useAuth } from "../../contexts/AuthContext";
 import SettingBtn from "../shared/shareBtn/SettingBtn";
 import ProfileEditModal from "../Modal/ProfileEditModal/ProfileEditModal";
-import { useState } from "react";
 import defaultAvatar from "../../assets/icons/default-img.svg";
 import defaultBanner from "../../assets/images/bg-user.png";
 import { Link } from "react-router-dom";
@@ -13,7 +12,7 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
   // const [isEdit, setIsEdit] = useState(false)
   // const navigate = useNavigate()
   const { currentUser } = useAuth();
-
+ 
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -22,11 +21,13 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
     // setIsEdit(true)
     setShow(true);
   };
+ 
 
   if (!info) {
     return <div>Loading...</div>;
   }
 
+  console.log('uerinfocard:',info)
   return (
     <div className={styles.container}>
       <div className={styles.img}>
@@ -53,10 +54,10 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
         </div>
       </div>
       <div className={styles.userInfo}>
-        <h5 className={styles.userName}>{currentUser.name}</h5>
-        <p className={styles.userAccount}>@{currentUser.account}</p>
+        <h5 className={styles.userName}>{info.name}</h5>
+        <p className={styles.userAccount}>@{info.account}</p>
       </div>
-      <div className={styles.introduction}>{currentUser.introduction}</div>
+      <div className={styles.introduction}>{info.introduction}</div>
 
       <div className={styles.showFollow} onClick={handleFollowDetail}>
         <p className={styles.showfolloing}>

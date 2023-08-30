@@ -9,6 +9,7 @@ import UserInfoCard from "../../components/InfoCard/UserInfoCard";
 import TweetTabs from "../../components/TweetTabs/TweetTabs";
 import arrow from "../../assets/icons/back.svg";
 import { useTweetId } from "../../contexts/TweetIdContext";
+import { useDataUpdate } from "../../contexts/UserDataContext";
 
 const UserPage = () => {
   const userId = localStorage.getItem("userId");
@@ -24,6 +25,7 @@ const UserPage = () => {
   const { id } = useParams(); //取得貼文id反映在路徑上
   const { handleTweetClick } = useTweetId(); //更新貼文id
   const location = useLocation();
+  const { isDataUpdate, setIsDataUpdate, notifyDataUpdate } = useDataUpdate();
 
   // // 追蹤單一貼文點擊
   // const handleTweetClick = async (id) => {
@@ -80,7 +82,8 @@ const UserPage = () => {
       };
       getUserInfoAsync();
     }
-  }, []);
+  }, [isDataUpdate]);
+
   useEffect(() => {
     if (userId) {
       const getUserTweetAsync = async () => {
@@ -129,10 +132,10 @@ const UserPage = () => {
   }, []);
   //  驗證token是否存在
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (localStorage.getItem("token") == null) {
       navigate("/login");
     }
-  }, [navigate, isAuthenticated]);
+  }, [navigate]);
 
   return (
     <FontendLayout>
