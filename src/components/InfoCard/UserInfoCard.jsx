@@ -60,11 +60,11 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
     try {
       setAvatarPreview(null);
       setBannerPreview(null);
-      // 若input空值，則返回
+      // 若input限制輸入條件
       if (name.trim().length === 0) return;
-      // 若自我介紹或是名字長度超過限制，則返回
       if (name.length > 50 || introduction.length > 160) return;
-      // API的資訊傳遞(需轉換成 Form-data)
+
+      // API的資訊傳遞需轉換成 Form-data
       const formData = new FormData();
       //設定key及相對應的value
       for (let key in tempData) {
