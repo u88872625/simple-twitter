@@ -1,6 +1,6 @@
 import TweetItem from "../../TweetItem/TweetItem.jsx";
 
-export default function TweetContent({ tweets, onClick, onTweetClick, onLikeClick }) {
+export default function TweetContent({ tweets, onClick, onTweetClick }) {
   return (
     <div>
       {tweets.map((tweet) => {
@@ -10,7 +10,6 @@ export default function TweetContent({ tweets, onClick, onTweetClick, onLikeClic
             tweet={tweet}
             onClick={onClick}
             onTweetClick={(id) => onTweetClick?.(id)}
-            onLikeClick={(id,isLiked) => onLikeClick?.(id, isLiked)}
           />
         );
       })}
