@@ -9,6 +9,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
 import clsx from "clsx";
 import { addLike, unLike } from "../../api/user";
+import { useNavigate } from "react-router-dom";
 
 export default function TweetItem({ tweet, onTweetClick }) {
   let { name, account, avatar } = tweet.User;
@@ -30,6 +31,8 @@ export default function TweetItem({ tweet, onTweetClick }) {
   const [likeCount, setLikeCount] = useState(likesNum);
   const [like, setLike] = useState(isLiked);
   const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
+  const navigate = useNavigate();
   const contentDelete = () => {
     setReply("");
   };
@@ -38,6 +41,18 @@ export default function TweetItem({ tweet, onTweetClick }) {
   const handleClose = () => setShow(false);
   const handleReplyClick = () => {
     setShow(true);
+  };
+
+  // 點擊頭像
+  const handleClick = () => {
+    // 如果點選自己
+    if (UserId === userId) {
+      navigate("/:account");
+    } else {
+      // 如果點到其他人
+      localStorage.setItem("otherUserId", UserId);
+      navigate("/other");
+    }
   };
 
   // 回覆功能
@@ -93,15 +108,17 @@ export default function TweetItem({ tweet, onTweetClick }) {
       }}
     >
       <div className={styles.wrapper}>
-        {avatar ? (
-          <img className={styles.avatar} src={avatar} alt="avatar" />
-        ) : (
-          <img
-            className={styles.avatar}
-            src={defaultAvatar}
-            alt="defalt-avatar"
-          />
-        )}
+        <button className={styles.avatarWrapper} onClick={handleClick}>
+          {avatar ? (
+            <img className={styles.avatar} src={avatar} alt="avatar" />
+          ) : (
+            <img
+              className={styles.avatar}
+              src={defaultAvatar}
+              alt="defalt-avatar"
+            />
+          )}
+        </button>
         <div className={styles.tweet}>
           <div className={styles.title}>
             <p className={styles.name}>{name}</p>
