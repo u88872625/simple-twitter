@@ -102,16 +102,19 @@ export const addLike = async(id, token)=> {
 }
 
 // 收回讚
-export const unLike = async(id,token)=>{
-  try{
-    const token = localStorage.getItem('token')
-    const {data} = await axiosInstance.post(`${baseUrl}/tweets/${id}/unlike`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
-    return data
-  }catch(error){
-    console.error('[Unlike Failed]:',error)
+export const unLike = async (id, token) => {
+  try {
+    const { data } = await axiosInstance.post(
+      `${baseUrl}/tweets/${id}/unlike`,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+      console.log(data)
+    return data;
+  } catch (error) {
+    console.error("[Unlike Failed]:", error);
   }
-}
+};

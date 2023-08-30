@@ -8,6 +8,7 @@ import TopTweet from "../../components/TopTweet/TopTweet.jsx";
 import ReplyCollection from "./ReplyCollection.jsx";
 import arrow from "../../assets/icons/back.svg";
 
+
 const StatusPage = () => {
   // // 從路由路徑取得貼文id
   // const { id } = useParams();
@@ -15,14 +16,17 @@ const StatusPage = () => {
   const [topTweet, setTopTweet] = useState(tweetData);
   const [topTweetReplies, setTopTweetReplies] = useState(repliesData);
   const navigate = useNavigate();
-  const location = useLocation()
+  const location = useLocation();
   const { isAuthenticated } = useAuth();
 
+
+ 
+
   // 追蹤要返回的上一頁
-  const handleBack =()=>{
-    const prevLocation = location.state?.from || '/home'
-    navigate(prevLocation)
-  }
+  const handleBack = () => {
+    const prevLocation = location.state?.from || "/home";
+    navigate(prevLocation);
+  };
 
   console.log("status:", tweetId);
   console.log("statustweetdata:", tweetData);
@@ -42,7 +46,12 @@ const StatusPage = () => {
   return (
     <FontendLayout>
       <div className={styles.header}>
-        <img className={styles.arrow} src={arrow} alt="arrow" onClick={handleBack}/>
+        <img
+          className={styles.arrow}
+          src={arrow}
+          alt="arrow"
+          onClick={handleBack}
+        />
         <h4 className={styles.title}>推文</h4>
       </div>
       <div>
