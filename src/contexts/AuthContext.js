@@ -85,7 +85,7 @@ export const AuthProvider = ({ children }) => {
     //    banner: updatedInfo.banner,
     //  };
     //  localStorage.setItem("currentUser", JSON.stringify(updatedUser));
-  }
+  
 
   const updateUserInfo = (updatedInfo) => {
     setPayload((prevPayload) => ({
@@ -104,7 +104,7 @@ export const AuthProvider = ({ children }) => {
       email: updatedInfo.email,
       banner: updatedInfo.banner,
     });
-
+  }
   return (
     <AuthContext.Provider
       value={{

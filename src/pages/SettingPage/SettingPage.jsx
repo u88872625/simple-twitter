@@ -24,10 +24,12 @@ const SettingPage = () => {
   const [checkPassword, setCheckPassword] = useState("");
   const passwordMatch = password === checkPassword;
   const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState("");
   // const { isAuthenticated } = useAuth();
   const role = currentUser?.role;
   const navigate = useNavigate();
   const [isUserInfoUpdated, setIsUserInfoUpdated] = useState(false)
+  
 
 
    useEffect(() => {
@@ -64,11 +66,11 @@ const SettingPage = () => {
 
       if (updateUserInfo.success === false) {
         setShowAlert(true);
-        setAlerMsg(updateUserInfo.message || "儲存失敗!");
+        setAlertMsg(updateUserInfo.message || "儲存失敗!");
         return
       } else {
         setShowAlert(true);
-        setAlerMsg("儲存成功!");
+        setAlertMsg("儲存成功!");
         setEditedUserInfo(updateUserInfo);
         setAccount(updateUserInfo.account);
         setName(updateUserInfo.name);
