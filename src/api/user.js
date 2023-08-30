@@ -89,7 +89,7 @@ export const patchUserInfo = async(payload)=>{
 // 按讚
 export const addLike = async(id, token)=> {
   try{
-    const {data} = await axiosInstance.post(`${baseUrl}/tweets/${id}/like`,{id} ,{
+    const {data} = await axiosInstance.post(`${baseUrl}/tweets/${id}/like`,{
       headers: {
         Authorization: "Bearer " + token,
       },
@@ -105,7 +105,7 @@ export const addLike = async(id, token)=> {
 export const unLike = async(id,token)=>{
   try{
     const token = localStorage.getItem('token')
-    const {data} = await axiosInstance.post(`${baseUrl}/tweets/${id}/unlike`,{id}, {
+    const {data} = await axiosInstance.post(`${baseUrl}/tweets/${id}/unlike`, {
       headers: {
         Authorization: "Bearer " + token,
       },
