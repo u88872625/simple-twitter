@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./AddTweet.module.scss";
 import ReplyBtn from "../shared/shareBtn/ReplyBtn";
-import avatarUser from "../../assets/images/avater-user.png";
+import DefaultAvatar from "../../assets/icons/default-img.svg";
 import clsx from "clsx";
 import { useAuth } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
@@ -30,7 +30,7 @@ const AddTweet = ({ avatar, value, inputStyle }) => {
         setIsUpdating(false);
 
         // // 畫面自動重新整理
-        // window.location.reload();
+        window.location.reload();
       }
     } catch (error) {
       console.error("AddTweeet failed ]", error);
@@ -45,7 +45,7 @@ const AddTweet = ({ avatar, value, inputStyle }) => {
         <h4>首頁</h4>
       </div>
       <div className={styles.AddTweet}>
-        <img className={styles.avatar} src={avatar ? avatar : avatarUser} />
+        <img className={styles.avatar} src={avatar ? avatar : DefaultAvatar} />
         <textarea
           className={clsx(styles.input, inputStyle)}
           placeholder="有什麼新鮮事?"

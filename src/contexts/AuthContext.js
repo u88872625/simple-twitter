@@ -24,9 +24,11 @@ export const AuthProvider = ({ children }) => {
   const [isTweetUpdated, setIsTweetUpdated] = useState(false);
   // 使用者編輯個人資料
   const [editedUserInfo, setEditedUserInfo] = useState(null);
+  // 使用者更新個人資料
+  const [isEditedUserInfo, setIsEditedUserInfo] = useState(false);
   // 若有更新過回覆推文
   const [isReplyUpdated, setIsReplyUpdated] = useState(false);
-
+  const [currentUser, setCurrentUser] = useState(null);
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
@@ -81,7 +83,15 @@ export const AuthProvider = ({ children }) => {
       email: updatedInfo.email,
       banner: updatedInfo.banner,
     }));
+
+    setCurrentUser({
+      ...currentUser,
+      avatar: updatedInfo.avatar,
+      email: updatedInfo.email,
+      banner: updatedInfo.banner,
+    });
   };
+
   return (
     <AuthContext.Provider
       value={{
@@ -90,12 +100,12 @@ export const AuthProvider = ({ children }) => {
           id: payload.id,
           account: payload.account,
           avatar: payload.avatar,
+          banner: payload.banner,
           name: payload.name,
           email: payload.email,
           password: payload.password,
           checkPassword: payload.checkPassword,
           introduction: payload.introduction,
-          banner: payload.banner,
           role: payload.role,
         },
         updateUserInfo,
@@ -105,6 +115,8 @@ export const AuthProvider = ({ children }) => {
         setEditedUserInfo,
         isReplyUpdated,
         setIsReplyUpdated,
+        isEditedUserInfo,
+        setIsEditedUserInfo,
         register: async (data) => {
           const response = await register({
             account: data.account,
@@ -189,8 +201,14 @@ export const AuthProvider = ({ children }) => {
         },
         replyTweet: async (id, { comment }) => {
           const response = await replyTweet(id, { comment });
-          console.log("post a reply", response);
           if (response.data) setIsReplyUpdated(true);
+          return response;
+        },
+        patchUserInfo: async (formData, payload) => {
+          const response = await patchUserInfo(formData, payload);
+          if (response.data) {
+            updateUserInfo(response.data);
+          }
           return response;
         },
       }}
