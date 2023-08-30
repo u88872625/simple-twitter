@@ -65,6 +65,17 @@ export const getUserLike = async (userId) => {
   }
 };
 
+
+// 取得全站使用者資料
+export const getAllUsers = async () => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/admin/users`);
+    return res.data;
+  } catch (error) {
+    console.error("[Get all users Failed]:", error);
+  }
+};
+
 // 編輯使用者資料
 export const patchUserInfo = async(payload)=>{
   const {id, account, name, email, password,checkPassword,introduction, avatar, banner} = payload
@@ -115,3 +126,4 @@ export const unLike = async(id,token)=>{
     console.error('[Unlike Failed]:',error)
   }
 }
+
