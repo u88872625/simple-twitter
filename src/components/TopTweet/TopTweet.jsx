@@ -5,6 +5,8 @@ import likeFilled from "../../assets/icons/like-filled.svg";
 import { useState, useEffect } from "react";
 import ReplyModal from "../Modal/ReplyModal/ReplyModal";
 import { useAuth } from "../../contexts/AuthContext";
+import { useLike } from "../../contexts/LikeContext";
+
 
 // const dummytweet = [
 //   {
@@ -35,6 +37,7 @@ export default function TopTweet({ tweet }) {
   const contentDelete = () => {
     setReply("");
   };
+  const { handleLikeClick } = useLike();
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -45,16 +48,16 @@ export default function TopTweet({ tweet }) {
   };
 
   // 更新like數 後續需要把變動傳回後端
-  const handleLikeClick = () => {
-    setIsLike(!isLike);
-    tweet.isLiked = !tweet.isLiked;
+  // const handleLikeClick = () => {
+  //   setIsLike(!isLike);
+  //   tweet.isLiked = !tweet.isLiked;
 
-    if (isLike) {
-      setLikesNum(likesNum + 1);
-    } else {
-      setLikesNum(likesNum - 1);
-    }
-  };
+  //   if (isLike) {
+  //     setLikesNum(likesNum + 1);
+  //   } else {
+  //     setLikesNum(likesNum - 1);
+  //   }
+  // };
 
   // 回覆功能
   // const handleReply = async () => {
@@ -117,7 +120,7 @@ export default function TopTweet({ tweet }) {
                 onClick={handleReplyClick}
               />
               <div className={styles.like} onClick={handleLikeClick}>
-                {tweet.isLiked ? (
+                {tweet.isLike ? (
                   <img src={likeFilled} alt="like-fill" />
                 ) : (
                   <img src={like} alt="like" />

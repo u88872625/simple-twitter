@@ -1,6 +1,6 @@
 import styles from "./TweetItem.module.scss";
 import replyIcon from "../../assets/icons/reply.svg";
-import like from "../../assets/icons/like.svg";
+import likeIcon from "../../assets/icons/like.svg";
 import likeFilled from "../../assets/icons/like-filled.svg";
 import defaultAvatar from "../../assets/icons/default-img.svg";
 import { useState, useEffect } from "react";
@@ -8,8 +8,14 @@ import ReplyModal from "../Modal/ReplyModal/ReplyModal";
 import { useAuth } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
 import clsx from "clsx";
+import { addLike, unLike } from "../../api/user";
 
-export default function TweetItem({ tweet, onClick, onTweetClick }) {
+export default function TweetItem({
+  tweet,
+  onClick,
+  onTweetClick,
+  onLikeClick,
+}) {
   let { name, account, avatar } = tweet.User;
   const {
     id,
@@ -26,6 +32,9 @@ export default function TweetItem({ tweet, onClick, onTweetClick }) {
   const [show, setShow] = useState();
   const [reply, setReply] = useState("");
   const [replyCount, setReplyCount] = useState(repliesNum);
+  const [likeCount, setLikeCount] = useState(likesNum);
+  const [like, setLike]=useState(isLiked)
+  const token = localStorage.getItem("token");
   const contentDelete = () => {
     setReply("");
   };
@@ -60,9 +69,39 @@ export default function TweetItem({ tweet, onClick, onTweetClick }) {
     }
   };
 
+  // 按讚
+  const addLikeAsync = async (id, token) => {
+    try {
+      const res = await addLike(id, token);
+      console.log("likecontext:", res);
+    } catch (error) {
+      console.error(error);
+      console.log("likecontext:", error);
+    }
+  };
+
+  // 收回讚
+  const unLikeAsync = async (id, token) => {
+    try {
+      const res = await unLike(id, token);
+      console.log("likecontext:", res);
+    } catch (error) {
+      console.error(error);
+      console.log("likecontext:", error);
+    }
+  };
+
   // 追蹤哪個貼文被按讚
-  const handleLikeClick = () => {
-    onClick(id);
+  const handleLikeClick = async (id, isLiked) => {
+    if (isLiked) {
+      await unLikeAsync(id, token);
+      setLike(!like)
+      setLikeCount(likeCount - 1);
+    } else {
+      await addLikeAsync(id, token);
+      setLike(!like);
+      setLikeCount(likeCount + 1);
+    }
   };
 
   useEffect(() => {
@@ -94,6 +133,7 @@ export default function TweetItem({ tweet, onClick, onTweetClick }) {
             </p>
           </div>
           <p className={styles.text}>{description}</p>
+
           <div className={styles.bottom}>
             <div className={styles.reply} onClick={handleReplyClick}>
               <img src={replyIcon} alt="num-of-replies" />
@@ -103,7 +143,7 @@ export default function TweetItem({ tweet, onClick, onTweetClick }) {
               {isLiked ? (
                 <img src={likeFilled} alt="like-fill" />
               ) : (
-                <img src={like} alt="like" />
+                <img src={likeIcon} alt="like" />
               )}
               <span>{likesNum}</span>
             </div>

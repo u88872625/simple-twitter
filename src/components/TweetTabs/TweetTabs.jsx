@@ -65,7 +65,6 @@ export default function TweetTabs({
             tweets={tweets}
             onClick={onClick}
             onTweetClick={(id) => onTweetClick?.(id)}
-            onLikeClick={(id,isLiked) => onLikeClick?.(id,isLiked)}
           />
         )}
         {activeTab === "replies" && <ReplyContent replies={replies} />}
