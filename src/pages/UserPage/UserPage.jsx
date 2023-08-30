@@ -16,7 +16,8 @@ import arrow from "../../assets/icons/back.svg";
 import { useTweetId } from "../../contexts/TweetIdContext";
 
 const UserPage = () => {
-  const { isAuthenticated, currentUser } = useAuth();
+  const token = localStorage.getItem("token");
+  const { currentUser } = useAuth();
   const role = currentUser?.role;
   const userId = localStorage.getItem("userId");
   const [userInfo, setUserInfo] = useState([]);
@@ -114,10 +115,10 @@ const UserPage = () => {
   }, []);
   //  驗證token是否存在
   useEffect(() => {
-    if (!userId) {
+    if (!token && role === "admin") {
       navigate("/login");
     }
-  }, [navigate, userId]);
+  }, [navigate, token, role]);
 
   return (
     <FontendLayout>

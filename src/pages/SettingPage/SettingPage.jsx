@@ -12,6 +12,7 @@ import successIcon from "../../assets/icons/success.png";
 import errorIcon from "../../assets/icons/error.png";
 
 const SettingPage = () => {
+  const token = localStorage.getItem("token");
   const { currentUser, setEditedUserInfo } = useAuth();
   const [account, setAccount] = useState(currentUser?.account || "");
   const [name, setName] = useState(currentUser?.name || "");
@@ -21,7 +22,7 @@ const SettingPage = () => {
   const passwordMatch = password === checkPassword;
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlerMsg] = useState("");
-  const { isAuthenticated } = useAuth();
+  const role = currentUser?.role;
   const navigate = useNavigate();
 
   const handleSave = async () => {
@@ -51,10 +52,10 @@ const SettingPage = () => {
 
   //  驗證token是否存在
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!token && role === "admin") {
       navigate("/login");
     }
-  }, [navigate, isAuthenticated]);
+  }, [navigate, token, role]);
 
   return (
     <FontendSettingLayout>

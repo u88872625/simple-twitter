@@ -6,10 +6,12 @@ import home from "../../assets/icons/home.svg";
 import homeActive from "../../assets/icons/home-active.svg";
 import userInfo from "../../assets/icons/userInfo.svg";
 import userInfoActive from "../../assets/icons/userInfo-active.svg";
-import logout from "../../assets/icons/logout.svg";
+import logoutIcon from "../../assets/icons/logout.svg";
 import logo from "../../assets/icons/logo.svg";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function AdminSideBar() {
+  const { logout } = useAuth();
   const [activeItem, setActiveItem] = useState("推文清單");
   const location = useLocation();
 
@@ -26,6 +28,9 @@ export default function AdminSideBar() {
   }, [location]);
 
   const handleItemClick = (itemName) => {
+    if (itemName === "登出") {
+      logout();
+    }
     setActiveItem(itemName);
   };
   return (
@@ -57,8 +62,8 @@ export default function AdminSideBar() {
         <div className={styles.bottomItem}>
           <ul>
             <NavItem
-              icon={logout}
-              activeIcon={logout}
+              icon={logoutIcon}
+              activeIcon={logoutIcon}
               text="登出"
               path="/"
               isActive={activeItem === "登出"}

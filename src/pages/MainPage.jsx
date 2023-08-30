@@ -12,7 +12,9 @@ const HomePage = () => {
   const [userInfo, setUserInfo] = useState([]);
   const { isAuthenticated, currentUser } = useAuth();
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
   const userId = currentUser?.id;
+  const role = currentUser?.role;
 
   useEffect(() => {
     if (userId) {
@@ -38,14 +40,14 @@ const HomePage = () => {
         console.error(error);
       }
     };
-
-    // if (isAuthenticated) {
     getTweetsAsync();
-    // }
-    // } else {
-    //   navigate("/login");
-    // }
   }, []);
+
+  useEffect(() => {
+    if (!token && role === "admin") {
+      navigate("/login");
+    }
+  }, [navigate, token, role]);
 
   return (
     <div>

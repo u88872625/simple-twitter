@@ -14,7 +14,8 @@ const LoginPage = () => {
   // 後端錯誤訊息判定
   const [accountMsg, setAccountMsg] = useState("");
   const [passwordErrorMsg, setPasswordErrorMsg] = useState("");
-  const { login, isAuthenticated } = useAuth();
+  const { login, isAuthenticated, currentUser } = useAuth();
+  const role = currentUser?.role;
   const navigate = useNavigate();
 
   const handleClick = async () => {
@@ -52,10 +53,10 @@ const LoginPage = () => {
     }
   };
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && role === "user") {
       navigate("/home");
     }
-  }, [navigate, isAuthenticated]);
+  }, [navigate, isAuthenticated, role]);
 
   return (
     <div className={styles.container}>

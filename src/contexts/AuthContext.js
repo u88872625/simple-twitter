@@ -191,8 +191,6 @@ export const AuthProvider = ({ children }) => {
 
           setPayload(null);
           setIsAuthenticated(false);
-
-          navigate("/login");
         },
         addTweet: async (data) => {
           const response = await addTweet({ description: data.description });
