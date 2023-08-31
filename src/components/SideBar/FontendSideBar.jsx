@@ -14,6 +14,7 @@ import logoutIcon from "../../assets/icons/logout.svg";
 import AddTweetModal from "../Modal/AddTweetModal/AddTweetModal";
 import { useAuth } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
+import clsx from "clsx";
 
 export default function FontendSideBar() {
   const [activeItem, setActiveItem] = useState("首頁");
@@ -157,6 +158,11 @@ export default function FontendSideBar() {
         onChange={(tweetInput) => {
           setTweet(tweetInput);
         }}
+        errorMsg={clsx(
+          "",
+          { [styles.emptyError]: tweet.trim().length === 0 },
+          { [styles.overError]: tweet.length > 140 }
+        )}
       />
     </div>
   );

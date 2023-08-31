@@ -56,7 +56,7 @@ const StatusPage = () => {
         <TopTweet tweet={topTweet} />
       </div>
       <div>
-        <ReplyCollection replies={topTweetReplies} />
+        <ReplyCollection replies={topTweetReplies} poster={topTweet} />
       </div>
     </FontendLayout>
   );

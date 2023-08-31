@@ -4,6 +4,7 @@ import IconDefaultAvatar from "../../assets/icons/default-img.svg";
 import FollowBtn from "../shared/shareBtn/FollowBtn";
 import FollowingBtn from "../shared/shareBtn/FollowingBtn";
 import { getTopUsers, userFollow, unFollow } from "../../api/tweets";
+import { getUserInfo } from "../../api/user";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -89,17 +90,17 @@ function PopularListItem({ topUser, handleFollowClick }) {
   const navigate = useNavigate();
 
   // 點擊頭像
-  const handleClick = () => {
+  const handleClick = async () => {
     // 如果點選自己
     if (id === userId) {
-      navigate("/:account");
+      navigate(`/${account}`);
     } else {
       // 如果點到其他人
       localStorage.setItem("otherUserId", id);
-
-      navigate("/other");
-      // // 畫面自動重新整理
-      window.location.reload();
+      const otherUserInfo = await getUserInfo(id);
+      console.log("tweetitem:", otherUserInfo);
+      const otherUserAccount = otherUserInfo.account;
+      navigate(`/other/${otherUserAccount}`);
     }
   };
 

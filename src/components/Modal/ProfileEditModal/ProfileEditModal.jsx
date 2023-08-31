@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 // import {useForm} from 'react-hook-form'
-import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import IconClose from "../../../assets/icons/close.svg";
 import styles from "./ProfileEditModal.module.scss";
-import DefaultBanner from "../../../assets/images/bg-user.png";
-import DefaultAvatar from "../../../assets/icons/default-img.svg";
 import photo from "../../../assets/icons/editPhoto.svg";
 import BannerDelete from "../../../assets/icons/close-white.svg";
 import AuthInput from "../../AuthInput/AuthInput";
 import clsx from "clsx";
+import IntroInput from "../../AuthInput/IntroInput";
 import { useAuth } from "../../../contexts/AuthContext";
 import { patchUserInfo } from "../../../api/user";
 import Alert from "../../../components/shared/Alert/Alert";
@@ -119,7 +117,7 @@ const ProfileEditModal = ({
                 dataPage={"profileEditModal"}
               />
               {/* 使用者input的自我介紹 */}
-              <AuthInput
+              <IntroInput
                 inputStyle={styles.introductionInput}
                 borderMode={clsx("", {
                   [styles.introError]: introduction.length > 160,

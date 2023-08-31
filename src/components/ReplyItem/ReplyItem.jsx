@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "./ReplyItem.module.scss";
 import defaultAvatar from "../../assets/icons/default-img.svg";
+import { useNavigate } from "react-router-dom";
+import { getUserInfo } from "../../api/user";
 
 const ReplyItem = ({ tweet }) => {
   return (
@@ -26,7 +28,9 @@ const ReplyItem = ({ tweet }) => {
         <div className={styles.replyNameWrapper}>
           <div className={styles.replyTitle}>
             回覆
-            <span className={styles.replyName}>@{tweet.repliedTo ?  tweet.repliedTo : tweet.User.account}</span>
+            <span className={styles.replyName}>
+              @{tweet.repliedTo ? tweet.repliedTo : tweet.User.account}
+            </span>
           </div>
         </div>
         <div className={styles.replyMessage}>
