@@ -8,7 +8,8 @@ import ReplyModal from "../Modal/ReplyModal/ReplyModal";
 import { useAuth } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
 import clsx from "clsx";
-import {  addLike,unLike,} from "../../api/user";
+import { addLike, unLike } from "../../api/user";
+import { useNavigate } from "react-router-dom";
 import { useDataUpdate } from "../../contexts/UserDataContext";
 
 export default function TweetItem({ tweet, onTweetClick, onClick}) {
@@ -32,6 +33,8 @@ export default function TweetItem({ tweet, onTweetClick, onClick}) {
  const [like, setLike] = useState(isLiked);
   const { isDataUpdate, setIsDataUpdate } = useDataUpdate();
   const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
+  const navigate = useNavigate();
   const contentDelete = () => {
     setReply("");
   };
@@ -40,6 +43,18 @@ export default function TweetItem({ tweet, onTweetClick, onClick}) {
   const handleClose = () => setShow(false);
   const handleReplyClick = () => {
     setShow(true);
+  };
+
+  // 點擊頭像
+  const handleClick = () => {
+    // 如果點選自己
+    if (UserId === userId) {
+      navigate("/:account");
+    } else {
+      // 如果點到其他人
+      localStorage.setItem("otherUserId", UserId);
+      navigate("/other");
+       }
   };
 
   // 追蹤哪個貼文被按讚
@@ -57,7 +72,8 @@ export default function TweetItem({ tweet, onTweetClick, onClick}) {
     } catch (error) {
       console.error(error);
     }
-  };
+  }
+   
 
   // 回覆功能
   const handleReply = async () => {
@@ -90,12 +106,14 @@ export default function TweetItem({ tweet, onTweetClick, onClick}) {
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
+        
         <div
           className={styles.top}
           onClick={() => {
             onTweetClick?.(id);
           }}
         >
+          <button className={styles.avatarWrapper} onClick={handleClick}>
           {avatar ? (
             <img className={styles.avatar} src={avatar} alt="avatar" />
           ) : (
@@ -105,12 +123,31 @@ export default function TweetItem({ tweet, onTweetClick, onClick}) {
               alt="defalt-avatar"
             />
           )}
-          <div className={styles.tweet}>
-            <div className={styles.title}>
-              <p className={styles.name}>{name}</p>
-              <p className={styles.acount}>
-                @{account} · {fromNow}
-              </p>
+
+        </button>
+        <div className={styles.tweet}>
+          <div className={styles.title}>
+            <p className={styles.name}>{name}</p>
+            <p className={styles.acount}>
+              @{account} · {fromNow}
+            </p>
+          </div>
+          <p className={styles.text}>{description}</p>
+
+          <div className={styles.bottom}>
+            <div className={styles.reply} onClick={handleReplyClick}>
+              <img src={replyIcon} alt="num-of-replies" />
+              <span>{repliesNum}</span>
+            </div>
+            <div className={styles.like} onClick={handleLikeClick}>
+              {like ? (
+                <img src={likeFilled} alt="like-fill" />
+              ) : (
+                <img src={likeIcon} alt="like" />
+              )}
+              <span>{likeCount}</span>
+
+
             </div>
             <p className={styles.text}>{description}</p>
           </div>

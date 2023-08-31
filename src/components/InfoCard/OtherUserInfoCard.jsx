@@ -1,55 +1,114 @@
+import { useState, useEffect } from "react";
 import styles from "./OtherUserInfoCard.module.scss";
 import FollowingBtn from "../shared/shareBtn/FollowingBtn";
 import FollowBtn from "../shared/shareBtn/FollowBtn";
+import DefaultAvatar from "../../assets/icons/default-img.svg";
+import DefaultBanner from "../../assets/images/bg-user.png";
+import { userFollow, unFollow } from "../../api/tweets";
 
 export default function OtherUserInfoCard({
-  name,
-  account,
-  introduction,
-  avatar,
-  banner,
-  follower,
-  following,
-	isFollowed
+  info,
+  rerender,
+  setRerender,
+  followerCount,
 }) {
+  const {
+    id,
+    name,
+    account,
+    introduction,
+    avatar,
+    banner,
+    followingsNum,
+    isFollowed,
+  } = info;
 
+  const token = localStorage.getItem("token");
+  // 設暫存，讓畫面立即更新
+  const [followedStatus, setFollowedStatus] = useState(isFollowed);
+  // 設暫存，讓畫面立即更新
+  const [followerCountTemp, setFollowerCountTemp] = useState(followerCount);
 
+  // 追蹤
+  const userFollowAsync = async (token, id) => {
+    try {
+      const res = await userFollow(token, id);
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // 去銷追蹤
+  const userUnfollowAsync = async (token, id) => {
+    try {
+      const res = await unFollow(token, id);
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // 追蹤按鈕邏輯
+  const handleFollowClick = async () => {
+    if (followedStatus) {
+      await userUnfollowAsync(token, id);
+      await setFollowerCountTemp(followerCount - 1);
+    } else {
+      await userFollowAsync(token, id);
+      await setFollowerCountTemp(followerCount + 1);
+    }
+    await setRerender(!rerender);
+  };
+
+  useEffect(() => {
+    setFollowedStatus(isFollowed);
+    setFollowerCountTemp(followerCount);
+  }, [isFollowed, followerCount]);
   return (
     <div className={styles.container}>
       <div className={styles.img}>
         <img
           className={styles.banner}
-          src="https://images.unsplash.com/photo-1580436541340-36b8d0c60bae"
+          src={banner ? banner : DefaultBanner}
           alt="banner"
         />
         <img
           className={styles.avatar}
-          src="https://pic.baike.soso.com/ugc/baikepic2/1284/20230320164402-1468310604_jpeg_1131_754_187393.jpg/1284"
+          src={avatar ? avatar : DefaultAvatar}
           alt="avatar"
         />
         <div className={styles.followBtn}>
-          {isFollowed ? (
-            <FollowingBtn text={"正在跟隨"} />
+          {followedStatus ? (
+            <FollowingBtn
+              text={"正在跟隨"}
+              onClick={() => {
+                setFollowedStatus(!followedStatus);
+                handleFollowClick();
+              }}
+            />
           ) : (
-            <FollowBtn text={"跟隨"} />
+            <FollowBtn
+              text={"跟隨"}
+              onClick={() => {
+                setFollowedStatus(!followedStatus);
+                handleFollowClick();
+              }}
+            />
           )}
         </div>
       </div>
       <div className={styles.userInfo}>
-        <h5 className={styles.userName}>John Doe</h5>
-        <p className={styles.userAccount}>@heyjohn</p>
+        <h5 className={styles.userName}>{name}</h5>
+        <p className={styles.userAccount}>@{account}</p>
       </div>
-      <div className={styles.introduction}>
-        Passionate individual with expertise in [Field]. Skilled in [Skills]
-        with a record of [Achievements]. Enthusiastic problem solver, eager to
-        collaborate.
-      </div>
+      <div className={styles.introduction}>{introduction}</div>
       <div className={styles.showFollow}>
         <p className={styles.showfolloing}>
-          34個<span className={styles.sub}>跟隨中</span>
+          {followingsNum}個<span className={styles.sub}>跟隨中</span>
         </p>
         <p className={styles.showfollowers}>
-          59位<span className={styles.sub}>跟隨者</span>
+          {followerCountTemp}位<span className={styles.sub}>跟隨者</span>
         </p>
       </div>
     </div>
