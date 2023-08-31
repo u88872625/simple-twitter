@@ -20,15 +20,15 @@ import AddTweet from "./components/AddTweet/AddTweet";
 import "./styles/App.module.scss";
 import { AuthProvider } from "./contexts/AuthContext";
 
-import {TweetIdContextProvider} from './contexts/TweetIdContext'
-import {UserDataContextProvider} from './contexts/UserDataContext'
+import { TweetIdContextProvider } from "./contexts/TweetIdContext";
+import { UserDataContextProvider } from "./contexts/UserDataContext";
 // import { LikeContexProvider } from "./contexts/LikeContext";
 
-
 function App() {
+  const basename = process.env.PUBLIC_URL;
   return (
     <div className="App">
-      <BrowserRouter>
+      <BrowserRouter basename={basename}>
         <AuthProvider>
           <UserDataContextProvider>
             <TweetIdContextProvider>
@@ -45,7 +45,10 @@ function App() {
                 <Route path="/:account/replies" element={<TweetTabs />} />
                 <Route path="/:account/likes" element={<TweetTabs />} />
                 <Route path="/:account/follower" element={<UserFollowPage />} />
-                <Route path="/other/:account/follower" element={<UserOtherFollowPage />} />
+                <Route
+                  path="/other/:account/follower"
+                  element={<UserOtherFollowPage />}
+                />
                 <Route path="/compose" element={<AddTweet />} />
                 {/* <Route path="/compose" element={<Modal />} /> */}
                 <Route path="/status/:id" element={<StatusPage />} />
