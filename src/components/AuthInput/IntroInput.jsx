@@ -3,7 +3,7 @@ import styles from "./IntroInput.module.scss";
 import { useState } from "react";
 import clsx from "clsx";
 
-const AuthInput = ({
+const IntroInput = ({
   label,
   type,
   placeholder,
@@ -55,4 +55,4 @@ const AuthInput = ({
   );
 };
 
-export default AuthInput;
+export default IntroInput;
