@@ -10,7 +10,8 @@ export default function OtherUserInfoCard({
   info,
   rerender,
   setRerender,
-  followerCount,
+  followersNum,
+  // isFollowed,
 }) {
   const {
     id,
@@ -27,7 +28,7 @@ export default function OtherUserInfoCard({
   // 設暫存，讓畫面立即更新
   const [followedStatus, setFollowedStatus] = useState(isFollowed);
   // 設暫存，讓畫面立即更新
-  const [followerCountTemp, setFollowerCountTemp] = useState(followerCount);
+  const [followerNumTemp, setFollowerNumTemp] = useState(followersNum);
 
   // 追蹤
   const userFollowAsync = async (token, id) => {
@@ -50,21 +51,23 @@ export default function OtherUserInfoCard({
   };
 
   // 追蹤按鈕邏輯
-  const handleFollowClick = async () => {
-    if (followedStatus) {
+  const handleFollowClick = async (isFollowed) => {
+    if (isFollowed) {
       await userUnfollowAsync(token, id);
-      await setFollowerCountTemp(followerCount - 1);
+      setFollowerNumTemp((prevFollowerNum) => prevFollowerNum - 1);
+      setFollowedStatus(false);
     } else {
       await userFollowAsync(token, id);
-      await setFollowerCountTemp(followerCount + 1);
+      setFollowedStatus(true);
+      setFollowerNumTemp(followersNum + 1);
     }
     await setRerender(!rerender);
   };
 
   useEffect(() => {
     setFollowedStatus(isFollowed);
-    setFollowerCountTemp(followerCount);
-  }, [isFollowed, followerCount]);
+    setFollowerNumTemp(followersNum);
+  }, [followersNum, isFollowed]);
   return (
     <div className={styles.container}>
       <div className={styles.img}>
@@ -83,16 +86,16 @@ export default function OtherUserInfoCard({
             <FollowingBtn
               text={"正在跟隨"}
               onClick={() => {
-                setFollowedStatus(!followedStatus);
-                handleFollowClick();
+                // setFollowedStatus(!followedStatus);
+                handleFollowClick(followedStatus);
               }}
             />
           ) : (
             <FollowBtn
               text={"跟隨"}
               onClick={() => {
-                setFollowedStatus(!followedStatus);
-                handleFollowClick();
+                // setFollowedStatus(!followedStatus);
+                handleFollowClick(followedStatus);
               }}
             />
           )}
@@ -108,7 +111,7 @@ export default function OtherUserInfoCard({
           {followingsNum}個<span className={styles.sub}>跟隨中</span>
         </p>
         <p className={styles.showfollowers}>
-          {followerCountTemp}位<span className={styles.sub}>跟隨者</span>
+          {followerNumTemp}位<span className={styles.sub}>跟隨者</span>
         </p>
       </div>
     </div>
