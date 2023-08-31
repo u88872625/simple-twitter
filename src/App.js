@@ -18,16 +18,20 @@ import AddTweet from "./components/AddTweet/AddTweet";
 
 import "./styles/App.module.scss";
 import { AuthProvider } from "./contexts/AuthContext";
-import { TweetIdContextProvider } from "./contexts/TweetIdContext";
-import { LikeContexProvider } from "./contexts/LikeContext";
+
+import {TweetIdContextProvider} from './contexts/TweetIdContext'
+import {UserDataContextProvider} from './contexts/UserDataContext'
+// import { LikeContexProvider } from "./contexts/LikeContext";
+
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <AuthProvider>
-          <LikeContexProvider>
+          <UserDataContextProvider>
             <TweetIdContextProvider>
+              {/* <LikeContexProvider> */}
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/signup" element={<SignUpPage />} />
@@ -55,8 +59,9 @@ function App() {
                 <Route path="/admin/users" element={<AdminUsersPage />} />
                 <Route path="*" element={<HomePage />} />
               </Routes>
+              {/* </LikeContexProvider> */}
             </TweetIdContextProvider>
-          </LikeContexProvider>
+          </UserDataContextProvider>
         </AuthProvider>
       </BrowserRouter>
     </div>

@@ -11,6 +11,8 @@ export default function TweetTabs({
   onClick,
   onTweetClick,
   onLikeClick,
+  like,
+  likeCount
 }) {
   const [activeTab, setActiveTab] = useState("tweets");
 
@@ -65,11 +67,20 @@ export default function TweetTabs({
             tweets={tweets}
             onClick={onClick}
             onTweetClick={(id) => onTweetClick?.(id)}
+            onLikeClick={(id) => onLikeClick?.(id)}
+            like={like}
+            likeCount={likeCount}
           />
         )}
         {activeTab === "replies" && <ReplyContent replies={replies} />}
         {activeTab === "likes" && (
-          <LikeContent likes={likes} onClick={onClick} />
+          <LikeContent
+            likes={likes}
+            onClick={onClick}
+            onTweetClick={(id) => onTweetClick?.(id)}
+            like={like}
+            likeCount={likeCount}
+          />
         )}
       </div>
     </>

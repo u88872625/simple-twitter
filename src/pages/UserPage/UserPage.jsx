@@ -14,6 +14,7 @@ import UserInfoCard from "../../components/InfoCard/UserInfoCard";
 import TweetTabs from "../../components/TweetTabs/TweetTabs";
 import arrow from "../../assets/icons/back.svg";
 import { useTweetId } from "../../contexts/TweetIdContext";
+import { useDataUpdate } from "../../contexts/UserDataContext";
 
 const UserPage = () => {
   const token = localStorage.getItem("token");
@@ -31,8 +32,10 @@ const UserPage = () => {
   const { account } = useParams(); //取得用戶account反映在路徑上
   const { id } = useParams(); //取得貼文id反映在路徑上
   const { handleTweetClick } = useTweetId(); //更新貼文id
+  
 
   const location = useLocation();
+  const { isDataUpdate, setIsDataUpdate } = useDataUpdate();
 
   // // 追蹤單一貼文點擊
   // const handleTweetClick = async (id) => {
@@ -52,6 +55,8 @@ const UserPage = () => {
     navigate(prevLocation);
   };
 
+  
+
   useEffect(() => {
     if (userId) {
       const getUserInfoAsync = async () => {
@@ -67,7 +72,8 @@ const UserPage = () => {
       };
       getUserInfoAsync();
     }
-  }, []);
+  }, [isDataUpdate]);
+
   useEffect(() => {
     if (userId) {
       const getUserTweetAsync = async () => {
