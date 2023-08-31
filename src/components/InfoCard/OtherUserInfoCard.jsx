@@ -6,13 +6,7 @@ import DefaultAvatar from "../../assets/icons/default-img.svg";
 import DefaultBanner from "../../assets/images/bg-user.png";
 import { userFollow, unFollow } from "../../api/tweets";
 
-export default function OtherUserInfoCard({
-  info,
-  rerender,
-  setRerender,
-  followersNum,
-  // isFollowed,
-}) {
+export default function OtherUserInfoCard({ info, rerender, setRerender }) {
   const {
     id,
     name,
@@ -21,6 +15,7 @@ export default function OtherUserInfoCard({
     avatar,
     banner,
     followingsNum,
+    followersNum,
     isFollowed,
   } = info;
 
@@ -51,8 +46,8 @@ export default function OtherUserInfoCard({
   };
 
   // 追蹤按鈕邏輯
-  const handleFollowClick = async (isFollowed) => {
-    if (isFollowed) {
+  const handleFollowClick = async () => {
+    if (followedStatus) {
       await userUnfollowAsync(token, id);
       setFollowerNumTemp((prevFollowerNum) => prevFollowerNum - 1);
       setFollowedStatus(false);
@@ -60,6 +55,7 @@ export default function OtherUserInfoCard({
       await userFollowAsync(token, id);
       setFollowedStatus(true);
       setFollowerNumTemp(followersNum + 1);
+      // console.log(info);
     }
     await setRerender(!rerender);
   };
@@ -86,16 +82,16 @@ export default function OtherUserInfoCard({
             <FollowingBtn
               text={"正在跟隨"}
               onClick={() => {
-                // setFollowedStatus(!followedStatus);
-                handleFollowClick(followedStatus);
+                setFollowedStatus(!followedStatus);
+                handleFollowClick();
               }}
             />
           ) : (
             <FollowBtn
               text={"跟隨"}
               onClick={() => {
-                // setFollowedStatus(!followedStatus);
-                handleFollowClick(followedStatus);
+                setFollowedStatus(!followedStatus);
+                handleFollowClick();
               }}
             />
           )}
