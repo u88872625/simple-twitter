@@ -122,7 +122,7 @@ export const unFollow = async (token, id) => {
 // / get某位使用者的 followers 資料
 export const getUserFollowers = async (id) => {
   try {
-    const res = await axiosInstance.get(`${baseUrl}/users/${id}/followers`);
+    const res = await axiosInstance.get(`${baseUrl}/users/${id}/follower`);
     return res.data;
   } catch (error) {
     console.error("[Get user followers failed]", error);

@@ -10,6 +10,7 @@ import AdminUsersPage from "./AdminUsersPage/AdminUsersPage";
 import UserFollowPage from "./UserFollowPage/UserFollowPage";
 import HomePage from "./MainPage";
 import UserOtherPage from "./UserOtherPage/UserOtherPage";
+import UserOtherFollowPage from './UserOtherFollowPage/UserOtherFollowPage'
 
 export {
   SignUpPage,
@@ -24,4 +25,5 @@ export {
   UserFollowPage,
   HomePage,
   UserOtherPage,
+  UserOtherFollowPage,
 };

@@ -8,7 +8,7 @@ import ReplyModal from "../Modal/ReplyModal/ReplyModal";
 import { useAuth } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
 import clsx from "clsx";
-import { addLike, unLike } from "../../api/user";
+import { getUserInfo, addLike, unLike } from "../../api/user";
 import { useNavigate } from "react-router-dom";
 
 export default function TweetItem({ tweet, onTweetClick }) {
@@ -44,14 +44,17 @@ export default function TweetItem({ tweet, onTweetClick }) {
   };
 
   // 點擊頭像
-  const handleClick = () => {
+  const handleClick = async() => {
     // 如果點選自己
     if (UserId === userId) {
-      navigate("/:account");
+      navigate(`/${account}`);
     } else {
       // 如果點到其他人
       localStorage.setItem("otherUserId", UserId);
-      navigate("/other");
+      const otherUserInfo=await getUserInfo(UserId)
+      console.log('tweetitem:',otherUserInfo)
+      const otherUserAccount = otherUserInfo.account
+      navigate(`/other/${otherUserAccount}`);
     }
   };
 
@@ -101,12 +104,7 @@ export default function TweetItem({ tweet, onTweetClick }) {
   }, [setIsReplyUpdated]);
 
   return (
-    <div
-      className={styles.container}
-      onClick={() => {
-        onTweetClick?.(id);
-      }}
-    >
+    <div className={styles.container}>
       <div className={styles.wrapper}>
         {avatar ? (
           <img
@@ -125,14 +123,20 @@ export default function TweetItem({ tweet, onTweetClick }) {
         )}
 
         <div className={styles.tweet}>
-          <div className={styles.title}>
-            <p className={styles.name}>{name}</p>
-            <p className={styles.acount}>
-              @{account} · {fromNow}
-            </p>
+          <div
+            className={styles.top}
+            onClick={() => {
+              onTweetClick?.(id);
+             }}
+            >
+            <div className={styles.title}>
+              <p className={styles.name}>{name}</p>
+              <p className={styles.acount}>
+                @{account} · {fromNow}
+              </p>
+            </div>
+            <p className={styles.text}>{description}</p>
           </div>
-          <p className={styles.text}>{description}</p>
-
           <div className={styles.bottom}>
             <div className={styles.reply} onClick={handleReplyClick}>
               <img src={replyIcon} alt="num-of-replies" />

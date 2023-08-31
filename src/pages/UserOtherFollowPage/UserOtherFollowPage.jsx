@@ -1,30 +1,44 @@
 import React, { useState, useEffect } from "react";
 import FontendLayout from "../../components/shared/layout/FontendLayout/FontendLayout";
 import FollowTabs from "../../components/FollowTabs/FollowTabs";
-import arrow from "../../assets/icons/back.svg";
-import styles from "./UserFollowPage.module.scss";
+import arrowIcon from "../../assets/icons/back.svg";
+import styles from "./UserOtherFollowPage.module.scss";
 import { getUserFollowers, getUserFollowings } from "../../api/tweets";
-import { getUserTweet } from "../../api/user";
-import { useNavigate } from "react-router-dom";
+import { getUserInfo, getUserTweet } from "../../api/user";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
-const UserFollowPage = () => {
+const UserOtherFollowPage = () => {
   const userId = localStorage.getItem("userId");
-	const otherUserId = localStorage.getItem("otherUserId");
+  const otherUserId = localStorage.getItem("otherUserId");
+  const [userInfo, setUserInfo] = useState([]);
   const [userTweets, setUserTweets] = useState([]);
   const [userFollowings, setUserFollowings] = useState([]);
   const [userFollowers, setUserFollowers] = useState([]);
   // 與popularList聯動重新渲染
   const [rerender, setRerender] = useState(false);
   const navigate = useNavigate();
+	const location = useLocation();
   const { currentUser } = useAuth();
 
-  // 返回上一頁
-  function handleUserPageClick() {
-    navigate("/:id");
-  }
+ 
+
+  // 追蹤要返回的上一頁
+  const handleBack = () => {
+    const prevLocation = `/other/${userInfo.account}`;
+    navigate(prevLocation);
+  };
 
   useEffect(() => {
+    const getUserInfoAsync = async () => {
+      try {
+        const userInfo = await getUserInfo(otherUserId);
+        console.log("User Info:", userInfo);
+        setUserInfo(userInfo);
+      } catch (error) {
+        console.error(error);
+      }
+    };
     // 取得所有followers資料
     const getUserFollowingsAsync = async () => {
       try {
@@ -57,13 +71,14 @@ const UserFollowPage = () => {
     };
 
     if (userId) {
+      getUserInfoAsync();
       getUserFollowingsAsync();
       getUserFollowersAsync();
       getUserTweetAsync();
     } else {
       navigate("/login");
     }
-  }, [rerender, userId, navigate]);
+  }, [rerender, otherUserId, navigate]);
 
   return (
     <div>
@@ -71,12 +86,12 @@ const UserFollowPage = () => {
         <div className={styles.header}>
           <img
             className={styles.backArrow}
-            src={arrow}
-            onClick={handleUserPageClick}
+            src={arrowIcon}
+            onClick={handleBack}
           ></img>
           <div className={styles.userInfo}>
-            <h5 className={styles.name}>{otherUserId?.name}</h5>
-            <p className={styles.tweetCount}> {userTweets.length}推文</p>
+            <h5 className={styles.name}>{userInfo?.name}</h5>
+            <p className={styles.tweetCount}> {userTweets?.length}推文</p>
           </div>
         </div>
         <FollowTabs
@@ -90,4 +105,4 @@ const UserFollowPage = () => {
   );
 };
 
-export default UserFollowPage;
+export default UserOtherFollowPage;

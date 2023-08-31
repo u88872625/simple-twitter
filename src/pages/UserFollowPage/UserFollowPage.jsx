@@ -5,7 +5,7 @@ import arrow from "../../assets/icons/back.svg";
 import styles from "./UserFollowPage.module.scss";
 import { getUserFollowers, getUserFollowings } from "../../api/tweets";
 import { getUserTweet } from "../../api/user";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
 const UserFollowPage = () => {
@@ -16,12 +16,14 @@ const UserFollowPage = () => {
   // 與popularList聯動重新渲染
   const [rerender, setRerender] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { currentUser } = useAuth();
 
-  // 返回上一頁
-  function handleUserPageClick() {
-    navigate("/:id");
-  }
+  // 追蹤要返回的上一頁
+  const handleBack = () => {
+    const prevLocation = `/${currentUser?.account}`;
+    navigate(prevLocation);
+  };
 
   useEffect(() => {
     // 取得所有followers資料
@@ -71,7 +73,7 @@ const UserFollowPage = () => {
           <img
             className={styles.backArrow}
             src={arrow}
-            onClick={handleUserPageClick}
+            onClick={handleBack}
           ></img>
           <div className={styles.userInfo}>
             <h5 className={styles.name}>{currentUser?.name}</h5>

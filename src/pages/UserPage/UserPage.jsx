@@ -27,11 +27,11 @@ const UserPage = () => {
   const [userLike, setUserLike] = useState([]);
   // 確保先取得userTweets再渲染TweetTabs
   const [loading, setLoading] = useState(true);
-
   const navigate = useNavigate();
-  const { account } = useParams(); //取得用戶account反映在路徑上
+  // const { account } = useParams(); //取得用戶account反映在路徑上
   const { id } = useParams(); //取得貼文id反映在路徑上
   const { handleTweetClick } = useTweetId(); //更新貼文id
+ const otherUserId = localStorage.getItem("otherUserId");
   
 
   const location = useLocation();
@@ -45,11 +45,12 @@ const UserPage = () => {
   // };
 
   // 點擊user追蹤者資訊欄位，進入follow頁面
-  function handleFollowDetailClick() {
-    navigate("/:username/followers");
+  function handleFollowDetailClick(account
+) {
+    navigate(`/${account}/follower`);
   }
 
-  // 追蹤要返回的上一頁
+  //  追蹤要返回的上一頁
   const handleBack = () => {
     const prevLocation = location.state?.from || "/home";
     navigate(prevLocation);
@@ -147,7 +148,9 @@ const UserPage = () => {
           <div className={styles.infoCard}>
             <UserInfoCard
               info={userInfo}
-              handleFollowDetail={handleFollowDetailClick}
+              handleFollowDetail={() =>
+                handleFollowDetailClick(userInfo.account)
+              }
             />
           </div>
           <div className={styles.tabs}>
