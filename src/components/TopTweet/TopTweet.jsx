@@ -64,27 +64,27 @@ export default function TopTweet({ tweet }) {
   };
 
   // 回覆功能
-  // const handleReply = async () => {
-  //   //預防空值與回覆文字限制
-  //   if (reply.length > 140) return;
-  //   if (reply.trim().length === 0) return;
-  //   const response = await replyTweet(tweet.id, { comment: reply });
-  //   //若新增推文成功
-  //   if (response.data.comment) {
-  //     contentDelete();
-  //     handleClose();
-  //     setReplyCount(replyCount + 1);
-  //     return;
-  //   } else {
-  //     contentDelete();
-  //     handleClose();
-  //     return alert("新增回覆失敗");
-  //   }
-  // };
+  const handleReply = async () => {
+    //預防空值與回覆文字限制
+    if (reply.length > 140) return;
+    if (reply.trim().length === 0) return;
+    const response = await replyTweet(tweet.id, { comment: reply });
+    //若新增推文成功
+    if (response.data.comment) {
+      contentDelete();
+      handleClose();
+      setReplyCount(replyCount + 1);
+      return;
+    } else {
+      contentDelete();
+      handleClose();
+      return alert("新增回覆失敗");
+    }
+  };
 
-  // useEffect(() => {
-  //   setIsReplyUpdated(false);
-  // }, [setIsReplyUpdated]);
+  useEffect(() => {
+    setIsReplyUpdated(false);
+  }, [setIsReplyUpdated]);
 
   return (
     <div>
@@ -144,7 +144,7 @@ export default function TopTweet({ tweet }) {
         postUserAccount={tweet.User.account}
         postCreatedAt={tweet.createdAt}
         userAvatar={currentUser?.avatar}
-        // handleReply={handleReply}
+        handleReply={handleReply}
         onInputChange={(replyInput) => {
           setReply(replyInput);
         }}
