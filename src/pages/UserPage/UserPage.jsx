@@ -32,9 +32,10 @@ const UserPage = () => {
   const { account } = useParams(); //取得用戶account反映在路徑上
   const { id } = useParams(); //取得貼文id反映在路徑上
   const { handleTweetClick } = useTweetId(); //更新貼文id
+  
 
   const location = useLocation();
-  const { isDataUpdate, setIsDataUpdate, notifyDataUpdate } = useDataUpdate();
+  const { isDataUpdate, setIsDataUpdate } = useDataUpdate();
 
   // // 追蹤單一貼文點擊
   // const handleTweetClick = async (id) => {
@@ -53,6 +54,8 @@ const UserPage = () => {
     const prevLocation = location.state?.from || "/home";
     navigate(prevLocation);
   };
+
+  
 
   useEffect(() => {
     if (userId) {
@@ -118,12 +121,10 @@ const UserPage = () => {
   }, []);
   //  驗證token是否存在
   useEffect(() => {
-
     if (!token && role === "admin") {
       navigate("/login");
     }
   }, [navigate, token, role]);
-
 
   return (
     <FontendLayout>

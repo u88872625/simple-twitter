@@ -5,7 +5,8 @@ import TweetContent from "../components/TweetTabs/TweetContent/TweetContent";
 import { getUserInfo } from "../api/user";
 import { getAllTweets } from "../api/tweets";
 import { useAuth } from "../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useTweetId } from "../contexts/TweetIdContext";
 
 const HomePage = () => {
   const [tweets, setTweets] = useState([]);
@@ -15,6 +16,8 @@ const HomePage = () => {
   const token = localStorage.getItem("token");
   const userId = currentUser?.id;
   const role = currentUser?.role;
+  const { handleTweetClick } = useTweetId(); //更新貼文id
+  const location = useLocation();
 
   useEffect(() => {
     if (userId) {
@@ -53,7 +56,7 @@ const HomePage = () => {
     <div>
       <FontendLayout>
         <AddTweet avatar={userInfo.avatar} />
-        <TweetContent tweets={tweets} />
+        <TweetContent tweets={tweets} onTweetClick={(id) => handleTweetClick(id, location)}/>
       </FontendLayout>
     </div>
   );
