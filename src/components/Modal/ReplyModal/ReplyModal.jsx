@@ -50,7 +50,7 @@ const ReplyModal = ({
                 <div className={styles.postUserInfoWrapper}>
                   <div>
                     <span className={styles.postUserName}>
-                      {"postUserName"}
+                      {postUserName}
                     </span>
                     <span className={styles.postUserAccount}>
                       @{postUserAccount}・{postCreatedAt}

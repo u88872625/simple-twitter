@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getTopTweet, getTopTweetReplies } from "../api/tweets";
+import { useDataUpdate } from "./UserDataContext";
 
 const TweetIdContext = createContext();
 
@@ -14,8 +15,27 @@ export function TweetIdContextProvider({ children }) {
   const navigate = useNavigate();
   const location = useLocation()
 
+  // const { isDataUpdate, setIsDataUpdate } = useDataUpdate();
+
+  // useEffect(()=>{
+  //   if(tweetId) {
+  //     const fetchData = async()=>{
+  //       try{
+  //         const tweetRes = await getTopTweet(tweetId)
+  //         const repliesRes = await getTopTweetReplies(tweetId) 
+  //         console.log('tweetidcontext:', tweetRes)
+  //         setTweetData(tweetRes)
+  //         setRepliesData(repliesRes)
+  //       } catch(error){
+  //         console.error(error)
+  //       }
+  //     }
+  //     fetchData()
+  //   }
+  // },[tweetId])
+
   // 參數為被點擊的貼文id和點擊時的頁面
-  const handleTweetClick = async (id,location) => {
+  const handleTweetClick = async(id,location) => {
     try {
       const tweetRes = await getTopTweet(id);
       const repliesRes = await getTopTweetReplies(id);
@@ -24,6 +44,7 @@ export function TweetIdContextProvider({ children }) {
       setTweetData(tweetRes);
       setRepliesData(repliesRes);
       navigate(`/status/${id}`, { state: { from: location.pathname } });
+
     } catch (error) {
       console.error(error);
     }

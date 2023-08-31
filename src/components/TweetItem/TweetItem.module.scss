@@ -6,7 +6,7 @@
   cursor: pointer;
 
   &:hover {
-    background-color: var(--grayscale-dark-40);
+    background-color: var(--grayscale-dark-30);
   }
 
   .wrapper {
@@ -71,6 +71,10 @@
     .reply,
     .like {
       display: flex;
+    }
+
+    img:hover {
+      transform: scale(1.5);
     }
   }
 }
