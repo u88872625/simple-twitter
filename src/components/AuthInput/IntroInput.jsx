@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./AuthInput.module.scss";
+import styles from "./IntroInput.module.scss";
 import { useState } from "react";
 import clsx from "clsx";
 
