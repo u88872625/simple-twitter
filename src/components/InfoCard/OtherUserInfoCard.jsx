@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import styles from "./OtherUserInfoCard.module.scss";
 import FollowingBtn from "../shared/shareBtn/FollowingBtn";
 import FollowBtn from "../shared/shareBtn/FollowBtn";
@@ -11,6 +12,7 @@ export default function OtherUserInfoCard({
   rerender,
   setRerender,
   followerCount,
+  handleFollowDetail,
 }) {
   const {
     id,
@@ -20,6 +22,7 @@ export default function OtherUserInfoCard({
     avatar,
     banner,
     followingsNum,
+    followersNum,
     isFollowed,
   } = info;
 
@@ -28,6 +31,8 @@ export default function OtherUserInfoCard({
   const [followedStatus, setFollowedStatus] = useState(isFollowed);
   // 設暫存，讓畫面立即更新
   const [followerCountTemp, setFollowerCountTemp] = useState(followerCount);
+  const navigate = useNavigate();
+  const [followerNumTemp, setFollowerNumTemp] = useState(followersNum);
 
   // 追蹤
   const userFollowAsync = async (token, id) => {
@@ -53,18 +58,21 @@ export default function OtherUserInfoCard({
   const handleFollowClick = async () => {
     if (followedStatus) {
       await userUnfollowAsync(token, id);
-      await setFollowerCountTemp(followerCount - 1);
+      setFollowerNumTemp((prevFollowerNum) => prevFollowerNum - 1);
+      setFollowedStatus(false);
     } else {
       await userFollowAsync(token, id);
-      await setFollowerCountTemp(followerCount + 1);
+      setFollowedStatus(true);
+      setFollowerNumTemp(followersNum + 1);
+      // console.log(info);
     }
     await setRerender(!rerender);
   };
 
   useEffect(() => {
     setFollowedStatus(isFollowed);
-    setFollowerCountTemp(followerCount);
-  }, [isFollowed, followerCount]);
+    setFollowerNumTemp(followersNum);
+  }, [followersNum, isFollowed]);
   return (
     <div className={styles.container}>
       <div className={styles.img}>
@@ -103,12 +111,12 @@ export default function OtherUserInfoCard({
         <p className={styles.userAccount}>@{account}</p>
       </div>
       <div className={styles.introduction}>{introduction}</div>
-      <div className={styles.showFollow}>
+      <div className={styles.showFollow} onClick={handleFollowDetail}>
         <p className={styles.showfolloing}>
           {followingsNum}個<span className={styles.sub}>跟隨中</span>
         </p>
         <p className={styles.showfollowers}>
-          {followerCountTemp}位<span className={styles.sub}>跟隨者</span>
+          {followerNumTemp}位<span className={styles.sub}>跟隨者</span>
         </p>
       </div>
     </div>

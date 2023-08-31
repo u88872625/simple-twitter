@@ -85,6 +85,23 @@ function PopularListItem({ topUser, handleFollowClick }) {
   const { id, avatar, name, account, isFollowed } = topUser;
   // 讓使用者即時看到跟隨按鈕變化
   const [followState, setFollowState] = useState(isFollowed);
+  const userId = localStorage.getItem("userId");
+  const navigate = useNavigate();
+
+  // 點擊頭像
+  const handleClick = () => {
+    // 如果點選自己
+    if (id === userId) {
+      navigate("/:account");
+    } else {
+      // 如果點到其他人
+      localStorage.setItem("otherUserId", id);
+
+      navigate("/other");
+      // // 畫面自動重新整理
+      window.location.reload();
+    }
+  };
 
   useEffect(() => {
     setFollowState(isFollowed);
@@ -97,6 +114,7 @@ function PopularListItem({ topUser, handleFollowClick }) {
         <img
           className={styles.avatar}
           src={avatar ? avatar : IconDefaultAvatar}
+          onClick={handleClick}
         ></img>
       </div>
       <div className={styles.popularItemInfo}>

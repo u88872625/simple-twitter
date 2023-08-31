@@ -63,7 +63,7 @@ export default function TopTweet({ tweet }) {
     }
   };
 
-  // 回覆功能;
+  // 回覆功能
   const handleReply = async () => {
     //預防空值與回覆文字限制
     if (reply.length > 140) return;
