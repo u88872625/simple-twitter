@@ -10,8 +10,7 @@ import Swal from "sweetalert2";
 import clsx from "clsx";
 import { getUserInfo, addLike, unLike } from "../../api/user";
 import { useNavigate } from "react-router-dom";
-
-export default function TweetItem({ tweet, onTweetClick }) {
+export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
   let { name, account, avatar } = tweet.User;
   const {
     id,
@@ -36,28 +35,25 @@ export default function TweetItem({ tweet, onTweetClick }) {
   const contentDelete = () => {
     setReply("");
   };
-
   //  show Modal
   const handleClose = () => setShow(false);
   const handleReplyClick = () => {
     setShow(true);
   };
-
   // 點擊頭像
-  const handleClick = async() => {
+  const handleClick = async () => {
     // 如果點選自己
     if (UserId === userId) {
       navigate(`/${account}`);
     } else {
       // 如果點到其他人
       localStorage.setItem("otherUserId", UserId);
-      const otherUserInfo=await getUserInfo(UserId)
-      console.log('tweetitem:',otherUserInfo)
-      const otherUserAccount = otherUserInfo.account
+      const otherUserInfo = await getUserInfo(UserId);
+      console.log("tweetitem:", otherUserInfo);
+      const otherUserAccount = otherUserInfo.account;
       navigate(`/other/${otherUserAccount}`);
     }
   };
-
   // 回覆功能
   const handleReply = async () => {
     if (reply.length > 140) return;
@@ -81,7 +77,6 @@ export default function TweetItem({ tweet, onTweetClick }) {
       });
     }
   };
-
   // 追蹤哪個貼文被按讚
   const handleLikeClick = async () => {
     try {
@@ -89,6 +84,9 @@ export default function TweetItem({ tweet, onTweetClick }) {
         await unLike(id, token);
         setLike((prevLike) => !prevLike);
         setLikeCount((prevCount) => prevCount - 1);
+        if (onLikeClick) {
+          onLikeClick(id);
+        }
       } else {
         await addLike(id, token);
         setLike((prevLike) => !prevLike);
@@ -98,11 +96,9 @@ export default function TweetItem({ tweet, onTweetClick }) {
       console.error(error);
     }
   };
-
   useEffect(() => {
     setIsReplyUpdated(false);
   }, [setIsReplyUpdated]);
-
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
@@ -121,14 +117,13 @@ export default function TweetItem({ tweet, onTweetClick }) {
             onClick={handleClick}
           />
         )}
-
         <div className={styles.tweet}>
           <div
             className={styles.top}
             onClick={() => {
               onTweetClick?.(id);
-             }}
-            >
+            }}
+          >
             <div className={styles.title}>
               <p className={styles.name}>{name}</p>
               <p className={styles.acount}>

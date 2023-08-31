@@ -15,7 +15,6 @@ import TweetTabs from "../../components/TweetTabs/TweetTabs";
 import arrow from "../../assets/icons/back.svg";
 import { useTweetId } from "../../contexts/TweetIdContext";
 import { useDataUpdate } from "../../contexts/UserDataContext";
-
 const UserPage = () => {
   const token = localStorage.getItem("token");
   const { currentUser } = useAuth();
@@ -31,32 +30,32 @@ const UserPage = () => {
   // const { account } = useParams(); //取得用戶account反映在路徑上
   const { id } = useParams(); //取得貼文id反映在路徑上
   const { handleTweetClick } = useTweetId(); //更新貼文id
- const otherUserId = localStorage.getItem("otherUserId");
-  
+  const otherUserId = localStorage.getItem("otherUserId");
 
   const location = useLocation();
   const { isDataUpdate, setIsDataUpdate } = useDataUpdate();
-
   // // 追蹤單一貼文點擊
   // const handleTweetClick = async (id) => {
   //   console.log("tweetid:", id);
   //   setTweetId(id);
   //   navigate(`/status/${id}`);
   // };
-
   // 點擊user追蹤者資訊欄位，進入follow頁面
-  function handleFollowDetailClick(account
-) {
+  function handleFollowDetailClick(account) {
     navigate(`/${account}/follower`);
   }
-
   //  追蹤要返回的上一頁
   const handleBack = () => {
     const prevLocation = location.state?.from || "/home";
     navigate(prevLocation);
   };
-
-  
+  // 當收回讚時重新渲染喜歡的內容
+  const handleUnlike = (unlikedTweetId) => {
+    const updatedUserLike = userLike.filter(
+      (tweet) => tweet.id !== unlikedTweetId
+    );
+    setUserLike(updatedUserLike);
+  };
 
   useEffect(() => {
     if (userId) {
@@ -74,7 +73,6 @@ const UserPage = () => {
       getUserInfoAsync();
     }
   }, [isDataUpdate]);
-
   useEffect(() => {
     if (userId) {
       const getUserTweetAsync = async () => {
@@ -119,14 +117,13 @@ const UserPage = () => {
       };
       getUserLikeAsync();
     }
-  }, []);
+  }, [isDataUpdate]);
   //  驗證token是否存在
   useEffect(() => {
     if (!token && role === "admin") {
       navigate("/login");
     }
   }, [navigate, token, role]);
-
   return (
     <FontendLayout>
       {loading ? (
@@ -159,6 +156,7 @@ const UserPage = () => {
               replies={userReplied}
               likes={userLike}
               onTweetClick={(id) => handleTweetClick(id, location)}
+              onLikeClick={handleUnlike}
             />
           </div>
         </>

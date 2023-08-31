@@ -3,7 +3,6 @@ import TweetContent from "./TweetContent/TweetContent.jsx";
 import ReplyContent from "./ReplyContent/ReplyContent.jsx";
 import LikeContent from "./LikeContent/LikeContent.jsx";
 import styles from "./TweetTabs.module.scss";
-
 export default function TweetTabs({
   tweets,
   replies,
@@ -12,15 +11,13 @@ export default function TweetTabs({
   onTweetClick,
   onLikeClick,
   like,
-  likeCount
+  likeCount,
 }) {
   const [activeTab, setActiveTab] = useState("tweets");
-
   // 監聽點擊哪個Tab
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
-
   return (
     <>
       <div className={styles.tabBtns}>
@@ -78,8 +75,7 @@ export default function TweetTabs({
             likes={likes}
             onClick={onClick}
             onTweetClick={(id) => onTweetClick?.(id)}
-            like={like}
-            likeCount={likeCount}
+            onLikeClick={onLikeClick}
           />
         )}
       </div>

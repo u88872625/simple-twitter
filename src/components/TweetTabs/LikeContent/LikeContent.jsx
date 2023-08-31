@@ -1,5 +1,4 @@
 import TweetItem from "../../TweetItem/TweetItem.jsx";
-
 export default function LikeContent({
   likes,
   onClick,

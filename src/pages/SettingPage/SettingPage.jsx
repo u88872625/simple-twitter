@@ -15,8 +15,8 @@ import {useDataUpdate} from '../../contexts/UserDataContext'
 const SettingPage = () => {
   const token = localStorage.getItem("token");
   const { currentUser, setEditedUserInfo } = useAuth();
-  const userId = currentUser?.id
-  const{isDataUpdate, setIsDataUpdate } =useDataUpdate()
+  const userId = currentUser?.id;
+  const { isDataUpdate, setIsDataUpdate } = useDataUpdate();
   const [account, setAccount] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -28,56 +28,77 @@ const SettingPage = () => {
   // const { isAuthenticated } = useAuth();
   const role = currentUser?.role;
   const navigate = useNavigate();
-  const [isUserInfoUpdated, setIsUserInfoUpdated] = useState(false)
-  
+  const [isUserInfoUpdated, setIsUserInfoUpdated] = useState(false);
+  // 設一個暫存的Object變數
+  const [tempData, setTempData] = useState(null);
 
-
-   useEffect(() => {
-     if (userId) {
-       const getUserInfoAsync = async () => {
-         try {
-           const userInfo = await getUserInfo(userId);
-           console.log("User Info:", userInfo);
+  useEffect(() => {
+    if (userId) {
+      const getUserInfoAsync = async () => {
+        try {
+          const userInfo = await getUserInfo(userId);
+          console.log("User Info:", userInfo);
           await setAccount(userInfo.account);
           await setName(userInfo.name);
-          await setEmail(userInfo.email)
-         } catch (error) {
-           console.error(error);
-         } 
-       };
-       getUserInfoAsync();
-     }
-   }, [userId,isDataUpdate]);
+          await setEmail(userInfo.email);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      getUserInfoAsync();
+    }
+  }, [userId]);
 
   const handleSave = async () => {
     try {
       setShowAlert(false);
 
-      const editedInfo = {
-        id: currentUser.id,
-        account,
-        name,
-        email,
-        password,
-        checkPassword,
-      };
-      const updateUserInfo = await patchUserInfo(editedInfo);
-      setEditedUserInfo(updateUserInfo);
+      // API的資訊傳遞(需轉換成 Form-data)
+      const formData = new FormData();
+      //設定key及相對應的value
+      for (let key in tempData) {
+        formData.append(key, tempData[key]);
+      }
+      formData.set("account", account);
+      formData.set("name", name);
+      formData.set("email", email);
+      formData.set("password", password);
+      formData.set("checkPassword", checkPassword);
 
-      if (updateUserInfo.success === false) {
+      // 檢查對應是否正確
+      for (const pair of formData.entries()) {
+        console.log(`${pair[0]}, ${pair[1]}`);
+      }
+
+      const payload = {
+        id: userId,
+        account:account,
+        name: name,
+        email:email,
+        password:password,
+        checkPassword:checkPassword
+      };
+      const response = await patchUserInfo(payload, formData);
+
+      
+
+      setEditedUserInfo(response);
+      console.log("updateUserInfo:", response);
+
+      if (response.success === false) {
         setShowAlert(true);
-        setAlertMsg(updateUserInfo.message || "儲存失敗!");
-        return
+        setAlertMsg("儲存失敗!");
+        return;
       } else {
         setShowAlert(true);
         setAlertMsg("儲存成功!");
-        setEditedUserInfo(updateUserInfo);
-        setAccount(updateUserInfo.account);
-        setName(updateUserInfo.name);
-        setEmail(updateUserInfo.email);
-        setIsUserInfoUpdated(true)
-        
-        console.log("setting", updateUserInfo.name);
+        setEditedUserInfo(response);
+        setAccount(response.account);
+        setName(response.name);
+        setEmail(response.email);
+        setIsUserInfoUpdated(true);
+
+        console.log("setting", response.name);
       }
     } catch (error) {
       console.error(error);
