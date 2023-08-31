@@ -21,12 +21,49 @@
     ul {
       padding: 0;
     }
-    
 
-		.bottomItem ul li{
-			position: absolute;
+    .bottomItem ul li {
+      position: absolute;
       bottom: 0;
       margin-bottom: 0;
-		}
+    }
+  }
+}
+
+// 錯誤訊息提示
+%error {
+  // position: absolute;
+  // bottom: 75px;
+  // right: -80px;
+  // height: 2px;
+  width: 100%;
+
+  &::after {
+    content: "";
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--error);
+  }
+}
+
+.emptyError {
+  @extend %error;
+
+  &::after {
+    content: "內容不可空白";
+    position: absolute;
+    right: 10px;
+    bottom: 2px;
+  }
+}
+
+.overError {
+  @extend %error;
+
+  &::after {
+    content: "字數不可超過140字";
+    position: absolute;
+    right: 10px;
+    bottom: 2px;
   }
 }

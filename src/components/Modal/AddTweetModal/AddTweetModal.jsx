@@ -12,7 +12,7 @@ const AddTweetModal = ({
   onChange,
   inputStyle,
   avatar,
-  lengthError,
+  errorMsg,
   handleClose,
   show,
   onSubmit,
@@ -52,9 +52,7 @@ const AddTweetModal = ({
                   value={value}
                 ></textarea>
                 <div>
-                  <p className={clsx(styles.noLengthError, lengthError)}>
-                    字數不可超過140字
-                  </p>
+                  <p className={clsx(styles.noLengthError, errorMsg)}></p>
                 </div>
                 <button className={styles.button} onClick={onSubmit}>
                   推文

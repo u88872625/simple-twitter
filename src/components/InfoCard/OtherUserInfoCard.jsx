@@ -13,8 +13,6 @@ export default function OtherUserInfoCard({
   setRerender,
   followerCount,
   handleFollowDetail,
-  followersNum,
-  // isFollowed,
 }) {
   const {
     id,
@@ -24,6 +22,7 @@ export default function OtherUserInfoCard({
     avatar,
     banner,
     followingsNum,
+    followersNum,
     isFollowed,
   } = info;
 
@@ -33,7 +32,7 @@ export default function OtherUserInfoCard({
   // 設暫存，讓畫面立即更新
   const [followerCountTemp, setFollowerCountTemp] = useState(followerCount);
   const navigate = useNavigate();
-  const [followerNumTemp, setFollowerNumTemp] = useState(followersNum)
+  const [followerNumTemp, setFollowerNumTemp] = useState(followersNum);
 
   // 追蹤
   const userFollowAsync = async (token, id) => {
@@ -56,8 +55,8 @@ export default function OtherUserInfoCard({
   };
 
   // 追蹤按鈕邏輯
-  const handleFollowClick = async (isFollowed) => {
-    if (isFollowed) {
+  const handleFollowClick = async () => {
+    if (followedStatus) {
       await userUnfollowAsync(token, id);
       setFollowerNumTemp((prevFollowerNum) => prevFollowerNum - 1);
       setFollowedStatus(false);
@@ -65,6 +64,7 @@ export default function OtherUserInfoCard({
       await userFollowAsync(token, id);
       setFollowedStatus(true);
       setFollowerNumTemp(followersNum + 1);
+      // console.log(info);
     }
     await setRerender(!rerender);
   };
@@ -91,16 +91,16 @@ export default function OtherUserInfoCard({
             <FollowingBtn
               text={"正在跟隨"}
               onClick={() => {
-                // setFollowedStatus(!followedStatus);
-                handleFollowClick(followedStatus);
+                setFollowedStatus(!followedStatus);
+                handleFollowClick();
               }}
             />
           ) : (
             <FollowBtn
               text={"跟隨"}
               onClick={() => {
-                // setFollowedStatus(!followedStatus);
-                handleFollowClick(followedStatus);
+                setFollowedStatus(!followedStatus);
+                handleFollowClick();
               }}
             />
           )}
@@ -111,10 +111,7 @@ export default function OtherUserInfoCard({
         <p className={styles.userAccount}>@{account}</p>
       </div>
       <div className={styles.introduction}>{introduction}</div>
-      <div
-        className={styles.showFollow}
-        onClick={handleFollowDetail}
-      >
+      <div className={styles.showFollow} onClick={handleFollowDetail}>
         <p className={styles.showfolloing}>
           {followingsNum}個<span className={styles.sub}>跟隨中</span>
         </p>

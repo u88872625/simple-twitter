@@ -35,12 +35,6 @@ const UserOtherPage = () => {
   const { handleTweetClick } = useTweetId(); //更新貼文id
 
   const location = useLocation();
-  // let isFollowed = false;
-  let followersNum = 0;
-  if (otherUserInfo) {
-    // isFollowed = otherUserInfo.isFollowed;
-    followersNum = otherUserInfo.followersNum;
-  }
 
   // 點擊user追蹤者資訊欄位，進入follow頁面
   function handleFollowDetailClick(account) {
@@ -145,8 +139,6 @@ const UserOtherPage = () => {
                 handleFollowDetail={()=>handleFollowDetailClick(otherUserInfo.account)}
                 rerender={rerender}
                 setRerender={setRerender}
-                followersNum={followersNum}
-                // isFollowed={isFollowed}
               />
             </div>
             <div className={styles.tabs}>

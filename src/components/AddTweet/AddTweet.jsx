@@ -13,9 +13,26 @@ const AddTweet = ({ avatar, value, inputStyle }) => {
 
   // 新增推文
   const handleSubmit = async () => {
-    if (isUpdating) return;
-    if (tweet.length > 140) return;
-    if (tweet.trim().length === 0) return;
+    if (tweet.length > 140) {
+      Swal.fire({
+        position: "top",
+        title: "推文不可超過140字",
+        timer: 1000,
+        icon: "error",
+        showConfirmButton: false,
+      });
+      return;
+    }
+    if (tweet.trim().length === 0) {
+      Swal.fire({
+        position: "top",
+        title: "請輸入推文內容",
+        timer: 1000,
+        icon: "error",
+        showConfirmButton: false,
+      });
+      return;
+    }
     // 點擊推文按鈕跳出loading提示
     Swal.fire({
       title: "推文中...",
