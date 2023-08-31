@@ -12,10 +12,10 @@ export function TweetIdContextProvider({ children }) {
   const [repliesData, setRepliesData] = useState(null);
 
   const navigate = useNavigate();
-  const location = useLocation()
+  const location = useLocation();
 
   // 參數為被點擊的貼文id和點擊時的頁面
-  const handleTweetClick = async (id,location) => {
+  const handleTweetClick = async (id, location) => {
     try {
       const tweetRes = await getTopTweet(id);
       const repliesRes = await getTopTweetReplies(id);

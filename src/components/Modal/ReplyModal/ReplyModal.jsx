@@ -76,7 +76,7 @@ const ReplyModal = ({
                   className={styles.replyInput}
                   placeholder="推你的回覆"
                   onChange={(e) => onInputChange?.(e.target.value)}
-                  Value={value}
+                  value={value}
                 />
               </div>
               <div className={errorMsg}></div>
