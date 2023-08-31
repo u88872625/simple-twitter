@@ -12,6 +12,7 @@ import {
   AdminMainPage,
   AdminUsersPage,
   UserOtherPage,
+  UserOtherFollowPage,
 } from "./pages/index";
 import TweetTabs from "./components/TweetTabs/TweetTabs.jsx";
 import AddTweet from "./components/AddTweet/AddTweet";
@@ -38,19 +39,13 @@ function App() {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/home" element={<MainPage />} />
                 <Route path="/:account" element={<UserPage />} />
-                <Route path="/other" element={<UserOtherPage />} />
+                <Route path="/other/:account" element={<UserOtherPage />} />
                 <Route path="/settings" element={<SettingPage />} />
                 {/* <Route path="/settings/profile" element={<Modal />} />  */}
-                <Route path="/:username/replies" element={<TweetTabs />} />
-                <Route path="/:username/likes" element={<TweetTabs />} />
-                <Route
-                  path="/:username/followers"
-                  element={<UserFollowPage />}
-                />
-                <Route
-                  path="/:username/followering"
-                  element={<UserFollowPage />}
-                />
+                <Route path="/:account/replies" element={<TweetTabs />} />
+                <Route path="/:account/likes" element={<TweetTabs />} />
+                <Route path="/:account/follower" element={<UserFollowPage />} />
+                <Route path="/other/:account/follower" element={<UserOtherFollowPage />} />
                 <Route path="/compose" element={<AddTweet />} />
                 {/* <Route path="/compose" element={<Modal />} /> */}
                 <Route path="/status/:id" element={<StatusPage />} />

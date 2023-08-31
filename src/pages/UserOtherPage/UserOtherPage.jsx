@@ -37,8 +37,8 @@ const UserOtherPage = () => {
   const location = useLocation();
 
   // 點擊user追蹤者資訊欄位，進入follow頁面
-  function handleFollowDetailClick() {
-    navigate("/:username/followers");
+  function handleFollowDetailClick(account) {
+    navigate(`/other/${account}/follower`);
   }
 
   // 追蹤要返回的上一頁
@@ -52,7 +52,7 @@ const UserOtherPage = () => {
       const getOtherUserInfoAsync = async () => {
         try {
           const otherUserInfo = await getUserInfo(otherUserId);
-          console.log("User Info:", otherUserInfo);
+          console.log("OtherUser Info:", otherUserInfo);
           setOtherUserInfo(otherUserInfo);
         } catch (error) {
           console.error(error);
@@ -62,7 +62,7 @@ const UserOtherPage = () => {
       };
       getOtherUserInfoAsync();
     }
-  }, []);
+  }, [otherUserId]);
   useEffect(() => {
     if (otherUserId) {
       const getUserTweetAsync = async () => {
@@ -77,7 +77,7 @@ const UserOtherPage = () => {
       };
       getUserTweetAsync();
     }
-  }, []);
+  }, [otherUserId]);
   useEffect(() => {
     if (otherUserId) {
       const getUserRepliedAsync = async () => {
@@ -92,7 +92,7 @@ const UserOtherPage = () => {
       };
       getUserRepliedAsync();
     }
-  }, []);
+  }, [otherUserId]);
   useEffect(() => {
     if (otherUserId) {
       const getUserLikeAsync = async () => {
@@ -107,7 +107,7 @@ const UserOtherPage = () => {
       };
       getUserLikeAsync();
     }
-  }, []);
+  }, [otherUserId]);
   // 驗證token是否存在;
   useEffect(() => {
     if (!token && role === "admin") {
@@ -136,7 +136,7 @@ const UserOtherPage = () => {
             <div className={styles.infoCard}>
               <OtherUserInfo
                 info={otherUserInfo}
-                handleFollowDetail={handleFollowDetailClick}
+                handleFollowDetail={()=>handleFollowDetailClick(otherUserInfo.account)}
                 rerender={rerender}
                 setRerender={setRerender}
               />
@@ -146,7 +146,7 @@ const UserOtherPage = () => {
                 tweets={userTweets}
                 replies={userReplied}
                 likes={userLike}
-                onTweetClick={(id) => handleTweetClick(id, location)}
+                onTweetClick={(id) => handleTweetClick(id,location)}
               />
             </div>
           </>

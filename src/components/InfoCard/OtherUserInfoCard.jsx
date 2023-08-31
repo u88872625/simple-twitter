@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import styles from "./OtherUserInfoCard.module.scss";
 import FollowingBtn from "../shared/shareBtn/FollowingBtn";
 import FollowBtn from "../shared/shareBtn/FollowBtn";
@@ -6,7 +7,17 @@ import DefaultAvatar from "../../assets/icons/default-img.svg";
 import DefaultBanner from "../../assets/images/bg-user.png";
 import { userFollow, unFollow } from "../../api/tweets";
 
-export default function OtherUserInfoCard({ info, rerender, setRerender }) {
+
+export default function OtherUserInfoCard({
+  info,
+  rerender,
+  setRerender,
+  followerCount,
+  handleFollowDetail,
+  followersNum,
+  // isFollowed,
+}) {
+
   const {
     id,
     name,
@@ -23,7 +34,9 @@ export default function OtherUserInfoCard({ info, rerender, setRerender }) {
   // 設暫存，讓畫面立即更新
   const [followedStatus, setFollowedStatus] = useState(isFollowed);
   // 設暫存，讓畫面立即更新
-  const [followerNumTemp, setFollowerNumTemp] = useState(followersNum);
+  const [followerCountTemp, setFollowerCountTemp] = useState(followerCount);
+  const navigate = useNavigate();
+  const [followerNumTemp, setFollowerNumTemp] = useState(followersNum)
 
   // 追蹤
   const userFollowAsync = async (token, id) => {
@@ -102,7 +115,10 @@ export default function OtherUserInfoCard({ info, rerender, setRerender }) {
         <p className={styles.userAccount}>@{account}</p>
       </div>
       <div className={styles.introduction}>{introduction}</div>
-      <div className={styles.showFollow}>
+      <div
+        className={styles.showFollow}
+        onClick={handleFollowDetail}
+      >
         <p className={styles.showfolloing}>
           {followingsNum}個<span className={styles.sub}>跟隨中</span>
         </p>
