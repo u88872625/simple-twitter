@@ -19,7 +19,7 @@ import clsx from "clsx";
 export default function FontendSideBar() {
   const [activeItem, setActiveItem] = useState("首頁");
   const navigate = useNavigate();
-  const { logout, currentUser, addTweet } = useAuth();
+  const { logout, currentUser, addTweet, setIsTweetUpdated } = useAuth();
   const [show, setShow] = useState(false);
   const [tweet, setTweet] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
@@ -53,15 +53,14 @@ export default function FontendSideBar() {
 
   // 新增推文
   const handleSubmit = async () => {
-    if (isUpdating) return;
     if (tweet.length > 140) return;
     if (tweet.trim().length === 0) return;
     // 按下推文時跳出loading提示
-    Swal.fire({
-      title: "推文中...",
-      allowOutsideClick: false,
-      showConfirmButton: false,
-    });
+    // Swal.fire({
+    //   title: "推文中...",
+    //   allowOutsideClick: false,
+    //   showConfirmButton: false,
+    // });
     try {
       const res = await addTweet({ description: tweet });
 
@@ -69,11 +68,12 @@ export default function FontendSideBar() {
 
       //若新增推文成功
       if (res) {
+        setIsTweetUpdated(true);
         setShow(false);
         setIsUpdating(false);
 
         // 畫面自動重新整理
-        window.location.reload();
+        // window.location.reload();
       }
     } catch (error) {
       console.error("[AddTweeet failed ]", error);
@@ -102,6 +102,10 @@ export default function FontendSideBar() {
       setActiveItem("設定");
     }
   }, [location]);
+
+  useEffect(() => {
+    setIsTweetUpdated(false);
+  }, [setIsTweetUpdated]);
 
   return (
     <div className={styles.container}>

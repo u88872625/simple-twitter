@@ -10,16 +10,18 @@ import { useAuth } from "../contexts/AuthContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTweetId } from "../contexts/TweetIdContext";
 
-const HomePage = () => {
+const MainPage = () => {
   const [tweets, setTweets] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
-   const [loading, setLoading] = useState(true);
-  const { isAuthenticated, currentUser } = useAuth();
+  const [loading, setLoading] = useState(true);
+  const { isAuthenticated, currentUser, setIsTweetUpdated, isTweetUpdated } =
+    useAuth();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const userId = currentUser?.id;
   const role = currentUser?.role;
-  const { handleTweetClick } = useTweetId(); //更新貼文id
+  const { handleTweetClick, tweetId, tweetData } = useTweetId(); //更新貼文id
+  const [allTweetData, setAllTweetData] = useState(tweetData);
   const location = useLocation();
 
   useEffect(() => {
@@ -53,6 +55,23 @@ const HomePage = () => {
     getTweetsAsync();
   }, []);
 
+  // 送出推文後，回傳一個已更新過的所有推文陣列
+  useEffect(() => {
+    const fetchNewTweets = async () => {
+      try {
+        const newTweets = await getAllTweets();
+        setTweets(newTweets);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (isTweetUpdated) {
+      fetchNewTweets();
+      setIsTweetUpdated(false); // 設定回 false 以便下次更新
+    }
+  }, [isTweetUpdated, setIsTweetUpdated]);
+
   useEffect(() => {
     if (!token && role === "admin") {
       navigate("/login");
@@ -63,19 +82,22 @@ const HomePage = () => {
     <div>
       <FontendLayout>
         {loading ? (
-        <div className={styles.loading}>
-          <img className={styles.loadingIcon} src={logo} art="loading..." />
-          <div className={styles.loadingText}>Loading...</div>
-        </div>
-      ) : (
-        <>
-        <AddTweet avatar={userInfo.avatar} />
-        <TweetContent tweets={tweets} onTweetClick={(id) => handleTweetClick(id, location)}/>
-        </>
-      )}
+          <div className={styles.loading}>
+            <img className={styles.loadingIcon} src={logo} art="loading..." />
+            <div className={styles.loadingText}>Loading...</div>
+          </div>
+        ) : (
+          <>
+            <AddTweet avatar={userInfo.avatar} />
+            <TweetContent
+              tweets={tweets}
+              onTweetClick={(id) => handleTweetClick(id, location)}
+            />
+          </>
+        )}
       </FontendLayout>
     </div>
   );
 };
 
-export default HomePage;
+export default MainPage;
