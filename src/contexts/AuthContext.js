@@ -72,20 +72,18 @@ export const AuthProvider = ({ children }) => {
     };
     checkTokenIsValid();
   }, [pathname, navigate]);
-  
 
-    // // 更新本地存放的用戶數據
-    //  const updatedUser = {
-    //   ...payload,
-    //  account: updatedInfo.account,
-    //    name: updatedInfo.name,
-    //    introduction: updatedInfo.introduction,
-    //    avatar: updatedInfo.avatar,
-    //    email: updatedInfo.email,
-    //    banner: updatedInfo.banner,
-    //  };
-    //  localStorage.setItem("currentUser", JSON.stringify(updatedUser));
-  
+  // // 更新本地存放的用戶數據
+  //  const updatedUser = {
+  //   ...payload,
+  //  account: updatedInfo.account,
+  //    name: updatedInfo.name,
+  //    introduction: updatedInfo.introduction,
+  //    avatar: updatedInfo.avatar,
+  //    email: updatedInfo.email,
+  //    banner: updatedInfo.banner,
+  //  };
+  //  localStorage.setItem("currentUser", JSON.stringify(updatedUser));
 
   const updateUserInfo = (updatedInfo) => {
     setPayload((prevPayload) => ({
@@ -104,7 +102,7 @@ export const AuthProvider = ({ children }) => {
       email: updatedInfo.email,
       banner: updatedInfo.banner,
     });
-  }
+  };
   return (
     <AuthContext.Provider
       value={{
@@ -130,6 +128,7 @@ export const AuthProvider = ({ children }) => {
         setIsReplyUpdated,
         isEditedUserInfo,
         setIsEditedUserInfo,
+
         register: async (data) => {
           const response = await register({
             account: data.account,

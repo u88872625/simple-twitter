@@ -63,11 +63,13 @@ export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
     if (reply.length > 140) return;
     if (reply.trim().length === 0) return;
     const response = await replyTweet(id, { comment: reply });
-    //若新增推文成功
+    //若新增回覆成功
     if (response.data.comment) {
       handleClose();
       contentDelete();
       setReplyCount(replyCount + 1);
+      // // 畫面自動重新整理
+      window.location.reload();
       return;
     } else {
       contentDelete();

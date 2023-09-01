@@ -7,7 +7,8 @@ import ReplyModal from "../Modal/ReplyModal/ReplyModal";
 import { useAuth } from "../../contexts/AuthContext";
 import { addLike, unLike, getUserInfo } from "../../api/user";
 import { useNavigate } from "react-router";
-
+import clsx from "clsx";
+import Swal from "sweetalert2";
 // const dummytweet = [
 //   {
 //     id: 1,
@@ -28,8 +29,8 @@ import { useNavigate } from "react-router";
 // ];
 export default function TopTweet({ tweet }) {
   // console.log('toptweet', tweet)
+  // const likesNum =localStorage.getItem('')
   const { replyTweet, currentUser, setIsReplyUpdated } = useAuth();
-  const [isReply, setIsReply] = useState(false);
   const [reply, setReply] = useState("");
   const [replyCount, setReplyCount] = useState(tweet.repliesNum);
   const [likeCount, setLikeCount] = useState(tweet.likesNum);
@@ -43,9 +44,7 @@ export default function TopTweet({ tweet }) {
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-
   const handleReplyClick = () => {
-    setIsReply(true);
     setShow(true);
   };
 
@@ -69,14 +68,25 @@ export default function TopTweet({ tweet }) {
   // 回覆功能
   const handleReply = async () => {
     //預防空值與回覆文字限制
-    if (reply.length > 140) return;
-    if (reply.trim().length === 0) return;
+    if (reply.length > 140 || reply.trim().length === 0) return;
     const response = await replyTweet(tweet.id, { comment: reply });
+    // Swal.fire({
+    //   title: "上傳中...",
+    //   allowOutsideClick: false,
+    //   showConfirmButton: false,
+    //   timerProgressBar: true,
+    //   onBeforeOpen: () => {
+    //     Swal.showLoading();
+    //   },
+    // });
+
     //若新增推文成功
     if (response.data.comment) {
       contentDelete();
       handleClose();
       setReplyCount(replyCount + 1);
+      setIsReplyUpdated(true);
+
       return;
     } else {
       contentDelete();
@@ -168,6 +178,11 @@ export default function TopTweet({ tweet }) {
           setReply(replyInput);
         }}
         value={reply}
+        errorMsg={clsx(
+          "",
+          { [styles.emptyError]: reply.trim().length === 0 },
+          { [styles.overError]: reply.length > 140 }
+        )}
       />
     </div>
   );

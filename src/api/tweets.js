@@ -21,24 +21,24 @@ axiosInstance.interceptors.request.use(
 );
 
 // 後台所有貼文
-export const getAdminAllTweets = async()=>{
-  try{
-    const res = await axiosInstance.get(`${baseUrl}/admin/tweets`)
-    return res.data
-  }catch(error){
-    console.error("[Get Admin AllTweets Failed]:",error)
+export const getAdminAllTweets = async () => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/admin/tweets`);
+    return res.data;
+  } catch (error) {
+    console.error("[Get Admin AllTweets Failed]:", error);
   }
-}
+};
 
 // 後台刪除一筆貼文
-export const deleteTweet = async(id)=>{
-  try{
-    const res = await axiosInstance.delete(`${baseUrl}/admin/tweets/${id}`)
-    return res.data
-  }catch(error){
-    console.error("[Deleete Tweet Failed]:",error)
+export const deleteTweet = async (id) => {
+  try {
+    const res = await axiosInstance.delete(`${baseUrl}/admin/tweets/${id}`);
+    return res.data;
+  } catch (error) {
+    console.error("[Deleete Tweet Failed]:", error);
   }
-}
+};
 
 // 拿取所有貼文
 export const getAllTweets = async () => {
@@ -140,6 +140,7 @@ export const getUserFollowings = async (id) => {
   }
 };
 
+// 回覆一則推文
 export const replyTweet = async (id, { comment }) => {
   try {
     const res = await axiosInstance.post(`${baseUrl}/tweets/${id}/replies`, {
@@ -150,5 +151,3 @@ export const replyTweet = async (id, { comment }) => {
     console.error("[ReplyTweet failed]", error);
   }
 };
-
-
