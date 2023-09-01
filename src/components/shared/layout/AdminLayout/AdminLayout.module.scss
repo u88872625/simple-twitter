@@ -5,17 +5,31 @@
   display: flex;
 
   .leftContainer {
+    position: fixed;
     width: 178px;
     height: 100%;
+    overflow-y: hidden;
   }
 
   .rightContainer {
     min-width: 938px;
     max-width: 1076px;
     height: 100%;
-    margin-left: 24px;
+    margin-left: 202px;
     border-left: 1px solid #e6ecf0;
+
+    &::-webkit-scrollbar {
+  width: 1px;
+}
+&::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+&::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 0.25em;
+}
   }
+
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
