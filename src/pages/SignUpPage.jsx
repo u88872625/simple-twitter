@@ -20,7 +20,6 @@ const SignupPage = () => {
   const passwordMatch = password === checkPassword;
   const [showErrMsg, setShowErrMsg] = useState(false);
 
-
   const navigate = useNavigate();
 
   const { register, isAuthenticated } = useAuth();
@@ -29,8 +28,12 @@ const SignupPage = () => {
     // 清除先前的錯誤狀態
     setShowErrMsg(null);
 
+    Swal.fire({
+      title: "正在註冊...",
+      allowOutsideClick: false,
+      showConfirmButton: false,
+    });
 
-    // // 清除先前錯誤狀態
     // success, token, id, error;
     const response = await register({
       account,
