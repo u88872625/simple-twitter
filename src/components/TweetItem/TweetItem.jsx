@@ -32,6 +32,7 @@ export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
   const [likeCount, setLikeCount] = useState(likesNum);
   const [like, setLike] = useState(isLiked);
   const [showFlseAlert, setShowFlseAlert] = useState(false);
+  const [likeInProgress, setLikeInProgress] = useState(false)
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
   const navigate = useNavigate();
@@ -85,7 +86,11 @@ export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
   };
   // 追蹤哪個貼文被按讚
   const handleLikeClick = async () => {
+    if(likeInProgress){
+      return
+    }
     try {
+      setLikeInProgress(true)
       if (like === true) {
         await unLike(id, token);
         setLike((prevLike) => !prevLike);
@@ -100,6 +105,8 @@ export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
       }
     } catch (error) {
       console.error(error);
+    } finally{
+      setLikeInProgress(false)
     }
   };
   useEffect(() => {
@@ -108,21 +115,21 @@ export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        {avatar ? (
-          <img
-            className={styles.avatar}
-            src={avatar}
-            alt="avatar"
-            onClick={handleClick}
-          />
-        ) : (
-          <img
-            className={styles.avatar}
-            src={defaultAvatar}
-            alt="defalt-avatar"
-            onClick={handleClick}
-          />
-        )}
+          {avatar ? (
+            <img
+              className={styles.avatar}
+              src={avatar}
+              alt="avatar"
+              onClick={handleClick}
+            />
+          ) : (
+            <img
+              className={styles.avatar}
+              src={defaultAvatar}
+              alt="defalt-avatar"
+              onClick={handleClick}
+            />
+          )}
         <div className={styles.tweet}>
           <div
             className={styles.top}
