@@ -49,7 +49,10 @@
 
   .introduction {
     width: 100%;
-    margin-left: 16px;
+    line-height: 26px;
+	  padding: 0 16px; 
+    white-space: wrap;
+		margin-bottom: 30px;
   }
 
   .showFollow {
