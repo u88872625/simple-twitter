@@ -4,10 +4,13 @@ import IconDefaultAvatar from "../../../assets/icons/default-img.svg";
 import FollowingBtn from "../../shared/shareBtn/FollowingBtn";
 import FollowBtn from "../../shared/shareBtn/FollowBtn";
 import { userFollow, unFollow } from "../../../api/tweets";
+import { useNavigate } from "react-router-dom";
+import { getUserInfo } from "../../../api/user";
 
 const FollowItem = ({
   id,
   name,
+  account,
   avatar,
   introduction,
   isFollowed,
@@ -15,6 +18,23 @@ const FollowItem = ({
   setRerender,
 }) => {
   const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
+  const navigate = useNavigate();
+
+  // 點擊頭像
+  const handleClick = async () => {
+    // 如果點選自己
+    if (id === userId) {
+      navigate(`/${account}`);
+    } else {
+      // 如果點到其他人
+      localStorage.setItem("otherUserId", id);
+      const otherUserInfo = await getUserInfo(id);
+      console.log("tweetitem:", otherUserInfo);
+      const otherUserAccount = otherUserInfo.account;
+      navigate(`/other/${otherUserAccount}`);
+    }
+  };
 
   // 追蹤
   const userFollowAsync = async (token, id) => {
@@ -53,6 +73,7 @@ const FollowItem = ({
           className={styles.avatar}
           src={avatar ? avatar : IconDefaultAvatar}
           alt="avatar"
+          onClick={handleClick}
         />
       </div>
       <div className={styles.info}>

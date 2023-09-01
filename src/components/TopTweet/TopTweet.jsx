@@ -28,8 +28,8 @@ import { useNavigate } from "react-router";
 // ];
 export default function TopTweet({ tweet }) {
   // console.log('toptweet', tweet)
+  // const likesNum =localStorage.getItem('')
   const { replyTweet, currentUser, setIsReplyUpdated } = useAuth();
-  const [isReply, setIsReply] = useState(false);
   const [reply, setReply] = useState("");
   const [replyCount, setReplyCount] = useState(tweet.repliesNum);
   const [likeCount, setLikeCount] = useState(tweet.likesNum);
@@ -43,9 +43,7 @@ export default function TopTweet({ tweet }) {
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-
   const handleReplyClick = () => {
-    setIsReply(true);
     setShow(true);
   };
 
@@ -69,14 +67,14 @@ export default function TopTweet({ tweet }) {
   // 回覆功能
   const handleReply = async () => {
     //預防空值與回覆文字限制
-    if (reply.length > 140) return;
-    if (reply.trim().length === 0) return;
+    if (reply.length > 140 || reply.trim().length === 0) return;
     const response = await replyTweet(tweet.id, { comment: reply });
     //若新增推文成功
     if (response.data.comment) {
       contentDelete();
       handleClose();
       setReplyCount(replyCount + 1);
+
       return;
     } else {
       contentDelete();
