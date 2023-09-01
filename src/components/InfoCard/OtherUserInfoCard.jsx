@@ -29,9 +29,9 @@ export default function OtherUserInfoCard({
   const token = localStorage.getItem("token");
   // 設暫存，讓畫面立即更新
   const [followedStatus, setFollowedStatus] = useState(isFollowed);
-  // 設暫存，讓畫面立即更新
-  const [followerCountTemp, setFollowerCountTemp] = useState(followerCount);
+
   const navigate = useNavigate();
+  // 設暫存，讓畫面立即更新
   const [followerNumTemp, setFollowerNumTemp] = useState(followersNum);
 
    const [showMore, setShowMore] = useState(false);
