@@ -15,12 +15,6 @@ export function TweetIdContextProvider({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // 儲存點擊的 tweetId
-  function handleSetTweetIdClick(tweetIdReceived) {
-    setTweetId(tweetIdReceived);
-    localStorage.setItem("tweetId", tweetIdReceived);
-  }
-
   // const { isDataUpdate, setIsDataUpdate } = useDataUpdate();
 
   // useEffect(() => {
@@ -42,26 +36,57 @@ export function TweetIdContextProvider({ children }) {
 
   // 參數為被點擊的貼文id和點擊時的頁面
 
-  useEffect(() => {
-    const savedTweetId = localStorage.getItem("tweetId");
-    if (savedTweetId) {
-      setTweetId(savedTweetId);
-    }
-  }, []);
+  // const handleTweetClick = async (id, location) => {
+  //   try {
+  //     const tweetRes = await getTopTweet(id);
+  //     const repliesRes = await getTopTweetReplies(id);
+
+  //     setTweetId(id);
+  //     setTweetData(tweetRes);
+  //     setRepliesData(repliesRes);
+  //     navigate(`/status/${id}`, { state: { from: location.pathname } });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const handleTweetClick = async (id, location) => {
     try {
       const tweetRes = await getTopTweet(id);
       const repliesRes = await getTopTweetReplies(id);
 
-      // setTweetId(id);
-      setTweetData(tweetRes);
-      setRepliesData(repliesRes);
+      localStorage.setItem("tweetData", JSON.stringify(tweetRes));
+      localStorage.setItem("repliesData", JSON.stringify(repliesRes));
+
+      setTweetId(id);
       navigate(`/status/${id}`, { state: { from: location.pathname } });
     } catch (error) {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    const id = location.pathname.split("/status/")[1]; // 取得URL中的tweetId
+    if (id) {
+      const fetchData = async () => {
+        try {
+          const tweetRes = await getTopTweet(id);
+          const repliesRes = await getTopTweetReplies(id);
+
+          localStorage.setItem("tweetId", id);
+          localStorage.setItem("tweetData", JSON.stringify(tweetRes));
+          localStorage.setItem("repliesData", JSON.stringify(repliesRes));
+          const storedTweetData = localStorage.getItem("tweetData");
+          const storedRepliesData = localStorage.getItem("repliesData");
+          if (storedTweetData) setTweetData(JSON.parse(storedTweetData));
+          if (storedRepliesData) setRepliesData(JSON.parse(storedRepliesData));
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchData();
+    }
+  }, [location]);
 
   return (
     <TweetIdContext.Provider
@@ -71,7 +96,6 @@ export function TweetIdContextProvider({ children }) {
         handleTweetClick,
         tweetData,
         repliesData,
-        handleSetTweetIdClick,
       }}
     >
       {children}

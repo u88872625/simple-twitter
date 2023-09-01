@@ -7,12 +7,20 @@ const FollowerContent = ({ followers, rerender, setRerender }) => {
     <div>
       {followers ? (
         followers.map((follower) => {
-          const { id, avatar, name, followerId, isFollowed, introduction } =
-            follower;
+          const {
+            id,
+            avatar,
+            name,
+            account,
+            followerId,
+            isFollowed,
+            introduction,
+          } = follower;
           return (
             <FollowItem
               key={id}
               id={followerId}
+              account={account}
               avatar={avatar}
               name={name}
               introduction={introduction}

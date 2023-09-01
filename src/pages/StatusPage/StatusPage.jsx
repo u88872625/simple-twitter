@@ -14,7 +14,9 @@ const StatusPage = () => {
   const token = localStorage.getItem("token");
   const { currentUser } = useAuth();
   const role = currentUser?.role;
-  const { tweetId, tweetData, repliesData } = useTweetId(); //取得存在context的最新id
+  // const { tweetId, tweetData, repliesData } = useTweetId(); //取得存在context的最新id
+  const tweetData = JSON.parse(localStorage.getItem("tweetData"));
+  const repliesData = JSON.parse(localStorage.getItem("repliesData"));
   const [topTweet, setTopTweet] = useState(tweetData);
   const [topTweetReplies, setTopTweetReplies] = useState(repliesData);
   const navigate = useNavigate();
@@ -26,13 +28,13 @@ const StatusPage = () => {
     navigate(prevLocation);
   };
 
-  console.log("status:", tweetId);
+  // console.log("status:", tweetId);
   console.log("statustweetdata:", tweetData);
 
-  useEffect(() => {
-    setTopTweet(tweetData);
-    setTopTweetReplies(repliesData);
-  }, [tweetData, repliesData]);
+  // useEffect(() => {
+  //   setTopTweet(tweetData);
+  //   setTopTweetReplies(repliesData);
+  // }, [tweetData, repliesData]);
 
   //  驗證token是否存在
   useEffect(() => {
