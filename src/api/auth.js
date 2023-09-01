@@ -59,16 +59,17 @@ export const register = async ({
 
 export const adminLogin = async ({ account, password }) => {
   try {
-    const response = await axios.post(`${authURL}/admin/signin`, {
+    const { data } = await axios.post(`${authURL}/admin/signin`, {
       account,
       password,
     });
-    return response.data;
+    if (data.success) {
+      return { success: true, ...data };
+    } else {
+      return { success: false, ...data };
+    }
   } catch (error) {
-    console.error(
-      "[Login Failed]",
-      error.response ? error.response.data : error
-    );
-    return error;
+    console.error("[Login Failed]");
+    return error.response?.data || { message: "登入失敗", success: false };
   }
 };
