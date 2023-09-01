@@ -10,7 +10,7 @@ export default function TweetContent({ tweets, onClick, onTweetClick,onLikeClick
             tweet={tweet}
             onClick={onClick}
             onTweetClick={(id) => onTweetClick?.(id)}
-            onLikeClick={(id)=>onLikeClick?.(id)}
+            onLikeClick={(id) => onLikeClick?.(id)}
             like={like}
             likeCount={likeCount}
           />

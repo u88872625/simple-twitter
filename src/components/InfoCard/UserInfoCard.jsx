@@ -41,6 +41,13 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
     // setIsEdit(true)
     setShow(true);
   };
+
+  const [showMore, setShowMore] = useState(false);
+  const maxChars = 70
+  // 如果文字長度超過 maxChars，則將其截斷並提供 "查看更多" 功能
+  const truncatedText = showMore
+    ? introduction
+    : introduction.slice(0, maxChars);
  
 
   //  變更頭像
@@ -189,7 +196,12 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
         <h5 className={styles.userName}>{info.name}</h5>
         <p className={styles.userAccount}>@{info.account}</p>
       </div>
-      <div className={styles.introduction}>{info.introduction}</div>
+      <div className={styles.introduction}>
+        <p>{truncatedText}</p>
+        {introduction.length > maxChars && !showMore && (
+          <button className={styles.viewMore} onClick={() => setShowMore(true)}>查看更多</button>
+        )}
+      </div>
 
       <div className={styles.showFollow} onClick={handleFollowDetail}>
         <p className={styles.showfolloing}>
