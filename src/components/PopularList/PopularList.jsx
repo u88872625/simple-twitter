@@ -13,7 +13,6 @@ export default function PopularList({ rerender, setRerender }) {
   const [topUsers, setTopUsers] = useState([]);
   // popularList 自己的重新渲染
   const [rerenderSelf, setRerenderSelf] = useState(false);
-  const navigate = useNavigate();
 
   // 追蹤
   const userFollowAsync = async (token, id) => {

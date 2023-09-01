@@ -13,7 +13,7 @@ const AdminLoginPage = () => {
   const [password, setPassword] = useState();
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-  const { adminLogin, currentUser } = useAuth();
+  const { adminLogin, currentUser, isAuthenticated } = useAuth();
   const role = currentUser?.role;
   const handleClick = async () => {
     if (account.trim().length === 0) {
@@ -38,21 +38,18 @@ const AdminLoginPage = () => {
       });
     }
 
-    // 登入失敗，出現相對應錯誤訊息提示
     if (!response.success) {
-      if (response.message) {
-        setErrorMessage(response.message);
-      }
+      setErrorMessage(response.message);
+      console.log(errorMessage);
     }
   };
-
   useEffect(() => {
-    if (role === "user") {
+    if (isAuthenticated && role === "user") {
       navigate("/main");
-    } else if (role === "admin") {
+    } else if (isAuthenticated && role === "admin") {
       navigate("/admin/main");
     }
-  }, [navigate, role]);
+  }, [navigate, role, isAuthenticated]);
 
   return (
     <div className={styles.container}>
@@ -65,7 +62,7 @@ const AdminLoginPage = () => {
           placeholder={"請輸入帳號"}
           borderMode={clsx("", {
             [styles.accountInfoError]: errorMessage.includes(
-              "Error: no such user(角色錯誤)"
+              "Error: User does not exist!"
             ),
           })}
           onChange={(accountInput) => {
@@ -80,7 +77,7 @@ const AdminLoginPage = () => {
           placeholder={"請輸入密碼"}
           borderMode={clsx("", {
             [styles.passwordInfoError]: errorMessage.includes(
-              "Error: no such user(角色錯誤)"
+              "Error: Incorrect password!"
             ),
           })}
           onChange={(passwordInput) => {
