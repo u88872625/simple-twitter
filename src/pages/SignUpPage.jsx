@@ -18,9 +18,10 @@ const SignupPage = () => {
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
   const passwordMatch = password === checkPassword;
-  const [showErrMsg, setShowErrMsg] = useState(null);
+  const [showErrMsg, setShowErrMsg] = useState(false);
+
+
   const navigate = useNavigate();
-  // const [showEmptyErr, setShowEmptyErr] = useState(false)
 
   const { register, isAuthenticated } = useAuth();
 
@@ -28,20 +29,8 @@ const SignupPage = () => {
     // 清除先前的錯誤狀態
     setShowErrMsg(null);
 
-    // // 檢查空格
-    // if (
-    //   account.length === 0 ||
-    //   name.length === 0 ||
-    //   email.length === 0 ||
-    //   password.length === 0 ||
-    //   checkPassword.length === 0
-    // ) {
-    //   setShowEmptyErr(true)
-    //   // return;
-    // }
 
     // // 清除先前錯誤狀態
-    // setShowEmptyErr(false)
     // success, token, id, error;
     const response = await register({
       account,
@@ -50,13 +39,9 @@ const SignupPage = () => {
       password,
       checkPassword,
     });
-    // const token = response.data.token;
-    // const userId = response.data.user.id
 
     const { success } = response;
     if (success) {
-      // localStorage.setItem("token", token);
-      // localStorage.setItem("userId", id);
       Swal.fire({
         title: "註冊成功",
         icon: "success",
@@ -139,7 +124,6 @@ const SignupPage = () => {
       <Link to="/login">
         <div className={styles.cancelBtn}>取消</div>
       </Link>
-      {/* {showEmptyErr ? <Alert msg={showEmptyErr} icon="error" /> : ""} */}
       {showErrMsg ? <Alert msg={showErrMsg} icon={error} /> : ""}
     </div>
   );

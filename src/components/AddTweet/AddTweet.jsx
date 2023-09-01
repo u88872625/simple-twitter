@@ -5,32 +5,39 @@ import DefaultAvatar from "../../assets/icons/default-img.svg";
 import clsx from "clsx";
 import { useAuth } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
+import Alert from '../shared/Alert/Alert'
+import warning from '../../assets/icons/warning.png'
+
 
 const AddTweet = ({ avatar, value, inputStyle }) => {
   const { addTweet, isTweetUpdated } = useAuth();
   const [tweet, setTweet] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
+  const [showOverLetterAlert, setShowOverLetteAlert] = useState(false);
+  const [showEmptyAlert, setShowEmptyAlert] = useState(false);
 
   // 新增推文
   const handleSubmit = async () => {
     if (tweet.length > 140) {
-      Swal.fire({
-        position: "top",
-        title: "推文不可超過140字",
-        timer: 1000,
-        icon: "error",
-        showConfirmButton: false,
-      });
+      setShowOverLetteAlert(true);
+      // Swal.fire({
+      //   position: "top",
+      //   title: "推文不可超過140字",
+      //   timer: 1000,
+      //   icon: "error",
+      //   showConfirmButton: false,
+      // });
       return;
     }
     if (tweet.trim().length === 0) {
-      Swal.fire({
-        position: "top",
-        title: "請輸入推文內容",
-        timer: 1000,
-        icon: "error",
-        showConfirmButton: false,
-      });
+      setShowEmptyAlert(true)
+      // Swal.fire({
+      //   position: "top",
+      //   title: "請輸入推文內容",
+      //   timer: 1000,
+      //   icon: "error",
+      //   showConfirmButton: false,
+      // });
       return;
     }
     // 點擊推文按鈕跳出loading提示
@@ -45,7 +52,7 @@ const AddTweet = ({ avatar, value, inputStyle }) => {
       //若新增推文成功
       if (res) {
         setIsUpdating(false);
-
+        
         // // 畫面自動重新整理
         window.location.reload();
       }
@@ -55,6 +62,7 @@ const AddTweet = ({ avatar, value, inputStyle }) => {
 
     console.log(tweet);
   };
+
 
   return (
     <div className={styles.AddTweetContainer}>
@@ -75,6 +83,12 @@ const AddTweet = ({ avatar, value, inputStyle }) => {
           <ReplyBtn text={"推文"} onClick={handleSubmit} />
         </div>
       </div>
+      {showOverLetterAlert ? (
+        <Alert msg="推文不可超過140字" icon={warning} />
+      ) : (
+        ""
+      )}
+      {showEmptyAlert ? <Alert msg="請輸入推文內容" icon={warning} /> : ""}
     </div>
   );
 };

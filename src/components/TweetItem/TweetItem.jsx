@@ -6,6 +6,8 @@ import defaultAvatar from "../../assets/icons/default-img.svg";
 import { useState, useEffect } from "react";
 import ReplyModal from "../Modal/ReplyModal/ReplyModal";
 import { useAuth } from "../../contexts/AuthContext";
+import Alert from "../shared/Alert/Alert";
+import warning from "../../assets/icons/warning.png";
 import Swal from "sweetalert2";
 import clsx from "clsx";
 import { getUserInfo, addLike, unLike } from "../../api/user";
@@ -29,6 +31,7 @@ export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
   const [replyCount, setReplyCount] = useState(repliesNum);
   const [likeCount, setLikeCount] = useState(likesNum);
   const [like, setLike] = useState(isLiked);
+  const [showFlseAlert, setShowFlseAlert] = useState(false);
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
   const navigate = useNavigate();
@@ -68,13 +71,14 @@ export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
     } else {
       contentDelete();
       handleClose();
-      Swal.fire({
-        position: "top",
-        title: "回覆失敗！",
-        timer: 1000,
-        icon: "error",
-        showConfirmButton: false,
-      });
+      setShowFlseAlert(true)
+      // Swal.fire({
+      //   position: "top",
+      //   title: "回覆失敗！",
+      //   timer: 1000,
+      //   icon: "error",
+      //   showConfirmButton: false,
+      // });
     }
   };
   // 追蹤哪個貼文被按讚
@@ -147,6 +151,7 @@ export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
             </div>
           </div>
         </div>
+        {showFlseAlert ? <Alert msg="回覆失敗" icon={warning} /> : ""}
       </div>
       <ReplyModal
         show={show}

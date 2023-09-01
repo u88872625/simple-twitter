@@ -9,6 +9,9 @@ import defaultBanner from "../../assets/images/bg-user.png";
 import { Link } from "react-router-dom";
 import DefaultBanner from "../../assets/images/bg-user.png";
 import DefaultAvatar from "../../assets/icons/default-img.svg";
+import Alert from "../shared/Alert/Alert";
+import warning from "../../assets/icons/warning.png";
+import success from "../../assets/icons/success.png";
 import { getUserInfo } from "../../api/user";
 import Swal from "sweetalert2";
 
@@ -28,7 +31,7 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
   // 設一個暫存的Object變數
   const [tempData, setTempData] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
-  const [alertMsg, setAlerMsg] = useState("");
+  const [alertMsg, setAlerMsg] = useState(false);
   const userId = currentUser?.id;
   // const savedUserInfo = JSON.parse(localStorage.getItem("userInfo"))
 
@@ -95,21 +98,23 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
       if (response.id) {
         console.log("Successupdated", response);
         updateUserInfo(response);
-        Swal.fire({
-          title: "上傳成功！",
-          allowOutsideClick: false,
-          showConfirmButton: false,
-        });
+        setShowAlert(true)
+        // Swal.fire({
+        //   title: "上傳成功！",
+        //   allowOutsideClick: false,
+        //   showConfirmButton: false,
+        // });
         setShow(false);
         window.location.reload();
       }
       // 若使用者編輯資料失敗
       else {
-        Swal.fire({
-          title: "上傳失敗！",
-          allowOutsideClick: false,
-          showConfirmButton: false,
-        });
+        setAlerMsg(true)
+        // Swal.fire({
+        //   title: "上傳失敗！",
+        //   allowOutsideClick: false,
+        //   showConfirmButton: false,
+        // });
         setShow(false);
       }
     } catch (error) {
@@ -193,6 +198,8 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
         <p className={styles.showfollowers}>
           {info.followersNum}位<span className={styles.sub}>跟隨者</span>
         </p>
+        {showAlert ? <Alert msg="上傳成功" icon={success} /> : ""}
+        {alertMsg ? <Alert msg="上傳失敗" icon={warning} /> : ""}
       </div>
 
       <ProfileEditModal

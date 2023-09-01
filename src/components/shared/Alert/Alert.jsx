@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 export default function Alert({msg, icon}) {
 	const [visable, setVisible] = useState(true)
 
-	// 1秒後消失
+	// 1.5秒後消失
 	useEffect(()=> {
 		const timer = setTimeout(()=>{
 			setVisible(false)
