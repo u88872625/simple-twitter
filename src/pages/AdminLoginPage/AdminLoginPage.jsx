@@ -60,11 +60,19 @@ const AdminLoginPage = () => {
           label={"帳號"}
           value={account}
           placeholder={"請輸入帳號"}
-          borderMode={clsx("", {
-            [styles.accountInfoError]: errorMessage.includes(
-              "Error: User does not exist!"
-            ),
-          })}
+          borderMode={clsx(
+            "",
+            {
+              [styles.accountInfoError]: errorMessage.includes(
+                "Error: User does not exist!"
+              ),
+            },
+            {
+              [styles.accountInfoError]: errorMessage.includes(
+                "Error: no such user(角色錯誤)"
+              ),
+            }
+          )}
           onChange={(accountInput) => {
             setErrorMessage("");
             setAccount(accountInput);
