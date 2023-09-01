@@ -25,7 +25,7 @@ const UserPage = () => {
   const [userTweets, setUserTweets] = useState([]);
   const [userReplied, setUserReplied] = useState([]);
   const [userLike, setUserLike] = useState([]);
-  // 確保先取得userTweets再渲染TweetTabs
+  // 確保先取得資料再渲染元件畫面
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   // const { account } = useParams(); //取得用戶account反映在路徑上
