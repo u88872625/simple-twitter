@@ -13,6 +13,10 @@
   object-fit: cover;
   border-radius: 50%;
   margin-top: 5px;
+  
+  &:hover {
+      box-shadow: 0px 0px 0px 5px rgba(255,102,0,0.55);
+    }
 }
 
 .info {
