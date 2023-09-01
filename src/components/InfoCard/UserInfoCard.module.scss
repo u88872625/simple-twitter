@@ -48,8 +48,22 @@
   }
 
   .introduction {
+    position: relative;
     width: 100%;
-    margin-left: 16px;
+    height: 80px;
+    line-height: 26px;
+	  padding: 0 16px; 
+    overflow-wrap: break-word;
+		margin-bottom: 20px;
+
+    .viewMore {
+      position: absolute;
+      right: 5%;
+      font-size: 14px;
+      background-color: inherit;
+      color:var(--primary);
+    }
+    
   }
 
   .showFollow {

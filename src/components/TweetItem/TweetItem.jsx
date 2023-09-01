@@ -11,7 +11,7 @@ import warning from "../../assets/icons/warning.png";
 import Swal from "sweetalert2";
 import clsx from "clsx";
 import { getUserInfo, addLike, unLike } from "../../api/user";
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
   let { name, account, avatar } = tweet.User;
   const {
