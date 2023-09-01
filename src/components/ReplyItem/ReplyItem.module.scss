@@ -3,7 +3,7 @@
   height: 133px;
   display: flex;
   padding: 0 20px;
-  margin-top:16px;
+  margin-top: 16px;
   border-bottom: 1px solid #e6ecf0;
 }
 
@@ -13,6 +13,7 @@
   margin-right: 13px;
   object-fit: cover;
   border-radius: 50%;
+  cursor: pointer;
 }
 
 .replyInfo {

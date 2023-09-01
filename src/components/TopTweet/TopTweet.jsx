@@ -5,7 +5,8 @@ import likeFilled from "../../assets/icons/like-filled.svg";
 import { useState, useEffect } from "react";
 import ReplyModal from "../Modal/ReplyModal/ReplyModal";
 import { useAuth } from "../../contexts/AuthContext";
-import { addLike, unLike } from "../../api/user";
+import { addLike, unLike, getUserInfo } from "../../api/user";
+import { useNavigate } from "react-router";
 
 // const dummytweet = [
 //   {
@@ -34,6 +35,8 @@ export default function TopTweet({ tweet }) {
   const [likeCount, setLikeCount] = useState(tweet.likesNum);
   const [like, setLike] = useState(tweet.isLiked);
   const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
+  const navigate = useNavigate();
   const contentDelete = () => {
     setReply("");
   };
@@ -82,6 +85,21 @@ export default function TopTweet({ tweet }) {
     }
   };
 
+  // 點擊頭像
+  const handleClick = async () => {
+    // 如果點選自己
+    if (tweet.UserId === userId) {
+      navigate(`/${tweet.User.account}`);
+    } else {
+      // 如果點到其他人
+      localStorage.setItem("otherUserId", tweet.UserId);
+      const otherUserInfo = await getUserInfo(tweet.UserId);
+      console.log("tweetitem:", otherUserInfo);
+      const otherUserAccount = otherUserInfo.account;
+      navigate(`/other/${otherUserAccount}`);
+    }
+  };
+
   useEffect(() => {
     setIsReplyUpdated(false);
   }, [setIsReplyUpdated]);
@@ -96,6 +114,7 @@ export default function TopTweet({ tweet }) {
                 className={styles.avatar}
                 src={tweet.User.avatar}
                 alt="avatar"
+                onClick={handleClick}
               />
               <div className={styles.title}>
                 <p className={styles.name}>{tweet.User.name}</p>
