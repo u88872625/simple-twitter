@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import logo from "../../assets/icons/logo.svg";
 import FontendLayout from "../../components/shared/layout/FontendLayout/FontendLayout";
 import OtherUserInfo from "../../components/InfoCard/OtherUserInfoCard";
 import TweetTabs from "../../components/TweetTabs/TweetTabs";
@@ -118,7 +119,10 @@ const UserOtherPage = () => {
     <div>
       <FontendLayout>
         {loading ? (
-          <div>Loading...</div>
+          <div className={styles.loading}>
+            <img className={styles.loadingIcon} src={logo} art="loading..." />
+            <div className={styles.loadingText}>Loading...</div>
+          </div>
         ) : (
           <>
             <div className={styles.header}>
@@ -136,7 +140,9 @@ const UserOtherPage = () => {
             <div className={styles.infoCard}>
               <OtherUserInfo
                 info={otherUserInfo}
-                handleFollowDetail={()=>handleFollowDetailClick(otherUserInfo.account)}
+                handleFollowDetail={() =>
+                  handleFollowDetailClick(otherUserInfo.account)
+                }
                 rerender={rerender}
                 setRerender={setRerender}
               />
@@ -146,7 +152,7 @@ const UserOtherPage = () => {
                 tweets={userTweets}
                 replies={userReplied}
                 likes={userLike}
-                onTweetClick={(id) => handleTweetClick(id,location)}
+                onTweetClick={(id) => handleTweetClick(id, location)}
               />
             </div>
           </>

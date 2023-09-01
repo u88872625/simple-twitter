@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import FontendLayout from "../../components/shared/layout/FontendLayout/FontendLayout";
 import FollowTabs from "../../components/FollowTabs/FollowTabs";
 import arrowIcon from "../../assets/icons/back.svg";
+import logo from "../../assets/icons/logo.svg";
 import styles from "./UserOtherFollowPage.module.scss";
 import { getUserFollowers, getUserFollowings } from "../../api/tweets";
 import { getUserInfo, getUserTweet } from "../../api/user";
@@ -15,6 +16,7 @@ const UserOtherFollowPage = () => {
   const [userTweets, setUserTweets] = useState([]);
   const [userFollowings, setUserFollowings] = useState([]);
   const [userFollowers, setUserFollowers] = useState([]);
+   const [loading, setLoading] = useState(true);
   // 與popularList聯動重新渲染
   const [rerender, setRerender] = useState(false);
   const navigate = useNavigate();
@@ -37,6 +39,8 @@ const UserOtherFollowPage = () => {
         setUserInfo(userInfo);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false); //當取得資料後變回false
       }
     };
     // 取得所有followers資料
@@ -47,6 +51,8 @@ const UserOtherFollowPage = () => {
         setUserFollowings(followings);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false); //當取得資料後變回false
       }
     };
     //  取得所有followers資料
@@ -57,6 +63,8 @@ const UserOtherFollowPage = () => {
         setUserFollowers(followers);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false); //當取得資料後變回false
       }
     };
 
@@ -67,6 +75,8 @@ const UserOtherFollowPage = () => {
         setUserTweets(userTweets);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false); //當取得資料後變回false
       }
     };
 
@@ -83,23 +93,32 @@ const UserOtherFollowPage = () => {
   return (
     <div>
       <FontendLayout rerender={rerender} setRerender={setRerender}>
-        <div className={styles.header}>
-          <img
-            className={styles.backArrow}
-            src={arrowIcon}
-            onClick={handleBack}
-          ></img>
-          <div className={styles.userInfo}>
-            <h5 className={styles.name}>{userInfo?.name}</h5>
-            <p className={styles.tweetCount}> {userTweets?.length}推文</p>
+        {loading ? (
+          <div className={styles.loading}>
+            <img className={styles.loadingIcon} src={logo} art="loading..." />
+            <div className={styles.loadingText}>Loading...</div>
           </div>
-        </div>
-        <FollowTabs
-          followers={userFollowers}
-          followings={userFollowings}
-          rerender={rerender}
-          setRerender={setRerender}
-        />
+        ) : (
+          <>
+            <div className={styles.header}>
+              <img
+                className={styles.backArrow}
+                src={arrowIcon}
+                onClick={handleBack}
+              ></img>
+              <div className={styles.userInfo}>
+                <h5 className={styles.name}>{userInfo?.name}</h5>
+                <p className={styles.tweetCount}> {userTweets?.length}推文</p>
+              </div>
+            </div>
+            <FollowTabs
+              followers={userFollowers}
+              followings={userFollowings}
+              rerender={rerender}
+              setRerender={setRerender}
+            />
+          </>
+        )}
       </FontendLayout>
     </div>
   );

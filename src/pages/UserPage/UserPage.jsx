@@ -13,6 +13,7 @@ import FontendLayout from "../../components/shared/layout/FontendLayout/FontendL
 import UserInfoCard from "../../components/InfoCard/UserInfoCard";
 import TweetTabs from "../../components/TweetTabs/TweetTabs";
 import arrow from "../../assets/icons/back.svg";
+import logo from "../../assets/icons/logo.svg";
 import { useTweetId } from "../../contexts/TweetIdContext";
 import { useDataUpdate } from "../../contexts/UserDataContext";
 const UserPage = () => {
@@ -128,7 +129,10 @@ const UserPage = () => {
   return (
     <FontendLayout>
       {loading ? (
-        <div>Loading...</div>
+        <div className={styles.loading}>
+          <img className={styles.loadingIcon} src={logo} art="loading..." />
+          <div className={styles.loadingText}>Loading...</div>
+        </div>
       ) : (
         <>
           <div className={styles.header}>

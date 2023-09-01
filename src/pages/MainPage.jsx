@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import styles from "../styles/_loading.module.scss";
 import FontendLayout from "../components/shared/layout/FontendLayout/FontendLayout";
 import AddTweet from "../components/AddTweet/AddTweet";
 import TweetContent from "../components/TweetTabs/TweetContent/TweetContent";
+import logo from "../assets/icons/logo.svg";
 import { getUserInfo } from "../api/user";
 import { getAllTweets } from "../api/tweets";
 import { useAuth } from "../contexts/AuthContext";
@@ -11,6 +13,7 @@ import { useTweetId } from "../contexts/TweetIdContext";
 const HomePage = () => {
   const [tweets, setTweets] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
+   const [loading, setLoading] = useState(true);
   const { isAuthenticated, currentUser } = useAuth();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -28,6 +31,8 @@ const HomePage = () => {
           setUserInfo(userInfo);
         } catch (error) {
           console.error(error);
+        } finally {
+          setLoading(false); //當取得資料後變回false
         }
       };
       getUserInfoAsync();
@@ -41,6 +46,8 @@ const HomePage = () => {
         setTweets(tweets.map((tweet) => ({ ...tweet })));
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false); //當取得資料後變回false
       }
     };
     getTweetsAsync();
@@ -55,8 +62,17 @@ const HomePage = () => {
   return (
     <div>
       <FontendLayout>
+        {loading ? (
+        <div className={styles.loading}>
+          <img className={styles.loadingIcon} src={logo} art="loading..." />
+          <div className={styles.loadingText}>Loading...</div>
+        </div>
+      ) : (
+        <>
         <AddTweet avatar={userInfo.avatar} />
         <TweetContent tweets={tweets} onTweetClick={(id) => handleTweetClick(id, location)}/>
+        </>
+      )}
       </FontendLayout>
     </div>
   );
