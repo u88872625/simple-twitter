@@ -47,6 +47,7 @@ const AuthInput = ({
         value={value}
         placeholder={placeholder}
         onChange={(e) => handleInputChange(e.target.value)}
+        maxLength={51}
       ></input>
       <div className={clsx(styles.inputButtomBorder, borderMode)}></div>
       {maxChar && (
