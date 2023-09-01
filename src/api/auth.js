@@ -69,7 +69,7 @@ export const adminLogin = async ({ account, password }) => {
       return { success: false, ...data };
     }
   } catch (error) {
-    console.error("[Login Failed]");
+    console.error("[Login Failed]", error);
     return error.response?.data || { message: "登入失敗", success: false };
   }
 };

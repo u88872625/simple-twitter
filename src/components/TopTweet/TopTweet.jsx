@@ -7,7 +7,8 @@ import ReplyModal from "../Modal/ReplyModal/ReplyModal";
 import { useAuth } from "../../contexts/AuthContext";
 import { addLike, unLike, getUserInfo } from "../../api/user";
 import { useNavigate } from "react-router";
-
+import clsx from "clsx";
+import Swal from "sweetalert2";
 // const dummytweet = [
 //   {
 //     id: 1,
@@ -69,11 +70,22 @@ export default function TopTweet({ tweet }) {
     //預防空值與回覆文字限制
     if (reply.length > 140 || reply.trim().length === 0) return;
     const response = await replyTweet(tweet.id, { comment: reply });
+    // Swal.fire({
+    //   title: "上傳中...",
+    //   allowOutsideClick: false,
+    //   showConfirmButton: false,
+    //   timerProgressBar: true,
+    //   onBeforeOpen: () => {
+    //     Swal.showLoading();
+    //   },
+    // });
+
     //若新增推文成功
     if (response.data.comment) {
       contentDelete();
       handleClose();
       setReplyCount(replyCount + 1);
+      setIsReplyUpdated(true);
 
       return;
     } else {
@@ -166,6 +178,11 @@ export default function TopTweet({ tweet }) {
           setReply(replyInput);
         }}
         value={reply}
+        errorMsg={clsx(
+          "",
+          { [styles.emptyError]: reply.trim().length === 0 },
+          { [styles.overError]: reply.length > 140 }
+        )}
       />
     </div>
   );
