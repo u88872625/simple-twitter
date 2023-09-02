@@ -29,9 +29,16 @@ const AddTweet = ({ avatar, value, inputStyle }) => {
       return;
     }
 
+    Swal.fire({
+      title: "推文中...",
+      allowOutsideClick: false,
+      showConfirmButton: false,
+    });
+
     try {
       const res = await addTweet({ description: tweet });
       setIsUpdating(true);
+      Swal.close();
       //若新增推文成功
       if (res) {
         setIsUpdating(false);

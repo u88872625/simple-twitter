@@ -86,8 +86,15 @@ export default function TopTweet({ tweet }) {
   const handleReply = async () => {
     //預防空值與回覆文字限制
     if (reply.length > 140 || reply.trim().length === 0) return;
+    Swal.fire({
+      title: "回覆中...",
+      allowOutsideClick: false,
+      showConfirmButton: false,
+    });
+
     const response = await replyTweet(tweet.id, { comment: reply });
 
+    Swal.close();
     //若新增推文成功
     if (response.data.comment) {
       contentDelete();
