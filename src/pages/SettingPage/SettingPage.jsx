@@ -10,13 +10,11 @@ import { getUserInfo,patchUserInfo } from "../../api/user";
 import Alert from "../../components/shared/Alert/Alert";
 import successIcon from "../../assets/icons/success.png";
 import errorIcon from "../../assets/icons/error.png";
-import {useDataUpdate} from '../../contexts/UserDataContext'
 
 const SettingPage = () => {
   const token = localStorage.getItem("token");
   const { currentUser, setEditedUserInfo } = useAuth();
   const userId = currentUser?.id;
-  const { isDataUpdate, setIsDataUpdate } = useDataUpdate();
   const [account, setAccount] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -37,7 +35,6 @@ const SettingPage = () => {
       const getUserInfoAsync = async () => {
         try {
           const userInfo = await getUserInfo(userId);
-          console.log("User Info:", userInfo);
           await setAccount(userInfo.account);
           await setName(userInfo.name);
           await setEmail(userInfo.email);
@@ -83,7 +80,6 @@ const SettingPage = () => {
       
 
       setEditedUserInfo(response);
-      console.log("updateUserInfo:", response);
 
       if (response.success === false) {
         setShowAlert(true);
@@ -97,8 +93,6 @@ const SettingPage = () => {
         setName(response.name);
         setEmail(response.email);
         setIsUserInfoUpdated(true);
-
-        console.log("setting", response.name);
       }
     } catch (error) {
       console.error(error);

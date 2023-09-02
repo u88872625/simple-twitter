@@ -1,7 +1,7 @@
 import styles from "./FontendLayout.module.scss";
 import FontendSideBar from "../../../SideBar/FontendSideBar.jsx";
 import PopularList from "../../../PopularList/PopularList";
-import { useState } from "react";
+
 
 export default function FontendLayout({ children, rerender, setRerender }) {
   return (

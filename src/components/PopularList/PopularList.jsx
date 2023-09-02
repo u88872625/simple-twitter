@@ -5,7 +5,6 @@ import FollowBtn from "../shared/shareBtn/FollowBtn";
 import FollowingBtn from "../shared/shareBtn/FollowingBtn";
 import { getTopUsers, userFollow, unFollow } from "../../api/tweets";
 import { getUserInfo } from "../../api/user";
-import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 export default function PopularList({ rerender, setRerender }) {
@@ -18,7 +17,6 @@ export default function PopularList({ rerender, setRerender }) {
   const userFollowAsync = async (token, id) => {
     try {
       const res = await userFollow(token, id);
-      console.log(res);
     } catch (error) {
       console.error(error);
     }
@@ -28,7 +26,6 @@ export default function PopularList({ rerender, setRerender }) {
   const userUnfollowAsync = async (token, id) => {
     try {
       const res = await unFollow(token, id);
-      console.log(res);
     } catch (error) {
       console.error(error);
     }

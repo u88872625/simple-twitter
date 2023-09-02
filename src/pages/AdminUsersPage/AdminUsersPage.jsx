@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import AdminLayout from "../../components/shared/layout/AdminLayout/AdminLayout";
 import AdminUsers from "../../components/Admin/AdminUsers/AdminUsers";
-import { useAuth } from "../../contexts/AuthContext";
 import { getAllUsers } from "../../api/user";
 import styles from "./AdminUsersPage.module.scss";
 import logo from "../../assets/icons/logo.svg";
 
 const AdminUsersPage = () => {
-  // const { getAllUsers } = useAuth();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 

@@ -35,7 +35,6 @@ const UserOtherFollowPage = () => {
     const getUserInfoAsync = async () => {
       try {
         const userInfo = await getUserInfo(otherUserId);
-        console.log("User Info:", userInfo);
         setUserInfo(userInfo);
       } catch (error) {
         console.error(error);

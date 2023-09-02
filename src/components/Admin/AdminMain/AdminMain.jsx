@@ -1,4 +1,3 @@
-import styles from "./AdminMain.module.scss";
 import AdminTweetItemCollection from "./AdminTweetItemCollection";
 
 export default function AdminMain({tweets, onClick}) {

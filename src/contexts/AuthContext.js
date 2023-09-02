@@ -73,18 +73,6 @@ export const AuthProvider = ({ children }) => {
     checkTokenIsValid();
   }, [pathname, navigate]);
 
-  // // 更新本地存放的用戶數據
-  //  const updatedUser = {
-  //   ...payload,
-  //  account: updatedInfo.account,
-  //    name: updatedInfo.name,
-  //    introduction: updatedInfo.introduction,
-  //    avatar: updatedInfo.avatar,
-  //    email: updatedInfo.email,
-  //    banner: updatedInfo.banner,
-  //  };
-  //  localStorage.setItem("currentUser", JSON.stringify(updatedUser));
-
   const updateUserInfo = (updatedInfo) => {
     setPayload((prevPayload) => ({
       ...prevPayload,
@@ -141,7 +129,6 @@ export const AuthProvider = ({ children }) => {
           if (success) {
             const token = response.data.token;
             const id = response.data.user.id;
-
             const tempPayload = jwt_decode(token);
             setPayload(tempPayload);
             setIsAuthenticated(true);
@@ -164,7 +151,6 @@ export const AuthProvider = ({ children }) => {
           if (success) {
             const token = response.data.token;
             const id = response.data.user.id;
-
             const temPayload = jwt_decode(token);
             setPayload(temPayload);
             setIsAuthenticated(true);

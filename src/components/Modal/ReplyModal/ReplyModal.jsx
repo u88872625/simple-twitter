@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./ReplyModal.module.scss";
 import { Modal } from "react-bootstrap";
 import IconClose from "../../../assets/icons/close.svg";
 import DefaultAvatar from "../../../assets/icons/default-img.svg";
-// import { Value } from "sass";
 
 const ReplyModal = ({
   posterAvatar,
@@ -19,7 +18,6 @@ const ReplyModal = ({
   value,
   errorMsg,
 }) => {
-  // const [reply, setReply] = useState("");
 
   return (
     <>

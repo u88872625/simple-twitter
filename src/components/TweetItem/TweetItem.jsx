@@ -8,7 +8,6 @@ import ReplyModal from "../Modal/ReplyModal/ReplyModal";
 import { useAuth } from "../../contexts/AuthContext";
 import Alert from "../shared/Alert/Alert";
 import warning from "../../assets/icons/warning.png";
-import Swal from "sweetalert2";
 import clsx from "clsx";
 import { getUserInfo, addLike, unLike } from "../../api/user";
 import { useNavigate } from "react-router-dom";
@@ -18,14 +17,12 @@ export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
     id,
     UserId,
     description,
-    createdAt,
     repliesNum,
     likesNum,
     isLiked,
     fromNow,
   } = tweet;
-  const { replyTweet, currentUser, setIsReplyUpdated } = useAuth();
-  // const [isReply, setIsReply] = useState(false);
+  const { replyTweet, setIsReplyUpdated } = useAuth();
   const [show, setShow] = useState();
   const [reply, setReply] = useState("");
   const [replyCount, setReplyCount] = useState(repliesNum);
@@ -55,7 +52,6 @@ export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
       // 如果點到其他人
       localStorage.setItem("otherUserId", UserId);
       const otherUserInfo = await getUserInfo(UserId);
-      console.log("tweetitem:", otherUserInfo);
       const otherUserAccount = otherUserInfo.account;
       navigate(`/other/${otherUserAccount}`);
     }
@@ -77,13 +73,6 @@ export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
       contentDelete();
       handleClose();
       setShowFlseAlert(true);
-      // Swal.fire({
-      //   position: "top",
-      //   title: "回覆失敗！",
-      //   timer: 1000,
-      //   icon: "error",
-      //   showConfirmButton: false,
-      // });
     }
   };
   // 追蹤哪個貼文被按讚
@@ -126,7 +115,6 @@ export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
       const getUserInfoAsync = async () => {
         try {
           const userInfo = await getUserInfo(userId);
-          console.log("User Info:", userInfo);
           setUserInfo(userInfo);
         } catch (error) {
           console.error(error);
@@ -211,7 +199,6 @@ export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
           { [styles.overError]: reply.length > 140 }
         )}
       />
-      {/* {isReply && <Modal/>} */}
     </div>
   );
 }

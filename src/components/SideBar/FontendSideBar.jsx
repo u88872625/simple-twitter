@@ -27,7 +27,6 @@ export default function FontendSideBar() {
   const [userInfo, setUserInfo] = useState([]);
   const [isUpdating, setIsUpdating] = useState(false);
   const [loading, setLoading] = useState(true);
-  const { account } = useParams(); //取得用戶account反映在路徑上
   const location = useLocation();
 
   //  show Modal

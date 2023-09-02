@@ -44,7 +44,6 @@ export default function OtherUserInfoCard({
   const userFollowAsync = async (token, id) => {
     try {
       const res = await userFollow(token, id);
-      console.log(res);
     } catch (error) {
       console.error(error);
     }
@@ -54,7 +53,6 @@ export default function OtherUserInfoCard({
   const userUnfollowAsync = async (token, id) => {
     try {
       const res = await unFollow(token, id);
-      console.log(res);
     } catch (error) {
       console.error(error);
     }
@@ -70,7 +68,6 @@ export default function OtherUserInfoCard({
       await userFollowAsync(token, id);
       setFollowedStatus(true);
       setFollowerNumTemp(followersNum + 1);
-      // console.log(info);
     }
     await setRerender(!rerender);
   };

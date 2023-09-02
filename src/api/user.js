@@ -125,7 +125,6 @@ export const addLike = async (id, token) => {
       },
     });
 
-    console.log(data);
     return data;
   } catch (error) {
     console.error("[Add Like Failed]:", error);
@@ -144,7 +143,6 @@ export const unLike = async (id, token) => {
         },
       }
     );
-    console.log(data);
     return data;
   } catch (error) {
     console.error("[Unlike Failed]:", error);

@@ -49,8 +49,6 @@ const AddTweet = ({ avatar, value, inputStyle }) => {
       console.error("AddTweeet failed ]", error);
       contentDelete();
     }
-
-    console.log(tweet);
   };
 
   useEffect(() => {

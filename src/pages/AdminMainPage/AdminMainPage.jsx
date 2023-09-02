@@ -9,8 +9,6 @@ import logo from "../../assets/icons/logo.svg";
 
 
 const AdminMainPage = () => {
- const { currentUser } = useAuth();
- const role = currentUser?.role;
  const [tweets, setTweets] = useState([])
  const [showModal, setShowModal]=useState(false)
  const [tweetToDelete, setTweetToDelete]=useState(null)
@@ -42,7 +40,6 @@ const AdminMainPage = () => {
     try {
       const allTweets = await getAdminAllTweets();
       setTweets(allTweets);
-      console.log("adminmain", allTweets);
     } catch (error) {
       console.error(error);
     } finally {

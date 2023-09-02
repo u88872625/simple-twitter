@@ -53,7 +53,6 @@ const UserOtherPage = () => {
       const getOtherUserInfoAsync = async () => {
         try {
           const otherUserInfo = await getUserInfo(otherUserId);
-          console.log("OtherUser Info:", otherUserInfo);
           setOtherUserInfo(otherUserInfo);
         } catch (error) {
           console.error(error);

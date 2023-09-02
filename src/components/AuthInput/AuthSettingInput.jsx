@@ -32,9 +32,6 @@ const AuthInput = ({
   }
 
   const handleInputChange = (inputValue) => {
-    // if (inputValue.length > maxChar + 1) {
-    //   return; // 如果字數超出上限不繼續更新值
-    // }
     onChange?.(inputValue);
     setCharCount(inputValue.length);
   };

@@ -30,7 +30,6 @@ const FollowItem = ({
       // 如果點到其他人
       localStorage.setItem("otherUserId", id);
       const otherUserInfo = await getUserInfo(id);
-      console.log("tweetitem:", otherUserInfo);
       const otherUserAccount = otherUserInfo.account;
       navigate(`/other/${otherUserAccount}`);
     }
@@ -40,7 +39,6 @@ const FollowItem = ({
   const userFollowAsync = async (token, id) => {
     try {
       const res = await userFollow(token, id);
-      console.log(res);
     } catch (error) {
       console.error(error);
     }
@@ -50,7 +48,6 @@ const FollowItem = ({
   const userUnfollowAsync = async (token, id) => {
     try {
       const res = await unFollow(token, id);
-      console.log(res);
     } catch (error) {
       console.error(error);
     }

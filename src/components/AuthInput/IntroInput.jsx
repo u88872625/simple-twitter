@@ -5,7 +5,6 @@ import clsx from "clsx";
 
 const IntroInput = ({
   label,
-  type,
   placeholder,
   value,
   onChange,
