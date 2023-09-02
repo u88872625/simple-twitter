@@ -23,7 +23,7 @@ axiosInstance.interceptors.request.use(
 export const getUserInfo = async (userId) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/users/${userId}`);
-    console.log(res.data);
+    // console.log(res.data);
     return res.data;
   } catch (error) {
     console.error("[Get UerInfo Failed]:", error);
@@ -34,7 +34,7 @@ export const getUserInfo = async (userId) => {
 export const getUserTweet = async (userId) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/users/${userId}/tweets`);
-    console.log(res.data);
+    // console.log(res.data);
     return res.data;
   } catch (error) {
     console.error("[Get UerTweet Failed]:", error);
@@ -47,7 +47,7 @@ export const getUserReplied = async (userId) => {
     const res = await axiosInstance.get(
       `${baseUrl}/users/${userId}/replied_tweets`
     );
-    console.log(res.data);
+    // console.log(res.data);
     return res.data;
   } catch (error) {
     console.error("[Get UerReplied Failed]:", error);
@@ -58,7 +58,7 @@ export const getUserReplied = async (userId) => {
 export const getUserLike = async (userId) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/users/${userId}/likes`);
-    console.log(res.data);
+    // console.log(res.data);
     return res.data;
   } catch (error) {
     console.error("[Get UerLike Failed]:", error);
