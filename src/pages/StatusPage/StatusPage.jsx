@@ -7,18 +7,22 @@ import FontendLayout from "../../components/shared/layout/FontendLayout/FontendL
 import TopTweet from "../../components/TopTweet/TopTweet.jsx";
 import ReplyCollection from "./ReplyCollection.jsx";
 import arrow from "../../assets/icons/back.svg";
+import { getTopTweetReplies } from "../../api/tweets";
 
 const StatusPage = () => {
   // // 從路由路徑取得貼文id
   // const { id } = useParams();
   const token = localStorage.getItem("token");
-  const { currentUser } = useAuth();
+  const { currentUser, isReplyUpdated, setIsReplyUpdated, replyTweet } =
+    useAuth();
   const role = currentUser?.role;
-  // const { tweetId, tweetData, repliesData } = useTweetId(); //取得存在context的最新id
-  const tweetData = JSON.parse(localStorage.getItem("tweetData"));
-  const repliesData = JSON.parse(localStorage.getItem("repliesData"));
+  const { tweetId, tweetData, repliesData } = useTweetId(); //取得存在context的最新id
+  // const tweetData = JSON.parse(localStorage.getItem("tweetData"));
+  // const repliesData = JSON.parse(localStorage.getItem("repliesData"));
   const [topTweet, setTopTweet] = useState(tweetData);
   const [topTweetReplies, setTopTweetReplies] = useState(repliesData);
+  // 重新渲染
+  const [rerender, setRerender] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -28,13 +32,26 @@ const StatusPage = () => {
     navigate(prevLocation);
   };
 
-  // console.log("status:", tweetId);
+  console.log("status:", tweetId);
   console.log("statustweetdata:", tweetData);
 
-  // useEffect(() => {
-  //   setTopTweet(tweetData);
-  //   setTopTweetReplies(repliesData);
-  // }, [tweetData, repliesData]);
+  useEffect(() => {
+    setTopTweet(tweetData);
+    setTopTweetReplies(repliesData);
+  }, [tweetData, repliesData]);
+
+  // 送出回覆後，回傳一個已更新過的所有回覆陣列
+  useEffect(() => {
+    const fetchNewReplies = async () => {
+      const newReplies = await getTopTweetReplies(tweetId);
+      setTopTweetReplies(newReplies);
+    };
+
+    if (isReplyUpdated) {
+      fetchNewReplies();
+      setIsReplyUpdated(false);
+    }
+  }, [isReplyUpdated, setIsReplyUpdated, tweetId, setTopTweetReplies]);
 
   //  驗證token是否存在
   useEffect(() => {
@@ -58,7 +75,7 @@ const StatusPage = () => {
         <TopTweet tweet={topTweet} />
       </div>
       <div>
-        <ReplyCollection replies={topTweetReplies} poster={topTweet} />
+        <ReplyCollection replies={topTweetReplies} />
       </div>
     </FontendLayout>
   );

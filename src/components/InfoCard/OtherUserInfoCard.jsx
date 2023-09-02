@@ -11,7 +11,6 @@ export default function OtherUserInfoCard({
   info,
   rerender,
   setRerender,
-  followerCount,
   handleFollowDetail,
 }) {
   const {
@@ -34,14 +33,12 @@ export default function OtherUserInfoCard({
   // 設暫存，讓畫面立即更新
   const [followerNumTemp, setFollowerNumTemp] = useState(followersNum);
 
-   const [showMore, setShowMore] = useState(false);
-   const maxChars = 70;
-   // 如果文字長度超過 maxChars，則將其截斷並提供 "查看更多" 功能
-    const truncatedText = showMore
-      ? introduction
-      : introduction.slice(0, maxChars);
-  
-   
+  const [showMore, setShowMore] = useState(false);
+  const maxChars = 70;
+  // 如果文字長度超過 maxChars，則將其截斷並提供 "查看更多" 功能
+  const truncatedText = showMore
+    ? introduction
+    : introduction.slice(0, maxChars);
 
   // 追蹤
   const userFollowAsync = async (token, id) => {

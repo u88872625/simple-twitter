@@ -117,7 +117,7 @@ const UserOtherPage = () => {
   }, [navigate, token, role]);
   return (
     <div>
-      <FontendLayout>
+      <FontendLayout rerender={rerender} setRerender={setRerender}>
         {loading ? (
           <div className={styles.loading}>
             <img className={styles.loadingIcon} src={logo} art="loading..." />
