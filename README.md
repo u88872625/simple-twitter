@@ -109,3 +109,10 @@ ctrl + c
 - react-bootstrap: v2.8.0
 - react-router-dom: v6.4.1
 - sass: v1.66.1
+
+## 專案開發人員
+
+- [Yun Jong](https://github.com/Yunj0ng)
+- [Ming](https://github.com/u88872625)
+- [Eric](https://github.com/erikku54)
+- [AlanChiang](https://github.com/AlanChiangg)
