@@ -5,6 +5,7 @@
 	display:flex;
 
 	.leftContainer {
+		position: fixed;
 		width: 178px;
 		height: 100%;
 		overflow-y: hidden;
@@ -13,7 +14,7 @@
 	.mainContainer {
 		width: 641px;
 		height: 100%;
-		margin: 0 24px;
+		margin: 0 24px 0 202px;;
 		border: 1px solid var(--border);
 		overflow-y: auto;
 

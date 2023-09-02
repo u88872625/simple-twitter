@@ -92,16 +92,18 @@ export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
     try {
       setLikeInProgress(true)
       if (like === true) {
-        await unLike(id, token);
-        setLike((prevLike) => !prevLike);
-        setLikeCount((prevCount) => prevCount - 1);
+        setLike(false);
+        const {isLiked: resIsLiked, likesNum: resLikesNum} = await unLike(id, token);
+        setLike(resIsLiked);
+        setLikeCount(resLikesNum);
         if (onLikeClick) {
           onLikeClick(id);
         }
       } else {
-        await addLike(id, token);
-        setLike((prevLike) => !prevLike);
-        setLikeCount((prevCount) => prevCount + 1);
+        setLike(true);
+        const {isLiked: resIsLiked, likesNum: resLikesNum} = await addLike(id, token);
+        setLike(resIsLiked);
+        setLikeCount(resLikesNum);
       }
     } catch (error) {
       console.error(error);

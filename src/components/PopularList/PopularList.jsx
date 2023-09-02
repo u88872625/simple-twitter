@@ -110,18 +110,19 @@ function PopularListItem({ topUser, handleFollowClick }) {
   return (
     <div id={id} className={styles.popularListItem}>
       {/* 暫時使用預設頭像 */}
-      <div className={styles.PopularListItemAvatar}>
-        <img
-          className={styles.avatar}
-          src={avatar ? avatar : IconDefaultAvatar}
-          onClick={handleClick}
-        ></img>
+      <div className={styles.info}>
+        <div className={styles.PopularListItemAvatar}>
+          <img
+            className={styles.avatar}
+            src={avatar ? avatar : IconDefaultAvatar}
+            onClick={handleClick}
+          ></img>
+        </div>
+        <div className={styles.popularItemInfo}>
+          <p className={styles.popularItemName}>{name}</p>
+          <p className={styles.popularItemAccount}>@{account}</p>
+        </div>
       </div>
-      <div className={styles.popularItemInfo}>
-        <p className={styles.popularItemName}>{name}</p>
-        <p className={styles.popularItemAccount}>@{account}</p>
-      </div>
-
       {/* 暫時使用單一Btn */}
       <div className={styles.popularItemBtn}>
         {isFollowed ? (
