@@ -2,6 +2,28 @@
 
 利用 React 製作一個與 Twitter 相似的社交平台，使用者進入後可以註冊、登入、發佈貼文及與他人互動
 
+## 專案功能
+
+- 前台
+
+  - 可以從登入頁登入後進到首頁
+  - 可以透過註冊頁註冊自己的帳號
+  - 在首頁可以瀏覽全部推文及發表自己的推文
+  - 可以瀏覽使用者的推文/回覆/喜歡的內容
+  - 可以對其他使用者進行跟隨/取消跟隨
+  - 可以自行修改個人資料及上傳照片修改頭像、背景
+  - 點擊一則推文可進入此推文的單一畫面
+  - 透過點擊推文下方的圖示對此推文作喜歡/回覆的動作
+
+- 後台(admin)
+  - 從後台登入頁登入(一般使用者無法登入)
+  - 可以在推文清單瀏覽/刪除所有的推文
+  - 可以在使用者列表查看所有的使用者詳細資料
+
+## 專案主頁
+
+https://u88872625.github.io/simple-twitter/
+
 ## 頁面呈現
 
 ### 1. 登入頁面
@@ -65,18 +87,10 @@ npm install
 npm start
 ```
 
-5. 若成功運行，則會看到底下訊息，可複製網址至瀏覽器查看：
+5.  接著瀏覽器將會自動開啟 "http://localhost:3000/simple-twitter/login"
+    若成功運行，則會看到底下訊息:
 
 ```bash
-Compiled successfully!
-
-You can now view first_react_form in the browser.
-
-  Local:            http://localhost:3000
-  On Your Network:  http://172.20.10.2:3000
-
-Note that the development build is not optimized.
-To create a production build, use npm run build.
 
 webpack compiled successfully
 ```
@@ -95,4 +109,3 @@ ctrl + c
 - react-bootstrap: v2.8.0
 - react-router-dom: v6.4.1
 - sass: v1.66.1
-- styled-components: v6.0.7
