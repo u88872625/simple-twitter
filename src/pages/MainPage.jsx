@@ -14,14 +14,13 @@ const MainPage = () => {
   const [tweets, setTweets] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { isAuthenticated, currentUser, setIsTweetUpdated, isTweetUpdated } =
+  const { currentUser, setIsTweetUpdated, isTweetUpdated } =
     useAuth();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const userId = currentUser?.id;
   const role = currentUser?.role;
-  const { handleTweetClick, tweetId, tweetData } = useTweetId(); //更新貼文id
-  const [allTweetData, setAllTweetData] = useState(tweetData);
+  const { handleTweetClick } = useTweetId(); //更新貼文id
   const location = useLocation();
 
   useEffect(() => {
@@ -29,7 +28,6 @@ const MainPage = () => {
       const getUserInfoAsync = async () => {
         try {
           const userInfo = await getUserInfo(userId);
-          console.log("User Info:", userInfo);
           setUserInfo(userInfo);
         } catch (error) {
           console.error(error);

@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-// import {useForm} from 'react-hook-form'
+import React from "react";
 import Modal from "react-bootstrap/Modal";
 import IconClose from "../../../assets/icons/close.svg";
 import styles from "./ProfileEditModal.module.scss";
@@ -8,9 +7,7 @@ import BannerDelete from "../../../assets/icons/close-white.svg";
 import AuthInput from "../../AuthInput/AuthInput";
 import clsx from "clsx";
 import IntroInput from "../../AuthInput/IntroInput";
-import { useAuth } from "../../../contexts/AuthContext";
-import { patchUserInfo } from "../../../api/user";
-import Alert from "../../../components/shared/Alert/Alert";
+
 
 const ProfileEditModal = ({
   name,
@@ -19,8 +16,6 @@ const ProfileEditModal = ({
   banner,
   handleChangeBanner,
   handleChangeAvatar,
-  introBorderMode,
-  nameBorderMode,
   onNameChange,
   onIntroChange,
   show,

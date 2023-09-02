@@ -1,6 +1,4 @@
 import React from "react";
-import { useState } from "react";
-import { Button } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 import styles from "./AddTweetModal.module.scss";
 import IconClose from "../../../assets/icons/close.svg";

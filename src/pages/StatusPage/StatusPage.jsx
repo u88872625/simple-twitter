@@ -28,12 +28,9 @@ const StatusPage = () => {
 
   // 追蹤要返回的上一頁
   const handleBack = () => {
-    const prevLocation = location.state?.from || "/home";
+    const prevLocation = "/home";
     navigate(prevLocation);
   };
-
-  console.log("status:", tweetId);
-  console.log("statustweetdata:", tweetData);
 
   useEffect(() => {
     setTopTweet(tweetData);

@@ -40,7 +40,6 @@ const AdminLoginPage = () => {
 
     if (!response.success) {
       setErrorMessage(response.message);
-      console.log(errorMessage);
     }
   };
   useEffect(() => {

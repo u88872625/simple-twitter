@@ -17,7 +17,6 @@ const ReplyItem = ({ tweet }) => {
       // 如果點到其他人
       localStorage.setItem("otherUserId", tweet.UserId);
       const otherUserInfo = await getUserInfo(tweet.UserId);
-      console.log("tweetitem:", otherUserInfo);
       const otherUserAccount = otherUserInfo.account;
       navigate(`/other/${otherUserAccount}`);
     }

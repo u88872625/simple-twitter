@@ -13,11 +13,8 @@ import Alert from "../shared/Alert/Alert";
 import warning from "../../assets/icons/warning.png";
 import success from "../../assets/icons/success.png";
 import { getUserInfo } from "../../api/user";
-import Swal from "sweetalert2";
 
 export default function UserInfoCard({ info, handleFollowDetail }) {
-  // const [isEdit, setIsEdit] = useState(false)
-  // const navigate = useNavigate()
 
   const { currentUser, patchUserInfo, setIsEditedUserInfo, updateUserInfo } =
     useAuth();
@@ -33,12 +30,10 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlerMsg] = useState(false);
   const userId = currentUser?.id;
-  // const savedUserInfo = JSON.parse(localStorage.getItem("userInfo"))
 
   const handleClose = () => setShow(false);
 
   const handleEditModalOpen = () => {
-    // setIsEdit(true)
     setShow(true);
   };
 
@@ -106,22 +101,12 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
         console.log("Successupdated", response);
         updateUserInfo(response);
         setShowAlert(true)
-        // Swal.fire({
-        //   title: "上傳成功！",
-        //   allowOutsideClick: false,
-        //   showConfirmButton: false,
-        // });
         setShow(false);
         window.location.reload();
       }
       // 若使用者編輯資料失敗
       else {
         setAlerMsg(true)
-        // Swal.fire({
-        //   title: "上傳失敗！",
-        //   allowOutsideClick: false,
-        //   showConfirmButton: false,
-        // });
         setShow(false);
       }
     } catch (error) {

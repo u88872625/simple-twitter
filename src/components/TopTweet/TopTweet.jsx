@@ -9,28 +9,9 @@ import { addLike, unLike, getUserInfo } from "../../api/user";
 import { useNavigate } from "react-router";
 import clsx from "clsx";
 import Swal from "sweetalert2";
-// const dummytweet = [
-//   {
-//     id: 1,
-//     UserId: 2,
-//     description: "aabbbbbbbbbvcccccccccddddddddddreeeeee",
-//     createdAt: "下午 1:46 · 2023年8月24日",
-//     updatedAt: "2023-8-24t05",
-//     likesNum: 3,
-//     repliesNum: 3,
-//     User: {
-//       account: "user1",
-//       name: "user1",
-//       avatar:
-//         "https://miro.medium.com/v2/resize:fit:1100/format:webp/1*XGw9zUEZGYPNmeKGmyeX1g.jpeg",
-//     },
-//     isLiked: false,
-//   },
-// ];
+
 export default function TopTweet({ tweet }) {
-  // console.log('toptweet', tweet)
-  // const likesNum =localStorage.getItem('')
-  const { replyTweet, currentUser, setIsReplyUpdated } = useAuth();
+  const { replyTweet, setIsReplyUpdated } = useAuth();
   const [reply, setReply] = useState("");
   const [replyCount, setReplyCount] = useState(tweet.repliesNum);
   const [likeCount, setLikeCount] = useState(tweet.likesNum);
@@ -195,7 +176,7 @@ export default function TopTweet({ tweet }) {
             </div>
           </div>
         </div>
-        {/* {isReply && <Modal/>} */}
+
       </div>
       <ReplyModal
         show={show}
