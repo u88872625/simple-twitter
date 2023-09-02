@@ -41,7 +41,7 @@ const ReplyItem = ({ tweet }) => {
       )}
       <div className={styles.replyInfo}>
         <div className={styles.userInfo}>
-          <span className={styles.userName}>{tweet.User.name}</span>
+          <p className={styles.userName}>{tweet.User.name}</p>
           <span className={styles.userAcount}>
             @{tweet.User.account}．{tweet.fromNow}
           </span>

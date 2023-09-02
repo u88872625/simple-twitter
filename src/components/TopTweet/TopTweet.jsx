@@ -35,6 +35,7 @@ export default function TopTweet({ tweet }) {
   const [replyCount, setReplyCount] = useState(tweet.repliesNum);
   const [likeCount, setLikeCount] = useState(tweet.likesNum);
   const [like, setLike] = useState(tweet.isLiked);
+  const [likeInProgress, setLikeInProgress] = useState(false);
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
   const navigate = useNavigate();
@@ -50,18 +51,32 @@ export default function TopTweet({ tweet }) {
 
   // 追蹤哪個貼文被按讚
   const handleLikeClick = async () => {
+    if (likeInProgress) {
+      return;
+    }
     try {
+      setLikeInProgress(true);
       if (like === true) {
-        await unLike(tweet.id, token);
-        setLike((prevLike) => !prevLike);
-        setLikeCount((prevCount) => prevCount - 1);
+        setLike(false);
+        const { isLiked: resIsLiked, likesNum: resLikesNum } = await unLike(
+          tweet.id,
+          token
+        );
+        setLike(resIsLiked);
+        setLikeCount(resLikesNum);
       } else {
-        await addLike(tweet.id, token);
-        setLike((prevLike) => !prevLike);
-        setLikeCount((prevCount) => prevCount + 1);
+        setLike(true);
+        const { isLiked: resIsLiked, likesNum: resLikesNum } = await addLike(
+          tweet.id,
+          token
+        );
+        setLike(resIsLiked);
+        setLikeCount(resLikesNum);
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setLikeInProgress(false);
     }
   };
 

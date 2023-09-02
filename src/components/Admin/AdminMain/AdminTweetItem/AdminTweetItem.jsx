@@ -5,7 +5,7 @@ export default function AdminTweetItem({ tweet , onClick }) {
 	const maxLength = 50
 	const truncatedText =
     tweet.description.length > 50
-      ? tweet.description.slice(0, maxLength) + "..."
+      ? (tweet.description.slice(0, maxLength + 1) + "...")
       : tweet.description;
 
   return (
