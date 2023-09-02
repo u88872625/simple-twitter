@@ -11,7 +11,7 @@ import warning from "../../assets/icons/warning.png";
 import Swal from "sweetalert2";
 import clsx from "clsx";
 import { getUserInfo, addLike, unLike } from "../../api/user";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
   let { name, account, avatar } = tweet.User;
   const {
@@ -32,7 +32,9 @@ export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
   const [likeCount, setLikeCount] = useState(likesNum);
   const [like, setLike] = useState(isLiked);
   const [showFlseAlert, setShowFlseAlert] = useState(false);
-  const [likeInProgress, setLikeInProgress] = useState(false)
+  const [likeInProgress, setLikeInProgress] = useState(false);
+  const [userInfo, setUserInfo] = useState([]);
+  const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
   const navigate = useNavigate();
@@ -74,7 +76,7 @@ export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
     } else {
       contentDelete();
       handleClose();
-      setShowFlseAlert(true)
+      setShowFlseAlert(true);
       // Swal.fire({
       //   position: "top",
       //   title: "回覆失敗！",
@@ -86,14 +88,17 @@ export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
   };
   // 追蹤哪個貼文被按讚
   const handleLikeClick = async () => {
-    if(likeInProgress){
-      return
+    if (likeInProgress) {
+      return;
     }
     try {
-      setLikeInProgress(true)
+      setLikeInProgress(true);
       if (like === true) {
         setLike(false);
-        const {isLiked: resIsLiked, likesNum: resLikesNum} = await unLike(id, token);
+        const { isLiked: resIsLiked, likesNum: resLikesNum } = await unLike(
+          id,
+          token
+        );
         setLike(resIsLiked);
         setLikeCount(resLikesNum);
         if (onLikeClick) {
@@ -101,37 +106,59 @@ export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
         }
       } else {
         setLike(true);
-        const {isLiked: resIsLiked, likesNum: resLikesNum} = await addLike(id, token);
+        const { isLiked: resIsLiked, likesNum: resLikesNum } = await addLike(
+          id,
+          token
+        );
         setLike(resIsLiked);
         setLikeCount(resLikesNum);
       }
     } catch (error) {
       console.error(error);
-    } finally{
-      setLikeInProgress(false)
+    } finally {
+      setLikeInProgress(false);
     }
   };
+
+  // 取得個人資料
+  useEffect(() => {
+    if (userId) {
+      const getUserInfoAsync = async () => {
+        try {
+          const userInfo = await getUserInfo(userId);
+          console.log("User Info:", userInfo);
+          setUserInfo(userInfo);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoading(false); //當取得資料後變回false
+        }
+      };
+      getUserInfoAsync();
+    }
+  }, [userId]);
+
   useEffect(() => {
     setIsReplyUpdated(false);
   }, [setIsReplyUpdated]);
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-          {avatar ? (
-            <img
-              className={styles.avatar}
-              src={avatar}
-              alt="avatar"
-              onClick={handleClick}
-            />
-          ) : (
-            <img
-              className={styles.avatar}
-              src={defaultAvatar}
-              alt="defalt-avatar"
-              onClick={handleClick}
-            />
-          )}
+        {avatar ? (
+          <img
+            className={styles.avatar}
+            src={avatar}
+            alt="avatar"
+            onClick={handleClick}
+          />
+        ) : (
+          <img
+            className={styles.avatar}
+            src={defaultAvatar}
+            alt="defalt-avatar"
+            onClick={handleClick}
+          />
+        )}
         <div className={styles.tweet}>
           <div
             className={styles.top}
@@ -169,7 +196,7 @@ export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
         handleClose={handleClose}
         handleReply={handleReply}
         posterAvatar={avatar}
-        userAvatar={currentUser?.avatar}
+        userAvatar={userInfo.avatar}
         postUserName={name}
         postUserAccount={account}
         postCreatedAt={fromNow}

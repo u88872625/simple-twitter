@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import home from "../../assets/icons/home.svg";
 import homeActive from "../../assets/icons/home-active.svg";
-import userInfo from "../../assets/icons/userInfo.svg";
+import userInfoIvon from "../../assets/icons/userInfo.svg";
 import userInfoActive from "../../assets/icons/userInfo-active.svg";
 import setting from "../../assets/icons/setting.svg";
 import settingActive from "../../assets/icons/setting-active.svg";
@@ -15,15 +15,20 @@ import AddTweetModal from "../Modal/AddTweetModal/AddTweetModal";
 import { useAuth } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
 import clsx from "clsx";
+import { getUserInfo } from "../../api/user";
 
 export default function FontendSideBar() {
   const [activeItem, setActiveItem] = useState("首頁");
   const navigate = useNavigate();
   const { logout, currentUser, addTweet, setIsTweetUpdated } = useAuth();
+  const userId = localStorage.getItem("userId");
   const [show, setShow] = useState(false);
   const [tweet, setTweet] = useState("");
+  const [userInfo, setUserInfo] = useState([]);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { account } = useParams(); //取得用戶account反映在路徑上
+  const location = useLocation();
 
   //  show Modal
   const handleClose = () => setShow(false);
@@ -55,12 +60,6 @@ export default function FontendSideBar() {
   const handleSubmit = async () => {
     if (tweet.length > 140) return;
     if (tweet.trim().length === 0) return;
-    // 按下推文時跳出loading提示
-    // Swal.fire({
-    //   title: "推文中...",
-    //   allowOutsideClick: false,
-    //   showConfirmButton: false,
-    // });
     try {
       const res = await addTweet({ description: tweet });
 
@@ -71,9 +70,6 @@ export default function FontendSideBar() {
         setIsTweetUpdated(true);
         setShow(false);
         setIsUpdating(false);
-
-        // 畫面自動重新整理
-        // window.location.reload();
       }
     } catch (error) {
       console.error("[AddTweeet failed ]", error);
@@ -81,7 +77,23 @@ export default function FontendSideBar() {
     }
   };
 
-  const location = useLocation();
+  // 取得個人資料
+  useEffect(() => {
+    if (userId) {
+      const getUserInfoAsync = async () => {
+        try {
+          const userInfo = await getUserInfo(userId);
+          console.log("User Info:", userInfo);
+          setUserInfo(userInfo);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoading(false); //當取得資料後變回false
+        }
+      };
+      getUserInfoAsync();
+    }
+  }, [userId]);
 
   // 監聽路由變化更改isActive屬性 即時更新屬性狀態
   useEffect(() => {
@@ -124,7 +136,7 @@ export default function FontendSideBar() {
               onClick={() => handleItemClick("首頁")}
             />
             <NavItem
-              icon={userInfo}
+              icon={userInfoIvon}
               activeIcon={userInfoActive}
               text="個人資料"
               path={`/${currentUser?.account}`}
@@ -157,7 +169,7 @@ export default function FontendSideBar() {
       <AddTweetModal
         handleClose={handleClose}
         show={show}
-        avatar={currentUser?.avatar}
+        avatar={userInfo.avatar}
         onSubmit={handleSubmit}
         onChange={(tweetInput) => {
           setTweet(tweetInput);

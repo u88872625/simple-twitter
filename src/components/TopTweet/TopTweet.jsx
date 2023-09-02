@@ -36,6 +36,8 @@ export default function TopTweet({ tweet }) {
   const [likeCount, setLikeCount] = useState(tweet.likesNum);
   const [like, setLike] = useState(tweet.isLiked);
   const [likeInProgress, setLikeInProgress] = useState(false);
+  const [userInfo, setUserInfo] = useState([]);
+  const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
   const navigate = useNavigate();
@@ -116,6 +118,24 @@ export default function TopTweet({ tweet }) {
     }
   };
 
+  // 取得個人資料
+  useEffect(() => {
+    if (userId) {
+      const getUserInfoAsync = async () => {
+        try {
+          const userInfo = await getUserInfo(userId);
+          console.log("User Info:", userInfo);
+          setUserInfo(userInfo);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoading(false); //當取得資料後變回false
+        }
+      };
+      getUserInfoAsync();
+    }
+  }, [userId]);
+
   useEffect(() => {
     setIsReplyUpdated(false);
   }, [setIsReplyUpdated]);
@@ -178,7 +198,7 @@ export default function TopTweet({ tweet }) {
         postUserName={tweet.User.name}
         postUserAccount={tweet.User.account}
         postCreatedAt={tweet.createdAt}
-        userAvatar={currentUser?.avatar}
+        userAvatar={userInfo.avatar}
         handleReply={handleReply}
         onInputChange={(replyInput) => {
           setReply(replyInput);
