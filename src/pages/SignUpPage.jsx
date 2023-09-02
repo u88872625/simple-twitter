@@ -28,12 +28,13 @@ const SignupPage = () => {
     // 清除先前的錯誤狀態
     setShowErrMsg(null);
 
-    Swal.fire({
+    const loadingAlert = Swal.fire({
       title: "正在註冊...",
       allowOutsideClick: false,
       showConfirmButton: false,
     });
 
+    
     // success, token, id, error;
     const response = await register({
       account,
@@ -42,6 +43,8 @@ const SignupPage = () => {
       password,
       checkPassword,
     });
+
+    loadingAlert.close();
 
     const { success } = response;
     if (success) {
