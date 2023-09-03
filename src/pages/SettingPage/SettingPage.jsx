@@ -10,6 +10,7 @@ import { getUserInfo,patchUserInfo } from "../../api/user";
 import Alert from "../../components/shared/Alert/Alert";
 import successIcon from "../../assets/icons/success.png";
 import errorIcon from "../../assets/icons/error.png";
+import logo from "../../assets/icons/logo.svg";
 
 const SettingPage = () => {
   const token = localStorage.getItem("token");
@@ -23,7 +24,7 @@ const SettingPage = () => {
   const passwordMatch = password === checkPassword;
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
-  // const { isAuthenticated } = useAuth();
+  const [loading, setLoading] = useState(true);
   const role = currentUser?.role;
   const navigate = useNavigate();
   const [isUserInfoUpdated, setIsUserInfoUpdated] = useState(false);
@@ -40,6 +41,8 @@ const SettingPage = () => {
           await setEmail(userInfo.email);
         } catch (error) {
           console.error(error);
+        } finally {
+          setLoading(false); //當取得資料後變回false
         }
       };
       getUserInfoAsync();
@@ -69,15 +72,13 @@ const SettingPage = () => {
 
       const payload = {
         id: userId,
-        account:account,
+        account: account,
         name: name,
-        email:email,
-        password:password,
-        checkPassword:checkPassword
+        email: email,
+        password: password,
+        checkPassword: checkPassword,
       };
       const response = await patchUserInfo(payload, formData);
-
-      
 
       setEditedUserInfo(response);
 
@@ -96,6 +97,8 @@ const SettingPage = () => {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false); //當取得資料後變回false
     }
   };
 
@@ -108,59 +111,68 @@ const SettingPage = () => {
 
   return (
     <FontendSettingLayout>
-      <div className={styles.header}>
-        <h4 className={styles.title}>帳戶設定</h4>
-      </div>
-      <div className={styles.input}>
-        <AuthSettingInput
-          label="帳號"
-          placeholder="請輸入帳號"
-          value={account}
-          onChange={(accountInputValue) => setAccount(accountInputValue)}
-        />
-        <AuthSettingInput
-          label="名稱"
-          placeholder="請輸入使用者名稱"
-          value={name}
-          dataPage={"settingPage"}
-          borderMode={clsx("", {
-            [styles.nameError]: name.length > 50,
-          })}
-          onChange={(nameInputValue) => setName(nameInputValue)}
-        />
-        <AuthSettingInput
-          label="Email"
-          placeholder="請輸入Email"
-          value={email}
-          onChange={(emailInputValue) => setEmail(emailInputValue)}
-        />
-        <AuthSettingInput
-          label="密碼"
-          placeholder="請設定密碼"
-          value={password}
-          onChange={(passwordInputValue) => setPassword(passwordInputValue)}
-        />
-        <AuthSettingInput
-          label="密碼確認"
-          placeholder="請再次輸入密碼"
-          value={checkPassword}
-          borderMode={clsx("", {
-            [styles.passwordError]: !passwordMatch,
-          })}
-          onChange={(checkPasswordInputValue) =>
-            setCheckPassword(checkPasswordInputValue)
-          }
-        />
-        <div className={styles.btn}>
-          <SettingBtn text="儲存" onClick={handleSave} />
+      {loading ? (
+        <div className={styles.loading}>
+          <img className={styles.loadingIcon} src={logo} art="loading..." />
+          <div className={styles.loadingText}>Loading...</div>
         </div>
-        {showAlert && (
-          <Alert
-            msg={alertMsg}
-            icon={alertMsg === "儲存成功!" ? successIcon : errorIcon}
-          />
-        )}
-      </div>
+      ) : (
+        <>
+          <div className={styles.header}>
+            <h4 className={styles.title}>帳戶設定</h4>
+          </div>
+          <div className={styles.input}>
+            <AuthSettingInput
+              label="帳號"
+              placeholder="請輸入帳號"
+              value={account}
+              onChange={(accountInputValue) => setAccount(accountInputValue)}
+            />
+            <AuthSettingInput
+              label="名稱"
+              placeholder="請輸入使用者名稱"
+              value={name}
+              dataPage={"settingPage"}
+              borderMode={clsx("", {
+                [styles.nameError]: name.length > 50,
+              })}
+              onChange={(nameInputValue) => setName(nameInputValue)}
+            />
+            <AuthSettingInput
+              label="Email"
+              placeholder="請輸入Email"
+              value={email}
+              onChange={(emailInputValue) => setEmail(emailInputValue)}
+            />
+            <AuthSettingInput
+              label="密碼"
+              placeholder="請設定密碼"
+              value={password}
+              onChange={(passwordInputValue) => setPassword(passwordInputValue)}
+            />
+            <AuthSettingInput
+              label="密碼確認"
+              placeholder="請再次輸入密碼"
+              value={checkPassword}
+              borderMode={clsx("", {
+                [styles.passwordError]: !passwordMatch,
+              })}
+              onChange={(checkPasswordInputValue) =>
+                setCheckPassword(checkPasswordInputValue)
+              }
+            />
+            <div className={styles.btn}>
+              <SettingBtn text="儲存" onClick={handleSave} />
+            </div>
+            {showAlert && (
+              <Alert
+                msg={alertMsg}
+                icon={alertMsg === "儲存成功!" ? successIcon : errorIcon}
+              />
+            )}
+          </div>
+        </>
+      )}
     </FontendSettingLayout>
   );
 };
