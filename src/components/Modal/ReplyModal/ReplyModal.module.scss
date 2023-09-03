@@ -16,10 +16,22 @@
   .modalBody {
     height: 444px;
     width: 100%;
+    padding-left: 25px;
 
     .tweetWrapper {
+      // width: 100%;
+      position: relative;
       display: flex;
 
+      &::after {
+        content: "";
+        position: absolute;
+        left: 24px;
+        top: 58px;
+        background-color: var(--grayscale-dark-60);
+        width: 2px;
+        height: 86px;
+      }
       .posterAvatar {
         width: 50px;
         height: 50px;
@@ -32,6 +44,7 @@
 
 .postUserInfoWrapper {
   margin-left: 10px;
+  margin-top: 5px;
 
   .postUserName {
     font-size: 16px;
@@ -47,32 +60,34 @@
 }
 
 .postContent {
-  margin-top: 10px;
+  position: absolute;
+  margin-top: 22px;
+  width: 80%;
 
   .ContentText {
     font-size: 16px;
     color: var(--grayscale-dark-100);
   }
-}
 
-.replyTo {
-  margin-top: 10px;
+  .replyTo {
+    margin-top: 22px;
 
-  &Text {
-    font-size: 14px;
-    color: var(--secondary);
-  }
+    .replyToText {
+      font-size: 14px;
+      color: var(--secondary);
+    }
 
-  .replyAt {
-    margin-left: 5px;
-    font-size: 14px;
-    color: var(--brand);
+    .replyAt {
+      margin-left: 5px;
+      font-size: 14px;
+      color: var(--brand);
+    }
   }
 }
 
 .replyInputContainer {
   position: relative;
-  margin-top: 18px;
+  margin-top: 105px;
   display: flex;
 
   .userSelfAvatar {
