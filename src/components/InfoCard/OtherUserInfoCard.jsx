@@ -3,6 +3,8 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import styles from "./OtherUserInfoCard.module.scss";
 import FollowingBtn from "../shared/shareBtn/FollowingBtn";
 import FollowBtn from "../shared/shareBtn/FollowBtn";
+import BellIcon from "../../assets/icons/bell.svg";
+import EamilIcon from "../../assets/icons/email.svg";
 import DefaultAvatar from "../../assets/icons/default-img.svg";
 import DefaultBanner from "../../assets/images/bg-user.png";
 import { userFollow, unFollow } from "../../api/tweets";
@@ -89,7 +91,10 @@ export default function OtherUserInfoCard({
           src={avatar ? avatar : DefaultAvatar}
           alt="avatar"
         />
+
         <div className={styles.followBtn}>
+          <img className={styles.emailBtn} src={EamilIcon} />
+          <img className={styles.bellBtn} src={BellIcon} />
           {followedStatus ? (
             <FollowingBtn
               text={"正在跟隨"}

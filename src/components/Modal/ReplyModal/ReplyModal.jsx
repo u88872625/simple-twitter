@@ -18,7 +18,6 @@ const ReplyModal = ({
   value,
   errorMsg,
 }) => {
-
   return (
     <>
       <div>
@@ -47,9 +46,7 @@ const ReplyModal = ({
 
                 <div className={styles.postUserInfoWrapper}>
                   <div>
-                    <span className={styles.postUserName}>
-                      {postUserName}
-                    </span>
+                    <span className={styles.postUserName}>{postUserName}</span>
                     <span className={styles.postUserAccount}>
                       @{postUserAccount}・{postCreatedAt}
                     </span>
@@ -57,10 +54,10 @@ const ReplyModal = ({
 
                   <div className={styles.postContent}>
                     <p className={styles.ContentText}>{postDescription}</p>
-                  </div>
-                  <div className={styles.replyTo}>
-                    <span className={styles.replyToText}>回覆給</span>
-                    <span className={styles.replyAt}>@{postUserAccount}</span>
+                    <div className={styles.replyTo}>
+                      <span className={styles.replyToText}>回覆給</span>
+                      <span className={styles.replyAt}>@{postUserAccount}</span>
+                    </div>
                   </div>
                 </div>
               </div>
