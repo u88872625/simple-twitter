@@ -1,84 +1,83 @@
 .container {
-	position: relative;
-	width: 639px;
-	height:378px;
+  position: relative;
+  width: 639px;
+  height: 378px;
 
-	.img {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-end;
+  .img {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 
-		.banner {
-		width: 100%;
-		height: 200px;
-		overflow: hidden;
-		object-fit: cover;
-	}
+    .banner {
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+      object-fit: cover;
+    }
 
-	.avatar {
-		position: absolute;
-		top:124px;
-		left:16.13px;
-		width: 141.1px;
-		height: 140px;
-		object-fit: cover;
-		border-radius: 50%;
-		border: 4px solid var(--grayscale-dark-0)
-	}
+    .avatar {
+      position: absolute;
+      top: 124px;
+      left: 16.13px;
+      width: 141.1px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid var(--grayscale-dark-0);
+    }
 
-	.followBtn {
-		margin:16px 16px 0 ;
-	}
+    .followBtn {
+      display: flex;
+      margin: 16px 16px 0;
+      .bellBtn {
+        padding: 0 16px;
+      }
+    }
+  }
 
-	}
+  .userInfo {
+    display: flex;
+    flex-direction: column;
+    height: 48px;
+    margin: 16px;
 
-	.userInfo {
-		display: flex;
-		flex-direction: column;
-		height:48px;
-		margin: 16px;
-		
-		.userName {
-			line-height: 26px;
-		}
+    .userName {
+      line-height: 26px;
+    }
 
-		.userAccount {
-			font-size: 14px;
-		  color:var(--secondary)
-		}
-			
-	}
+    .userAccount {
+      font-size: 14px;
+      color: var(--secondary);
+    }
+  }
 
-	 .introduction {
+  .introduction {
     position: relative;
     width: 100%;
     height: 80px;
     line-height: 26px;
-	  padding: 0 16px; 
+    padding: 0 16px;
     overflow-wrap: break-word;
-		margin-bottom: 20px;
+    margin-bottom: 20px;
 
     .viewMore {
       position: absolute;
       right: 5%;
       font-size: 14px;
       background-color: inherit;
-      color:var(--primary);
+      color: var(--primary);
     }
-    
   }
 
-	.showFollow{
-		display: flex;
-		justify-content: space-between;
-		width: 180px;
-		margin: 16px;
-		cursor: pointer;
+  .showFollow {
+    display: flex;
+    justify-content: space-between;
+    width: 180px;
+    margin: 16px;
+    cursor: pointer;
 
-		.sub {
-			color:var(--secondary)
-		}
-
-	}
-	
+    .sub {
+      color: var(--secondary);
+    }
+  }
 }

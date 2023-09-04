@@ -176,7 +176,6 @@ export default function TopTweet({ tweet }) {
             </div>
           </div>
         </div>
-
       </div>
       <ReplyModal
         show={show}
@@ -185,7 +184,7 @@ export default function TopTweet({ tweet }) {
         postDescription={tweet.description}
         postUserName={tweet.User.name}
         postUserAccount={tweet.User.account}
-        postCreatedAt={tweet.createdAt}
+        postCreatedAt={tweet.fromNow}
         userAvatar={userInfo.avatar}
         handleReply={handleReply}
         onInputChange={(replyInput) => {
