@@ -8,7 +8,6 @@ import AuthInput from "../../AuthInput/AuthInput";
 import clsx from "clsx";
 import IntroInput from "../../AuthInput/IntroInput";
 
-
 const ProfileEditModal = ({
   name,
   introduction,
@@ -57,7 +56,9 @@ const ProfileEditModal = ({
               {/* 背景 */}
               <img className={styles.userBanner} src={banner}></img>
               {/* 頭像 */}
-              <img className={styles.avatar} src={avatar}></img>
+              <div className={styles.avatarWrapper}>
+                <img className={styles.avatar} src={avatar}></img>
+              </div>
               <div className={styles.fileChangeWrapper}>
                 <img
                   className={styles.editPhoto}
