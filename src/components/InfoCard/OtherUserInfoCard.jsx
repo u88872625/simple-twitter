@@ -5,6 +5,7 @@ import FollowingBtn from "../shared/shareBtn/FollowingBtn";
 import FollowBtn from "../shared/shareBtn/FollowBtn";
 import BellIcon from "../../assets/icons/bell.svg";
 import EamilIcon from "../../assets/icons/email.svg";
+import BellFullIcon from "../../assets/icons/bell-active.svg";
 import DefaultAvatar from "../../assets/icons/default-img.svg";
 import DefaultBanner from "../../assets/images/bg-user.png";
 import { userFollow, unFollow } from "../../api/tweets";
@@ -34,13 +35,17 @@ export default function OtherUserInfoCard({
   const navigate = useNavigate();
   // 設暫存，讓畫面立即更新
   const [followerNumTemp, setFollowerNumTemp] = useState(followersNum);
-
-  const [showMore, setShowMore] = useState(false);
-  const maxChars = 70;
+  const [noti, setNoti] = useState(false);
+  // const [showMore, setShowMore] = useState(false);
+  // const maxChars = 70;
   // 如果文字長度超過 maxChars，則將其截斷並提供 "查看更多" 功能
   // const truncatedText = showMore
   //   ? introduction
   //   : introduction.slice(0, maxChars);
+
+  const handleBellClick = () => {
+    setNoti((prevNoti) => !prevNoti);
+  };
 
   // 追蹤
   const userFollowAsync = async (token, id) => {
@@ -51,7 +56,7 @@ export default function OtherUserInfoCard({
     }
   };
 
-  // 取消追蹤
+  // 去銷追蹤
   const userUnfollowAsync = async (token, id) => {
     try {
       const res = await unFollow(token, id);
@@ -94,7 +99,11 @@ export default function OtherUserInfoCard({
 
         <div className={styles.followBtn}>
           <img className={styles.emailBtn} src={EamilIcon} />
-          <img className={styles.bellBtn} src={BellIcon} />
+          <img
+            className={styles.bellBtn}
+            src={noti ? BellFullIcon : BellIcon}
+            onClick={handleBellClick}
+          />
           {followedStatus ? (
             <FollowingBtn
               text={"正在跟隨"}
