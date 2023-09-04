@@ -14,8 +14,7 @@ const MainPage = () => {
   const [tweets, setTweets] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { currentUser, setIsTweetUpdated, isTweetUpdated } =
-    useAuth();
+  const { currentUser, setIsTweetUpdated, isTweetUpdated } = useAuth();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const userId = currentUser?.id;
@@ -75,7 +74,7 @@ const MainPage = () => {
       navigate("/login");
     }
   }, [navigate, token, role]);
-
+  console.log(userInfo.avatar);
   return (
     <div>
       <FontendLayout>
@@ -89,6 +88,7 @@ const MainPage = () => {
             <AddTweet avatar={userInfo.avatar} />
             <TweetContent
               tweets={tweets}
+              userAvatar={userInfo.avatar}
               onTweetClick={(id) => handleTweetClick(id, location)}
             />
           </>

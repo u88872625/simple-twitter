@@ -62,7 +62,7 @@ const UserOtherPage = () => {
       };
       getOtherUserInfoAsync();
     }
-  }, [otherUserId]);
+  }, [otherUserId, rerender]);
   useEffect(() => {
     if (otherUserId) {
       const getUserTweetAsync = async () => {

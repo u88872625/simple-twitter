@@ -77,7 +77,7 @@ export default function OtherUserInfoCard({
   useEffect(() => {
     setFollowedStatus(isFollowed);
     setFollowerNumTemp(followersNum);
-  }, [followersNum, isFollowed]);
+  }, [followersNum, isFollowed, rerender]);
   return (
     <div className={styles.container}>
       <div className={styles.img}>

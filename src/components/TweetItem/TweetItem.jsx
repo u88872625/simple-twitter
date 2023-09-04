@@ -11,18 +11,16 @@ import warning from "../../assets/icons/warning.png";
 import clsx from "clsx";
 import { getUserInfo, addLike, unLike } from "../../api/user";
 import { useNavigate } from "react-router-dom";
-export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
+export default function TweetItem({
+  tweet,
+  onTweetClick,
+  onLikeClick,
+  userAvatar,
+}) {
   let { name, account, avatar } = tweet.User;
-  const {
-    id,
-    UserId,
-    description,
-    repliesNum,
-    likesNum,
-    isLiked,
-    fromNow,
-  } = tweet;
-  const { replyTweet, setIsReplyUpdated } = useAuth();
+  const { id, UserId, description, repliesNum, likesNum, isLiked, fromNow } =
+    tweet;
+  const { replyTweet, setIsReplyUpdated, currentUser } = useAuth();
   const [show, setShow] = useState();
   const [reply, setReply] = useState("");
   const [replyCount, setReplyCount] = useState(repliesNum);
@@ -109,23 +107,6 @@ export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
     }
   };
 
-  // 取得個人資料
-  useEffect(() => {
-    if (userId) {
-      const getUserInfoAsync = async () => {
-        try {
-          const userInfo = await getUserInfo(userId);
-          setUserInfo(userInfo);
-        } catch (error) {
-          console.error(error);
-        } finally {
-          setLoading(false); //當取得資料後變回false
-        }
-      };
-      getUserInfoAsync();
-    }
-  }, [userId]);
-
   useEffect(() => {
     setIsReplyUpdated(false);
   }, [setIsReplyUpdated]);
@@ -184,7 +165,7 @@ export default function TweetItem({ tweet, onTweetClick, onLikeClick }) {
         handleClose={handleClose}
         handleReply={handleReply}
         posterAvatar={avatar}
-        userAvatar={userInfo.avatar}
+        userAvatar={userAvatar}
         postUserName={name}
         postUserAccount={account}
         postCreatedAt={fromNow}

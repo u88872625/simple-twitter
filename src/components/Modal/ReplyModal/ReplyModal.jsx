@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./ReplyModal.module.scss";
 import { Modal } from "react-bootstrap";
 import IconClose from "../../../assets/icons/close.svg";
 import DefaultAvatar from "../../../assets/icons/default-img.svg";
+import { getUserInfo } from "../../../api/user";
 
 const ReplyModal = ({
   posterAvatar,
