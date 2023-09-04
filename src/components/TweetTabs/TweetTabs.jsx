@@ -12,6 +12,7 @@ export default function TweetTabs({
   onLikeClick,
   like,
   likeCount,
+  userAvatar,
 }) {
   const [activeTab, setActiveTab] = useState("tweets");
   // 監聽點擊哪個Tab
@@ -67,6 +68,7 @@ export default function TweetTabs({
             onLikeClick={(id) => onLikeClick?.(id)}
             like={like}
             likeCount={likeCount}
+            userAvatar={userAvatar}
           />
         )}
         {activeTab === "replies" && <ReplyContent replies={replies} />}
@@ -76,6 +78,7 @@ export default function TweetTabs({
             onClick={onClick}
             onTweetClick={(id) => onTweetClick?.(id)}
             onLikeClick={onLikeClick}
+            userAvatar={userAvatar}
           />
         )}
       </div>

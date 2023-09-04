@@ -6,6 +6,7 @@ export default function LikeContent({
   onLikeClick,
   like,
   likeCount,
+  userAvatar,
 }) {
   return (
     <div>
@@ -19,6 +20,7 @@ export default function LikeContent({
             onLikeClick={(id) => onLikeClick?.(id)}
             like={like}
             likeCount={likeCount}
+            userAvatar={userAvatar}
           />
         );
       })}

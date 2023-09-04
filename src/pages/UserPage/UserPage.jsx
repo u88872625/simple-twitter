@@ -151,6 +151,7 @@ const UserPage = () => {
           <div className={styles.tabs}>
             <TweetTabs
               tweets={userTweets}
+              userAvatar={userInfo.avatar}
               replies={userReplied}
               likes={userLike}
               onTweetClick={(id) => handleTweetClick(id, location)}
