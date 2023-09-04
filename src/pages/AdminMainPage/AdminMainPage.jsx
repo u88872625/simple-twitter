@@ -50,6 +50,9 @@ const AdminMainPage = () => {
  },[])
   return (
     <AdminLayout>
+      <div className={styles.text}>
+        <h4 className={styles.title}>推文清單</h4>
+      </div>
       {tweets.length > 0 ? (
         <AdminMain
           tweets={tweets}

@@ -16,7 +16,8 @@
     max-width: 1076px;
     height: 100%;
     margin-left: 202px;
-    border-left: 1px solid #e6ecf0;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
 
     &::-webkit-scrollbar {
   width: 1px;
