@@ -8,6 +8,7 @@ import EamilIcon from "../../assets/icons/email.svg";
 import BellFullIcon from "../../assets/icons/bell-active.svg";
 import DefaultAvatar from "../../assets/icons/default-img.svg";
 import DefaultBanner from "../../assets/images/bg-user.png";
+import Loading from "../../assets/icons/loading.png";
 import { userFollow, unFollow } from "../../api/tweets";
 
 export default function OtherUserInfoCard({
@@ -30,12 +31,13 @@ export default function OtherUserInfoCard({
 
   const token = localStorage.getItem("token");
   // 設暫存，讓畫面立即更新
-  const [followedStatus, setFollowedStatus] = useState(isFollowed);
+  // const [followedStatus, setFollowedStatus] = useState(isFollowed);
 
   const navigate = useNavigate();
   // 設暫存，讓畫面立即更新
   const [followerNumTemp, setFollowerNumTemp] = useState(followersNum);
   const [noti, setNoti] = useState(false);
+
   // const [showMore, setShowMore] = useState(false);
   // const maxChars = 70;
   // 如果文字長度超過 maxChars，則將其截斷並提供 "查看更多" 功能
@@ -66,21 +68,22 @@ export default function OtherUserInfoCard({
   };
 
   // 追蹤按鈕邏輯
-  const handleFollowClick = async () => {
-    if (followedStatus) {
-      await userUnfollowAsync(token, id);
-      setFollowerNumTemp((prevFollowerNum) => prevFollowerNum - 1);
-      setFollowedStatus(false);
-    } else {
-      await userFollowAsync(token, id);
-      setFollowedStatus(true);
-      setFollowerNumTemp(followersNum + 1);
+  const handleFollowClick = async (id, isFollowed) => {
+    try {
+      if (isFollowed) {
+        await userUnfollowAsync(token, id);
+        setFollowerNumTemp((prevFollowerNum) => prevFollowerNum - 1);
+      } else {
+        await userFollowAsync(token, id);
+        setFollowerNumTemp(followersNum + 1);
+      }
+      await setRerender(!rerender);
+    } catch (error) {
+      console.error(error);
     }
-    await setRerender(!rerender);
   };
 
   useEffect(() => {
-    setFollowedStatus(isFollowed);
     setFollowerNumTemp(followersNum);
   }, [followersNum, isFollowed, rerender]);
   return (
@@ -104,20 +107,19 @@ export default function OtherUserInfoCard({
             src={noti ? BellFullIcon : BellIcon}
             onClick={handleBellClick}
           />
-          {followedStatus ? (
+
+          {isFollowed ? (
             <FollowingBtn
               text={"正在跟隨"}
               onClick={() => {
-                setFollowedStatus(!followedStatus);
-                handleFollowClick();
+                handleFollowClick(id, isFollowed);
               }}
             />
           ) : (
             <FollowBtn
               text={"跟隨"}
               onClick={() => {
-                setFollowedStatus(!followedStatus);
-                handleFollowClick();
+                handleFollowClick(id, isFollowed);
               }}
             />
           )}

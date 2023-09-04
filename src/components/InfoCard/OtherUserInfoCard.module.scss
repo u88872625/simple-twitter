@@ -86,3 +86,27 @@
 .bellBtn {
   cursor: pointer;
 }
+
+.loading {
+  width: 35px;
+  height: 35px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  @keyframes Loading-Icon {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .followLoadingIcon {
+      animation: Loading-Icon 3s linear infinite;
+    }
+  }
+}

@@ -7,6 +7,7 @@ import ReplyModal from "../Modal/ReplyModal/ReplyModal";
 import { useAuth } from "../../contexts/AuthContext";
 import { addLike, unLike, getUserInfo } from "../../api/user";
 import { useNavigate } from "react-router";
+
 import clsx from "clsx";
 import Swal from "sweetalert2";
 
@@ -19,6 +20,8 @@ export default function TopTweet({ tweet }) {
   const [likeInProgress, setLikeInProgress] = useState(false);
   const [userInfo, setUserInfo] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showOverLetterAlert, setShowOverLetteAlert] = useState(false);
+  const [showEmptyAlert, setShowEmptyAlert] = useState(false);
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
   const navigate = useNavigate();
@@ -66,7 +69,14 @@ export default function TopTweet({ tweet }) {
   // 回覆功能
   const handleReply = async () => {
     //預防空值與回覆文字限制
-    if (reply.length > 140 || reply.trim().length === 0) return;
+    if (reply.trim().length === 0) {
+      setShowEmptyAlert(true);
+      return;
+    }
+    if (reply.length > 140) {
+      setShowOverLetteAlert(true);
+      return;
+    }
     Swal.fire({
       title: "回覆中...",
       allowOutsideClick: false,
@@ -187,6 +197,8 @@ export default function TopTweet({ tweet }) {
         postCreatedAt={tweet.fromNow}
         userAvatar={userInfo.avatar}
         handleReply={handleReply}
+        showOverLetterAlert={showOverLetterAlert}
+        showEmptyAlert={showEmptyAlert}
         onInputChange={(replyInput) => {
           setReply(replyInput);
         }}

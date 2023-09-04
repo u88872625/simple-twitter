@@ -11,6 +11,7 @@ import warning from "../../assets/icons/warning.png";
 import clsx from "clsx";
 import { getUserInfo, addLike, unLike } from "../../api/user";
 import { useNavigate } from "react-router-dom";
+
 export default function TweetItem({
   tweet,
   onTweetClick,
@@ -32,6 +33,8 @@ export default function TweetItem({
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
+  const [showOverLetterAlert, setShowOverLetteAlert] = useState(false);
+  const [showEmptyAlert, setShowEmptyAlert] = useState(false);
   const navigate = useNavigate();
   const contentDelete = () => {
     setReply("");
@@ -56,8 +59,14 @@ export default function TweetItem({
   };
   // 回覆功能
   const handleReply = async () => {
-    if (reply.length > 140) return;
-    if (reply.trim().length === 0) return;
+    if (reply.length > 140) {
+      setShowOverLetteAlert(true);
+      return;
+    }
+    if (reply.trim().length === 0) {
+      setShowEmptyAlert(true);
+      return;
+    }
     const response = await replyTweet(id, { comment: reply });
     //若新增回覆成功
     if (response.data.comment) {
@@ -170,6 +179,8 @@ export default function TweetItem({
         postUserAccount={account}
         postCreatedAt={fromNow}
         postDescription={description}
+        showOverLetterAlert={showOverLetterAlert}
+        showEmptyAlert={showEmptyAlert}
         onInputChange={(replyInput) => {
           setReply(replyInput);
         }}

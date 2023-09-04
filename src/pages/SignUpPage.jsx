@@ -10,6 +10,7 @@ import clsx from "clsx";
 import { useAuth } from "../contexts/AuthContext";
 import Alert from "../components/shared/Alert/Alert";
 import Swal from "sweetalert2";
+import warning from "../assets/icons/warning.png";
 
 const SignupPage = () => {
   const [account, setAccount] = useState("");
@@ -19,12 +20,17 @@ const SignupPage = () => {
   const [checkPassword, setCheckPassword] = useState("");
   const passwordMatch = password === checkPassword;
   const [showErrMsg, setShowErrMsg] = useState(false);
+  const [showOverLetterAlert, setShowOverLetteAlert] = useState(false);
 
   const navigate = useNavigate();
 
   const { register, isAuthenticated } = useAuth();
 
   const handleSignUpClick = async () => {
+    if (name.length > 50) {
+      setShowOverLetteAlert(true);
+      return;
+    }
     // 清除先前的錯誤狀態
     setShowErrMsg(null);
 
@@ -34,7 +40,6 @@ const SignupPage = () => {
       showConfirmButton: false,
     });
 
-    
     // success, token, id, error;
     const response = await register({
       account,
@@ -131,6 +136,11 @@ const SignupPage = () => {
         <div className={styles.cancelBtn}>取消</div>
       </Link>
       {showErrMsg ? <Alert msg={showErrMsg} icon={error} /> : ""}
+      {showOverLetterAlert ? (
+        <Alert msg="名稱不可超過50字" icon={warning} />
+      ) : (
+        ""
+      )}
     </div>
   );
 };

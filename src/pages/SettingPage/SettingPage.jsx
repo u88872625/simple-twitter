@@ -11,6 +11,7 @@ import Alert from "../../components/shared/Alert/Alert";
 import successIcon from "../../assets/icons/success.png";
 import errorIcon from "../../assets/icons/error.png";
 import logo from "../../assets/icons/logo.svg";
+import warning from "../../assets/icons/warning.png";
 
 const SettingPage = () => {
   const token = localStorage.getItem("token");
@@ -28,6 +29,8 @@ const SettingPage = () => {
   const role = currentUser?.role;
   const navigate = useNavigate();
   const [isUserInfoUpdated, setIsUserInfoUpdated] = useState(false);
+  const [showOverLetterAlert, setShowOverLetteAlert] = useState(false);
+
   // 設一個暫存的Object變數
   const [tempData, setTempData] = useState(null);
 
@@ -50,6 +53,10 @@ const SettingPage = () => {
   }, [userId]);
 
   const handleSave = async () => {
+    if (name.length > 50) {
+      setShowOverLetteAlert(true);
+      return;
+    }
     try {
       setShowAlert(false);
 
@@ -169,6 +176,11 @@ const SettingPage = () => {
                 msg={alertMsg}
                 icon={alertMsg === "儲存成功!" ? successIcon : errorIcon}
               />
+            )}
+            {showOverLetterAlert ? (
+              <Alert msg="名稱不可超過50字" icon={warning} />
+            ) : (
+              ""
             )}
           </div>
         </>

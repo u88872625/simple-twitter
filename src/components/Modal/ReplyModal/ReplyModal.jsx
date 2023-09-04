@@ -4,6 +4,8 @@ import { Modal } from "react-bootstrap";
 import IconClose from "../../../assets/icons/close.svg";
 import DefaultAvatar from "../../../assets/icons/default-img.svg";
 import { getUserInfo } from "../../../api/user";
+import warning from "../../../assets/icons/warning.png";
+import Alert from "../../shared/Alert/Alert";
 
 const ReplyModal = ({
   posterAvatar,
@@ -18,6 +20,8 @@ const ReplyModal = ({
   handleReply,
   value,
   errorMsg,
+  showOverLetterAlert,
+  showEmptyAlert,
 }) => {
   return (
     <>
@@ -80,6 +84,16 @@ const ReplyModal = ({
                 回覆
               </button>
             </Modal.Body>
+            {showOverLetterAlert ? (
+              <Alert msg="回覆不可超過140字" icon={warning} />
+            ) : (
+              ""
+            )}
+            {showEmptyAlert ? (
+              <Alert msg="請輸入回覆內容" icon={warning} />
+            ) : (
+              ""
+            )}
           </Modal>
         </div>
       </div>

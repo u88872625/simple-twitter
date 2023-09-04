@@ -13,7 +13,7 @@ import { useTweetId } from "../contexts/TweetIdContext";
 const MainPage = () => {
   const [tweets, setTweets] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const { currentUser, setIsTweetUpdated, isTweetUpdated } = useAuth();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
