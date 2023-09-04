@@ -3,7 +3,7 @@ import styles from "./UserInfoCard.module.scss";
 import { useAuth } from "../../contexts/AuthContext";
 import SettingBtn from "../shared/shareBtn/SettingBtn";
 import ProfileEditModal from "../Modal/ProfileEditModal/ProfileEditModal";
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 import defaultAvatar from "../../assets/icons/default-img.svg";
 import defaultBanner from "../../assets/images/bg-user.png";
 import { Link } from "react-router-dom";
@@ -15,14 +15,13 @@ import success from "../../assets/icons/success.png";
 import { getUserInfo } from "../../api/user";
 
 export default function UserInfoCard({ info, handleFollowDetail }) {
-
   const { currentUser, patchUserInfo, setIsEditedUserInfo, updateUserInfo } =
     useAuth();
   const [show, setShow] = useState(false);
-  const [name, setName] = useState(currentUser?.name || "");
-  const [introduction, setIntroduction] = useState("");
-  const [avatar, setAvatar] = useState(null);
-  const [banner, setBanner] = useState(currentUser?.banner || null);
+  const [name, setName] = useState(info?.name || "");
+  const [introduction, setIntroduction] = useState(info?.introduction || "");
+  const [avatar, setAvatar] = useState(info?.avatar || null);
+  const [banner, setBanner] = useState(info?.banner || null);
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [bannerPreview, setBannerPreview] = useState(null);
   // 設一個暫存的Object變數
@@ -38,12 +37,7 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
   };
 
   const [showMore, setShowMore] = useState(false);
-  const maxChars = 70
-  // 如果文字長度超過 maxChars，則將其截斷並提供 "查看更多" 功能
-  const truncatedText = showMore
-    ? introduction
-    : introduction.slice(0, maxChars);
- 
+  const maxChars = 70;
 
   //  變更頭像
   const handleChangeAvatar = (e) => {
@@ -100,13 +94,13 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
       if (response.id) {
         console.log("Successupdated", response);
         updateUserInfo(response);
-        setShowAlert(true)
+        setShowAlert(true);
         setShow(false);
         window.location.reload();
       }
       // 若使用者編輯資料失敗
       else {
-        setAlerMsg(true)
+        setAlerMsg(true);
         setShow(false);
       }
     } catch (error) {
@@ -137,11 +131,16 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
     setIsEditedUserInfo(false);
   }, [getUserInfo, userId, setIsEditedUserInfo]);
 
+  // 如果文字長度超過 maxChars，則將其截斷並提供 "查看更多" 功能
+  // const truncatedText = showMore
+  //   ? info.introduction
+  //   : info.introduction.slice(0, maxChars);
+
   if (!info) {
     return <div>Loading...</div>;
   }
 
-  console.log('uerinfocard:',info)
+  console.log("uerinfocard:", info);
   return (
     <div className={styles.container}>
       <div className={styles.img}>
@@ -182,10 +181,12 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
         <p className={styles.userAccount}>@{info.account}</p>
       </div>
       <div className={styles.introduction}>
-        <p>{truncatedText}</p>
-        {introduction.length > maxChars && !showMore && (
-          <button className={styles.viewMore} onClick={() => setShowMore(true)}>查看更多</button>
-        )}
+        <p>{info.introduction}</p>
+        {/* {info.introduction.length > maxChars && !showMore && (
+          <button className={styles.viewMore} onClick={() => setShowMore(true)}>
+            查看更多
+          </button>
+        )} */}
       </div>
 
       <div className={styles.showFollow} onClick={handleFollowDetail}>

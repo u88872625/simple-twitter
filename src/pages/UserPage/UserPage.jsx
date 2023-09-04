@@ -34,7 +34,7 @@ const UserPage = () => {
   const otherUserId = localStorage.getItem("otherUserId");
   const location = useLocation();
   const { isDataUpdate, setIsDataUpdate } = useDataUpdate();
- 
+
   // 點擊user追蹤者資訊欄位，進入follow頁面
   function handleFollowDetailClick(account) {
     navigate(`/${account}/follower`);
@@ -44,7 +44,7 @@ const UserPage = () => {
     const prevLocation = location.state?.from || "/home";
     navigate(prevLocation);
   };
-  
+
   // 當收回讚時重新渲染喜歡的內容
   const handleUnlike = (unlikedTweetId) => {
     const updatedUserLike = userLike.filter(
