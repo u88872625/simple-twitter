@@ -4,6 +4,7 @@
 	height: 108px;
 	padding-top: 16px;
 	border-bottom: 1px solid var(--border);
+	border-right: 1px solid var(--border);
 	
 	&:hover{
 		background-color: var(--grayscale-dark-30);
@@ -29,7 +30,6 @@
 		align-items: center;
 
 		.name {
-			width:246px;
 			font-size: 16px;
 			font-weight: 700;
 			color: var(--grayscale-dark-100);
