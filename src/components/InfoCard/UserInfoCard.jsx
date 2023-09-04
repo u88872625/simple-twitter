@@ -58,8 +58,8 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
   // 點擊儲存button
   const handleSave = async () => {
     try {
-      setAvatarPreview(null);
-      setBannerPreview(null);
+      // setAvatarPreview(null);
+      // setBannerPreview(null);
       // 若input空值，則返回
       if (name.trim().length === 0) return;
       // 若自我介紹或是名字長度超過限制，則返回

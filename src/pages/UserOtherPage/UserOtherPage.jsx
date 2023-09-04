@@ -22,6 +22,7 @@ const UserOtherPage = () => {
   const { currentUser } = useAuth();
   const role = currentUser?.role;
   const [otherUserInfo, setOtherUserInfo] = useState([]);
+  const [userInfo, setUserInfo] = useState([]);
   const [userTweets, setUserTweets] = useState([]);
   const [userReplied, setUserReplied] = useState([]);
   const [userLike, setUserLike] = useState([]);
@@ -48,6 +49,24 @@ const UserOtherPage = () => {
     navigate(prevLocation);
   };
 
+  // 獲取個人的資料
+  useEffect(() => {
+    if (userId) {
+      const getOtherUserInfoAsync = async () => {
+        try {
+          const userInfo = await getUserInfo(userId);
+          setUserInfo(userInfo);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoading(false); //當取得資料後變回false
+        }
+      };
+      getOtherUserInfoAsync();
+    }
+  }, [otherUserId, rerender]);
+
+  // 獲取其他使用者的資料
   useEffect(() => {
     if (otherUserId) {
       const getOtherUserInfoAsync = async () => {
@@ -150,6 +169,7 @@ const UserOtherPage = () => {
               <TweetTabs
                 tweets={userTweets}
                 replies={userReplied}
+                userAvatar={userInfo.avatar}
                 likes={userLike}
                 onTweetClick={(id) => handleTweetClick(id, location)}
               />

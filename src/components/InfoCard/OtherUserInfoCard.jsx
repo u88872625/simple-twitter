@@ -38,9 +38,9 @@ export default function OtherUserInfoCard({
   const [showMore, setShowMore] = useState(false);
   const maxChars = 70;
   // 如果文字長度超過 maxChars，則將其截斷並提供 "查看更多" 功能
-  const truncatedText = showMore
-    ? introduction
-    : introduction.slice(0, maxChars);
+  // const truncatedText = showMore
+  //   ? introduction
+  //   : introduction.slice(0, maxChars);
 
   // 追蹤
   const userFollowAsync = async (token, id) => {
@@ -51,7 +51,7 @@ export default function OtherUserInfoCard({
     }
   };
 
-  // 去銷追蹤
+  // 取消追蹤
   const userUnfollowAsync = async (token, id) => {
     try {
       const res = await unFollow(token, id);
@@ -119,12 +119,12 @@ export default function OtherUserInfoCard({
         <p className={styles.userAccount}>@{account}</p>
       </div>
       <div className={styles.introduction}>
-        <p>{truncatedText}</p>
-        {introduction.length > maxChars && !showMore && (
+        <p>{introduction}</p>
+        {/* {introduction.length > maxChars && !showMore && (
           <button className={styles.viewMore} onClick={() => setShowMore(true)}>
             查看更多
           </button>
-        )}
+        )} */}
       </div>
       <div className={styles.showFollow} onClick={handleFollowDetail}>
         <p className={styles.showfolloing}>

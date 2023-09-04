@@ -81,7 +81,7 @@ export default function FontendSideBar() {
     }
   };
 
-  // 取得個人資料
+  // 取得個人資料;
   useEffect(() => {
     if (userId) {
       const getUserInfoAsync = async () => {

@@ -6,7 +6,7 @@ import FontendSettingLayout from "../../components/shared/layout/FontendSettingL
 import AuthSettingInput from "../../components/AuthInput/AuthSettingInput";
 import { useAuth } from "../../contexts/AuthContext";
 import SettingBtn from "../../components/shared/shareBtn/ReplyBtn";
-import { getUserInfo,patchUserInfo } from "../../api/user";
+import { getUserInfo, patchUserInfo } from "../../api/user";
 import Alert from "../../components/shared/Alert/Alert";
 import successIcon from "../../assets/icons/success.png";
 import errorIcon from "../../assets/icons/error.png";
