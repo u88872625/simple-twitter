@@ -87,7 +87,7 @@ export default function FontendSideBar() {
       const getUserInfoAsync = async () => {
         try {
           const userInfo = await getUserInfo(userId);
-          console.log("User Info:", userInfo);
+          // console.log("User Info:", userInfo);
           setUserInfo(userInfo);
         } catch (error) {
           console.error(error);

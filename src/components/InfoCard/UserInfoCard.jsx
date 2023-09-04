@@ -140,7 +140,7 @@ export default function UserInfoCard({ info, handleFollowDetail }) {
     return <div>Loading...</div>;
   }
 
-  console.log("uerinfocard:", info);
+  // console.log("uerinfocard:", info);
   return (
     <div className={styles.container}>
       <div className={styles.img}>

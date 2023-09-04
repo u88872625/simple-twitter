@@ -74,7 +74,7 @@ const MainPage = () => {
       navigate("/login");
     }
   }, [navigate, token, role]);
-  console.log(userInfo.avatar);
+
   return (
     <div>
       <FontendLayout>
