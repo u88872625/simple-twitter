@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "http://aws-twitter-dev.us-east-1.elasticbeanstalk.com/api";
+const baseUrl = "https://www.chiangg.site/api";
 
 const axiosInstance = axios.create({
   baseURL: baseUrl,

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const authURL = "http://aws-twitter-dev.us-east-1.elasticbeanstalk.com/api";
+const authURL = "https://www.chiangg.site/api";
 
 export const login = async ({ account, password }) => {
   try {
