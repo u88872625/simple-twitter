@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const baseUrl = "https://peaceful-chamber-54211-1de4233804fe.herokuapp.com/api";
+const baseUrl = "http://aws-twitter-dev.us-east-1.elasticbeanstalk.com/api";
 
 const axiosInstance = axios.create({
   baseURL: baseUrl,

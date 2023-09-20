@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const authURL = "https://peaceful-chamber-54211-1de4233804fe.herokuapp.com/api";
+const authURL = "http://aws-twitter-dev.us-east-1.elasticbeanstalk.com/api";
 
 export const login = async ({ account, password }) => {
   try {
